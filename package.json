@@ -4,6 +4,7 @@
   "description": "A static portfolio site written with Preact",
   "main": "",
   "scripts": {
+    "start": "http-server public/ -o -c-1 -p 24715",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/delventhalz/zacis.me/issues"
   },
-  "homepage": "https://github.com/delventhalz/zacis.me#readme"
+  "homepage": "https://github.com/delventhalz/zacis.me#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
 }
