@@ -1,0 +1,19 @@
+{
+  "name": "zacis.me",
+  "version": "0.0.0",
+  "description": "A static portfolio site written with Preact",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delventhalz/zacis.me.git"
+  },
+  "author": "Zac Delventhal <contrib@zacis.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/delventhalz/zacis.me/issues"
+  },
+  "homepage": "https://github.com/delventhalz/zacis.me#readme"
+}
