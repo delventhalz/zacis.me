@@ -69,5 +69,16 @@ ul.horizontal-list li + li::before {
 }
 
 section#projects {
-  margin-top: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  background-color: #f9f9f9;
+}
+
+.project {
+  height: 128px;
+  width: 128px;
+  overflow: hidden;
+  background-color: #ddd;
+  padding: 8px;
+  margin: 2px;
 }
