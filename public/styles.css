@@ -5,6 +5,12 @@ body {
   font-style: normal;
 }
 
+main {
+  max-width: 800px;
+  padding: 1rem 3rem;
+  margin: 0 auto;
+}
+
 h1 {
   font-weight: 700;
   text-align: center;
@@ -40,7 +46,7 @@ ul.horizontal-list li + li::before {
 }
 
 /* Hacky way to rearrange when list must line wrap */
-@media (max-width: 88ch) {
+@media (max-width: calc(88ch + 6rem)) {
   ul.horizontal-list li {
     display: block;
   }
@@ -60,4 +66,8 @@ ul.horizontal-list li + li::before {
   ul.horizontal-list li:first-child + li::before {
       content: " — ";
   }
+}
+
+section#projects {
+  margin-top: 2rem;
 }
