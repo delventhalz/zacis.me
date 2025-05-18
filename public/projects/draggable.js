@@ -1,0 +1,88 @@
+import { h, Fragment } from 'preact';
+import { useEffect, useRef, useState } from 'preact/hooks';
+
+/**
+ * Render an array of props as draggable components which can be rearranged.
+ *
+ * @param {object} props - DragAndDrop as well as any div props
+ * @param {array} props.propsForDraggables - Array of props to render draggable
+ *     elements with, one object per element, determines initial order
+ * @param {object} props.draggableComponent - Component to render draggable
+ *     elements as, defaults to div
+ */
+export function DragAndDrop({
+  propsForDraggables,
+  draggableComponent = 'div',
+  ...renderProps
+}) {
+  const [draggables, setDraggables] = useState([]);
+
+  const dragInfo = useRef({
+    dragged: '',
+    draggedOver: '',
+    enterX: -1,
+    enterY: -1
+  });
+
+  useEffect(() => {
+    setDraggables(prevDraggables => {
+      const updatedPropsInOrder = prevDraggables
+        .map(d => propsForDraggables.find(props => d.key === props.key))
+        .filter(Boolean);
+
+      const newProps = propsForDraggables.filter(props => !updatedPropsInOrder.includes(props));
+      const orderedProps = [...updatedPropsInOrder, ...newProps];
+
+      return orderedProps.map((props, i) => ({ key: `draggable-${i}`, ...props }));
+    });
+  }, [propsForDraggables]);
+
+  const getOnDragStart = (key) => (event) => {
+    event.dataTransfer.effectAllowed = 'move';
+    dragInfo.current.dragged = key;
+  };
+
+  const getOnDragOver = (key) => (event) => {
+    // Ignore drag over events from the currently dragged element
+    if (key === dragInfo.current.dragged) {
+      return;
+    }
+
+    // Check if we have passed over a new child element
+    if (key !== dragInfo.current.draggedOver) {
+      dragInfo.current.draggedOver = key;
+      dragInfo.current.enterX = event.offsetX;
+      dragInfo.current.enterY = event.offsetY;
+    }
+
+    const distanceX = Math.abs(dragInfo.current.enterX - event.offsetX);
+    const distanceY = Math.abs(dragInfo.current.enterY - event.offsetY);
+    const midpointX = event.target.offsetWidth / 2;
+    const midpointY = event.target.offsetHeight / 2;
+
+    if (distanceX > midpointX || distanceY > midpointY) {
+      setDraggables(prevDraggables => {
+        const draggedIndex = prevDraggables.findIndex(d => d.key === dragInfo.current.dragged);
+        const draggedOverIndex = prevDraggables.findIndex(d => d.key === dragInfo.current.draggedOver);
+
+        const nextDraggables = [...prevDraggables];
+        nextDraggables[draggedIndex] = prevDraggables[draggedOverIndex];
+        nextDraggables[draggedOverIndex] = prevDraggables[draggedIndex];
+
+        return nextDraggables;
+      });
+    }
+  };
+
+  return h('div', { class: 'drag-and-drop', ...renderProps },
+    draggables.map(({ key, ...draggableProps }) => (
+      h(draggableComponent, {
+        key,
+        draggable: true,
+        onDragStart: getOnDragStart(key),
+        onDragOver: getOnDragOver(key),
+        ...draggableProps
+      })
+    ))
+  );
+}

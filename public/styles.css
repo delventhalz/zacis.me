@@ -68,15 +68,24 @@ ul.horizontal-list li + li::before {
   }
 }
 
-section#projects {
+section#project-gallery {
   margin: 2rem auto;
   max-width: 600px;
+}
+
+.projects {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   background-color: #f9f9f9;
+  padding: 2px;
 }
 
 .project {
-  height: 128px;
-  width: 128px;
+  display: inline-block;
+  height: 150px;
+  width: 150px;
   overflow: hidden;
   background-color: #ddd;
   padding: 8px;
