@@ -20,6 +20,8 @@ export function DragAndDrop({
   const dragInfo = useRef({
     dragged: '',
     draggedOver: '',
+    draggedX: -1,
+    draggedY: -1,
     enterX: -1,
     enterY: -1
   });
@@ -40,6 +42,10 @@ export function DragAndDrop({
   const getOnDragStart = (key) => (event) => {
     event.dataTransfer.effectAllowed = 'move';
     dragInfo.current.dragged = key;
+
+    const { x, y } = event.target.getBoundingClientRect();
+    dragInfo.current.draggedX = x;
+    dragInfo.current.draggedY = y;
   };
 
   const getOnDragEnter = (key) => (event) => {
@@ -74,6 +80,23 @@ export function DragAndDrop({
         nextDraggables[draggedOverIndex] = prevDraggables[draggedIndex];
 
         return nextDraggables;
+      });
+
+      const moveStart = event.target.getBoundingClientRect();
+      const moveX = moveStart.x - dragInfo.current.draggedX;
+      const moveY = moveStart.y - dragInfo.current.draggedY;
+
+      requestAnimationFrame(() => {
+        event.target.animate(
+          [
+            {
+              transformOrigin: 'top left',
+              transform: `translate(${moveX}px, ${moveY}px)`
+            },
+            { transformOrigin: 'top left', transform: 'none' }
+          ],
+          { duration: 500, easing: 'ease', fill: 'both' }
+        );
       });
     }
   };
