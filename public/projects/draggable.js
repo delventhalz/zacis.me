@@ -85,7 +85,6 @@ export function DragAndDrop({
 
   return h('div',
     {
-      class: 'drag-and-drop',
       onDragEnter: cancelDragEvent,
       onDragOver: cancelDragEvent,
       ...renderProps
