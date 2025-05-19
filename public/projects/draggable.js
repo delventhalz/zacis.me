@@ -78,7 +78,18 @@ export function DragAndDrop({
     }
   };
 
-  return h('div', { class: 'drag-and-drop', ...renderProps },
+  // Must cancel wrapping dragenter and dragover events to create a drop zone
+  const cancelDragEvent = (event) => {
+    event.preventDefault();
+  }
+
+  return h('div',
+    {
+      class: 'drag-and-drop',
+      onDragEnter: cancelDragEvent,
+      onDragOver: cancelDragEvent,
+      ...renderProps
+    },
     draggables.map(({ key, ...draggableProps }) => (
       h(draggableComponent, {
         key,
