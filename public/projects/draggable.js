@@ -42,17 +42,21 @@ export function DragAndDrop({
     dragInfo.current.dragged = key;
   };
 
-  const getOnDragOver = (key) => (event) => {
-    // Ignore drag over events from the currently dragged element
+  const getOnDragEnter = (key) => (event) => {
+    // Ignore dragenter events from the currently dragged element
     if (key === dragInfo.current.dragged) {
       return;
     }
 
-    // Check if we have passed over a new child element
-    if (key !== dragInfo.current.draggedOver) {
-      dragInfo.current.draggedOver = key;
-      dragInfo.current.enterX = event.offsetX;
-      dragInfo.current.enterY = event.offsetY;
+    dragInfo.current.draggedOver = key;
+    dragInfo.current.enterX = event.offsetX;
+    dragInfo.current.enterY = event.offsetY;
+  };
+
+  const getOnDragOver = (key) => (event) => {
+    // Ignore dragover events from the currently dragged element
+    if (key === dragInfo.current.dragged) {
+      return;
     }
 
     const distanceX = Math.abs(dragInfo.current.enterX - event.offsetX);
@@ -80,6 +84,7 @@ export function DragAndDrop({
         key,
         draggable: true,
         onDragStart: getOnDragStart(key),
+        onDragEnter: getOnDragEnter(key),
         onDragOver: getOnDragOver(key),
         ...draggableProps
       })
