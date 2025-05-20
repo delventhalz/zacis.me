@@ -43,7 +43,8 @@ export function DragAndDrop({
     event.dataTransfer.effectAllowed = 'move';
     dragInfo.current.dragged = key;
 
-    const { x, y } = event.target.getBoundingClientRect();
+    const draggedElement = event.target.closest('[draggable=true]');
+    const { x, y } = draggedElement.getBoundingClientRect();
     dragInfo.current.draggedX = x;
     dragInfo.current.draggedY = y;
   };
@@ -54,9 +55,14 @@ export function DragAndDrop({
       return;
     }
 
+    // A dragenter event can repeat when passing over children
+    if (dragInfo.current.draggedOver === key) {
+      return;
+    }
+
     dragInfo.current.draggedOver = key;
-    dragInfo.current.enterX = event.offsetX;
-    dragInfo.current.enterY = event.offsetY;
+    dragInfo.current.enterX = event.clientX;
+    dragInfo.current.enterY = event.clientY;
   };
 
   const getOnDragOver = (key) => (event) => {
@@ -65,10 +71,13 @@ export function DragAndDrop({
       return;
     }
 
-    const distanceX = Math.abs(dragInfo.current.enterX - event.offsetX);
-    const distanceY = Math.abs(dragInfo.current.enterY - event.offsetY);
-    const midpointX = event.target.offsetWidth / 2;
-    const midpointY = event.target.offsetHeight / 2;
+    const draggedOverElement = event.target.closest('[draggable=true]');
+    const { x, y, width, height } = draggedOverElement.getBoundingClientRect();
+    const midpointX = width / 2;
+    const midpointY = height / 2;
+
+    const distanceX = Math.abs(dragInfo.current.enterX - event.clientX);
+    const distanceY = Math.abs(dragInfo.current.enterY - event.clientY);
 
     if (distanceX > midpointX || distanceY > midpointY) {
       setDraggables(prevDraggables => {
@@ -82,16 +91,15 @@ export function DragAndDrop({
         return nextDraggables;
       });
 
-      const moveStart = event.target.getBoundingClientRect();
-      const moveX = moveStart.x - dragInfo.current.draggedX;
-      const moveY = moveStart.y - dragInfo.current.draggedY;
+      const movedX = x - dragInfo.current.draggedX;
+      const movedY = y - dragInfo.current.draggedY;
 
       requestAnimationFrame(() => {
-        event.target.animate(
+        draggedOverElement.animate(
           [
             {
               transformOrigin: 'top left',
-              transform: `translate(${moveX}px, ${moveY}px)`
+              transform: `translate(${movedX}px, ${movedY}px)`
             },
             { transformOrigin: 'top left', transform: 'none' }
           ],
