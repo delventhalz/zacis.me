@@ -1,6 +1,10 @@
 import { h, Fragment } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
+const hasRunningAnimation = (element) => {
+  return element.getAnimations().some(anim => anim.playState === 'running');
+};
+
 /**
  * Render an array of props as draggable components which can be rearranged.
  *
@@ -60,6 +64,11 @@ export function DragAndDrop({
       return;
     }
 
+    const draggedEnterElement = event.target.closest('[draggable=true]');
+    if (hasRunningAnimation(draggedEnterElement)) {
+      return;
+    }
+
     dragInfo.current.draggedOver = key;
     dragInfo.current.enterX = event.clientX;
     dragInfo.current.enterY = event.clientY;
@@ -72,6 +81,10 @@ export function DragAndDrop({
     }
 
     const draggedOverElement = event.target.closest('[draggable=true]');
+    if (hasRunningAnimation(draggedOverElement)) {
+      return;
+    }
+
     const { x, y, width, height } = draggedOverElement.getBoundingClientRect();
     const midpointX = width / 2;
     const midpointY = height / 2;
