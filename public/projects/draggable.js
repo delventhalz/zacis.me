@@ -1,9 +1,9 @@
 import { h, Fragment } from 'preact';
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 
 const DEFAULT_DRAG_INFO = {
-  dragged: '',
-  draggedOver: '',
+  dragged: null,
+  draggedOver: null,
   draggedX: -1,
   draggedY: -1,
   enterX: -1,
@@ -32,6 +32,7 @@ export function DragAndDrop({
   const dragInfo = useRef(DEFAULT_DRAG_INFO);
 
   useEffect(() => {
+    // Use key to match updated props to rendered elements even if reordered
     setDraggables(prevDraggables => {
       const updatedPropsInOrder = prevDraggables
         .map(d => propsForDraggables.find(props => d.key === props.key))
@@ -40,15 +41,17 @@ export function DragAndDrop({
       const newProps = propsForDraggables.filter(props => !updatedPropsInOrder.includes(props));
       const orderedProps = [...updatedPropsInOrder, ...newProps];
 
+      // Ensure every passed draggable props always has a unique key
       return orderedProps.map((props, i) => ({ key: `draggable-${i}`, ...props }));
     });
   }, [propsForDraggables]);
 
-  const getOnDragStart = (key) => (event) => {
+  const onDragStart = useCallback((event) => {
     event.dataTransfer.effectAllowed = 'move';
-    dragInfo.current.dragged = key;
 
     const draggedElement = event.target.closest('[draggable=true]');
+    dragInfo.current.dragged = draggedElement;
+
     const { x, y } = draggedElement.getBoundingClientRect();
     dragInfo.current.draggedX = x;
     dragInfo.current.draggedY = y;
@@ -58,36 +61,38 @@ export function DragAndDrop({
     requestAnimationFrame(() => {
       draggedElement.setAttribute('style', 'opacity: 0');
     });
-  };
+  }, [dragInfo]);
 
-  const getOnDragEnter = (key) => (event) => {
+  const onDragEnter = useCallback((event) => {
+    const draggedEnterElement = event.target.closest('[draggable=true]');
+
     // Ignore dragenter events from the currently dragged element
-    if (key === dragInfo.current.dragged) {
+    if (draggedEnterElement === dragInfo.current.dragged) {
       return;
     }
 
     // A dragenter event can repeat when passing over children
-    if (dragInfo.current.draggedOver === key) {
+    if (draggedEnterElement === dragInfo.current.draggedOver) {
       return;
     }
 
-    const draggedEnterElement = event.target.closest('[draggable=true]');
     if (hasRunningAnimation(draggedEnterElement)) {
       return;
     }
 
-    dragInfo.current.draggedOver = key;
+    dragInfo.current.draggedOver = draggedEnterElement;
     dragInfo.current.enterX = event.clientX;
     dragInfo.current.enterY = event.clientY;
-  };
+  }, [dragInfo]);
 
-  const getOnDragOver = (key) => (event) => {
+  const onDragOver = useCallback((event) => {
+    const draggedOverElement = event.target.closest('[draggable=true]');
+
     // Ignore dragover events from the currently dragged element
-    if (key === dragInfo.current.dragged) {
+    if (draggedOverElement === dragInfo.current.dragged) {
       return;
     }
 
-    const draggedOverElement = event.target.closest('[draggable=true]');
     if (hasRunningAnimation(draggedOverElement)) {
       return;
     }
@@ -101,8 +106,11 @@ export function DragAndDrop({
 
     if (distanceX > midpointX || distanceY > midpointY) {
       setDraggables(prevDraggables => {
-        const draggedIndex = prevDraggables.findIndex(d => d.key === dragInfo.current.dragged);
-        const draggedOverIndex = prevDraggables.findIndex(d => d.key === dragInfo.current.draggedOver);
+        const draggedKey = dragInfo.current.dragged.getAttribute('data-drag-and-drop-key');
+        const draggedOverKey = dragInfo.current.draggedOver.getAttribute('data-drag-and-drop-key');
+
+        const draggedIndex = prevDraggables.findIndex(d => d.key === draggedKey);
+        const draggedOverIndex = prevDraggables.findIndex(d => d.key === draggedOverKey);
 
         const nextDraggables = [...prevDraggables];
         nextDraggables[draggedIndex] = prevDraggables[draggedOverIndex];
@@ -127,19 +135,19 @@ export function DragAndDrop({
         );
       });
     }
-  };
+  }, [setDraggables]);
 
-  const onDragEnd = (event) => {
+  const onDragEnd = useCallback((event) => {
     const draggedElement = event.target.closest('[draggable=true]');
     draggedElement.setAttribute('style', 'opacity: 1');
 
     Object.assign(dragInfo.current, DEFAULT_DRAG_INFO);
-  };
+  }, [dragInfo]);
 
   // Must cancel wrapping dragenter and dragover events to create a drop zone
-  const cancelDragEvent = (event) => {
+  const cancelDragEvent = useCallback((event) => {
     event.preventDefault();
-  }
+  }, []);
 
   return h('div',
     {
@@ -150,10 +158,11 @@ export function DragAndDrop({
     draggables.map(({ key, ...draggableProps }) => (
       h(draggableComponent, {
         key,
+        'data-drag-and-drop-key': key,
         draggable: true,
-        onDragStart: getOnDragStart(key),
-        onDragEnter: getOnDragEnter(key),
-        onDragOver: getOnDragOver(key),
+        onDragStart,
+        onDragEnter,
+        onDragOver,
         onDragEnd,
         ...draggableProps
       })
