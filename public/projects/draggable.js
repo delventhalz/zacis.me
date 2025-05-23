@@ -52,6 +52,12 @@ export function DragAndDrop({
     const { x, y } = draggedElement.getBoundingClientRect();
     dragInfo.current.draggedX = x;
     dragInfo.current.draggedY = y;
+
+    // The DOM node must be visible when it gets set as the drag image,
+    // but we can hide it immediately afterwards
+    requestAnimationFrame(() => {
+      draggedElement.setAttribute('style', 'opacity: 0');
+    });
   };
 
   const getOnDragEnter = (key) => (event) => {
@@ -123,7 +129,10 @@ export function DragAndDrop({
     }
   };
 
-  const onDragEnd = () => {
+  const onDragEnd = (event) => {
+    const draggedElement = event.target.closest('[draggable=true]');
+    draggedElement.setAttribute('style', 'opacity: 1');
+
     Object.assign(dragInfo.current, DEFAULT_DRAG_INFO);
   };
 
