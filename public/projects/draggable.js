@@ -1,6 +1,15 @@
 import { h, Fragment } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
+const DEFAULT_DRAG_INFO = {
+  dragged: '',
+  draggedOver: '',
+  draggedX: -1,
+  draggedY: -1,
+  enterX: -1,
+  enterY: -1
+};
+
 const hasRunningAnimation = (element) => {
   return element.getAnimations().some(anim => anim.playState === 'running');
 };
@@ -20,15 +29,7 @@ export function DragAndDrop({
   ...renderProps
 }) {
   const [draggables, setDraggables] = useState([]);
-
-  const dragInfo = useRef({
-    dragged: '',
-    draggedOver: '',
-    draggedX: -1,
-    draggedY: -1,
-    enterX: -1,
-    enterY: -1
-  });
+  const dragInfo = useRef(DEFAULT_DRAG_INFO);
 
   useEffect(() => {
     setDraggables(prevDraggables => {
@@ -122,6 +123,10 @@ export function DragAndDrop({
     }
   };
 
+  const onDragEnd = () => {
+    Object.assign(dragInfo.current, DEFAULT_DRAG_INFO);
+  };
+
   // Must cancel wrapping dragenter and dragover events to create a drop zone
   const cancelDragEvent = (event) => {
     event.preventDefault();
@@ -140,6 +145,7 @@ export function DragAndDrop({
         onDragStart: getOnDragStart(key),
         onDragEnter: getOnDragEnter(key),
         onDragOver: getOnDragOver(key),
+        onDragEnd,
         ...draggableProps
       })
     ))
