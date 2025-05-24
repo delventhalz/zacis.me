@@ -1,11 +1,12 @@
 import { h, Fragment } from 'preact';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 
+// How much of an element before swapping with it
+const SWAP_THRESHOLD = 0.4;
+
 const DEFAULT_DRAG_INFO = {
   dragged: null,
   draggedOver: null,
-  draggedX: -1,
-  draggedY: -1,
   enterX: -1,
   enterY: -1
 };
@@ -52,10 +53,6 @@ export function DragAndDrop({
     const draggedElement = event.target.closest('[draggable=true]');
     dragInfo.current.dragged = draggedElement;
 
-    const { x, y } = draggedElement.getBoundingClientRect();
-    dragInfo.current.draggedX = x;
-    dragInfo.current.draggedY = y;
-
     // The DOM node must be visible when it gets set as the drag image,
     // but we can hide it immediately afterwards
     requestAnimationFrame(() => {
@@ -98,13 +95,13 @@ export function DragAndDrop({
     }
 
     const { x, y, width, height } = draggedOverElement.getBoundingClientRect();
-    const midpointX = width / 2;
-    const midpointY = height / 2;
+    const thresholdX = width * SWAP_THRESHOLD;
+    const thresholdY = height * SWAP_THRESHOLD;
 
     const distanceX = Math.abs(dragInfo.current.enterX - event.clientX);
     const distanceY = Math.abs(dragInfo.current.enterY - event.clientY);
 
-    if (distanceX > midpointX || distanceY > midpointY) {
+    if (distanceX > thresholdX || distanceY > thresholdY) {
       setDraggables(prevDraggables => {
         const draggedKey = dragInfo.current.dragged.getAttribute('data-drag-and-drop-key');
         const draggedOverKey = dragInfo.current.draggedOver.getAttribute('data-drag-and-drop-key');
@@ -119,8 +116,9 @@ export function DragAndDrop({
         return nextDraggables;
       });
 
-      const movedX = x - dragInfo.current.draggedX;
-      const movedY = y - dragInfo.current.draggedY;
+      const draggedLoc = dragInfo.current.dragged.getBoundingClientRect();
+      const movedX = x - draggedLoc.x;
+      const movedY = y - draggedLoc.y;
 
       requestAnimationFrame(() => {
         draggedOverElement.animate(
