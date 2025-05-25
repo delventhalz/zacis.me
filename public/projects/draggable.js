@@ -87,12 +87,10 @@ export function DragAndDrop({
       animateMove(dragInfo.current.dragged, movedX, movedY);
     };
 
-    document.body.addEventListener('dragenter', cancelDragEvent);
     document.body.addEventListener('dragover', cancelDragEvent);
     document.body.addEventListener('drop', onDrop);
 
     return () => {
-      document.body.removeEventListener('dragenter', cancelDragEvent);
       document.body.removeEventListener('dragover', cancelDragEvent);
       document.body.removeEventListener('drop', onDrop);
     };
