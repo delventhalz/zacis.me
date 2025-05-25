@@ -53,7 +53,7 @@ const hasRunningAnimation = (element) => {
 export function DragAndDrop({
   propsForDraggables,
   draggableComponent = 'div',
-  ...renderProps
+  ...divProps
 }) {
   const [draggables, setDraggables] = useState([]);
   const dragInfo = useRef(DEFAULT_DRAG_INFO);
@@ -185,7 +185,9 @@ export function DragAndDrop({
     }
   }, [dragInfo, setDraggables]);
 
-  return h('div', renderProps,
+  const className = ['drag-and-drop', divProps.class ?? ''].join(' ').trim();
+
+  return h('div', { ...divProps, class: className },
     draggables.map(({ key, ...draggableProps }) => (
       h(draggableComponent, {
         key,
