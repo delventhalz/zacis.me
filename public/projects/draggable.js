@@ -7,8 +7,33 @@ const SWAP_THRESHOLD = 0.4;
 const DEFAULT_DRAG_INFO = {
   dragged: null,
   draggedOver: null,
+  cursorOffsetX: -1,
+  cursorOffsetY: -1,
+  lastX: -1,
+  lastY: -1,
   enterX: -1,
   enterY: -1
+};
+
+// Duration grows quickly with distance but then levels off
+const calcMoveDuration = dist => Math.max(0, 150 * Math.log(1.5 * dist) - 300);
+
+const animateMove = (element, movedX, movedY) => {
+  requestAnimationFrame(() => {
+    const distance = Math.sqrt(movedX ** 2 + movedY ** 2);
+    const duration = calcMoveDuration(distance);
+
+    element.animate(
+      [
+        {
+          transformOrigin: 'top left',
+          transform: `translate(${movedX}px, ${movedY}px)`
+        },
+        { transformOrigin: 'top left', transform: 'none' }
+      ],
+      { duration, easing: 'ease', fill: 'both' }
+    );
+  });
 };
 
 const hasRunningAnimation = (element) => {
@@ -47,17 +72,56 @@ export function DragAndDrop({
     });
   }, [propsForDraggables]);
 
+  useEffect(() => {
+    const cancelDragEvent = (event) => {
+      event.preventDefault();
+    };
+
+    const onDrop = () => {
+      const { x, y, width, height } = dragInfo.current.dragged.getBoundingClientRect();
+      const movedX = dragInfo.current.lastX - dragInfo.current.cursorOffsetX - x;
+      const movedY = dragInfo.current.lastY - dragInfo.current.cursorOffsetY - y;
+
+      animateMove(dragInfo.current.dragged, movedX, movedY);
+    };
+
+    // This is a massive hack, but if we want to control the animation when
+    // the drag ends, there has to be a successful drop, and for there to
+    // be a drop anywhere on the page, the whole page must be a "drop zone"
+    document.body.addEventListener('dragenter', cancelDragEvent);
+    document.body.addEventListener('dragover', cancelDragEvent);
+    document.body.addEventListener('drop', onDrop);
+
+    return () => {
+      document.body.removeEventListener('dragenter', cancelDragEvent);
+      document.body.removeEventListener('dragover', cancelDragEvent);
+      document.body.removeEventListener('drop', onDrop);
+    };
+  }, [dragInfo])
+
   const onDragStart = useCallback((event) => {
     event.dataTransfer.effectAllowed = 'move';
 
     const draggedElement = event.target.closest('[draggable=true]');
     dragInfo.current.dragged = draggedElement;
+    dragInfo.current.cursorOffsetX = event.offsetX;
+    dragInfo.current.cursorOffsetY = event.offsetY;
 
     // The DOM node must be visible when it gets set as the drag image,
     // but we can hide it immediately afterwards
     requestAnimationFrame(() => {
-      draggedElement.setAttribute('style', 'opacity: 0');
+      dragInfo.current.dragged.setAttribute('style', 'opacity: 0');
     });
+  }, [dragInfo]);
+
+  const onDrag = useCallback((event) => {
+    dragInfo.current.lastX = event.clientX;
+    dragInfo.current.lastY = event.clientY;
+  }, [dragInfo]);
+
+  const onDragEnd = useCallback(() => {
+    dragInfo.current.dragged.setAttribute('style', 'opacity: 1');
+    Object.assign(dragInfo.current, DEFAULT_DRAG_INFO);
   }, [dragInfo]);
 
   const onDragEnter = useCallback((event) => {
@@ -120,48 +184,21 @@ export function DragAndDrop({
       const movedX = x - draggedLoc.x;
       const movedY = y - draggedLoc.y;
 
-      requestAnimationFrame(() => {
-        draggedOverElement.animate(
-          [
-            {
-              transformOrigin: 'top left',
-              transform: `translate(${movedX}px, ${movedY}px)`
-            },
-            { transformOrigin: 'top left', transform: 'none' }
-          ],
-          { duration: 500, easing: 'ease', fill: 'both' }
-        );
-      });
+      animateMove(draggedOverElement, movedX, movedY);
     }
   }, [setDraggables]);
 
-  const onDragEnd = useCallback((event) => {
-    const draggedElement = event.target.closest('[draggable=true]');
-    draggedElement.setAttribute('style', 'opacity: 1');
-
-    Object.assign(dragInfo.current, DEFAULT_DRAG_INFO);
-  }, [dragInfo]);
-
-  // Must cancel wrapping dragenter and dragover events to create a drop zone
-  const cancelDragEvent = useCallback((event) => {
-    event.preventDefault();
-  }, []);
-
-  return h('div',
-    {
-      onDragEnter: cancelDragEvent,
-      onDragOver: cancelDragEvent,
-      ...renderProps
-    },
+  return h('div', renderProps,
     draggables.map(({ key, ...draggableProps }) => (
       h(draggableComponent, {
         key,
         'data-drag-and-drop-key': key,
         draggable: true,
+        onDrag,
         onDragStart,
+        onDragEnd,
         onDragEnter,
         onDragOver,
-        onDragEnd,
         ...draggableProps
       })
     ))
