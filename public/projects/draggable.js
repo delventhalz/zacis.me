@@ -75,8 +75,14 @@ export function DragAndDrop({
   // This is hacky, but if we want to control the animation when the drag ends,
   // there has to be a successful drop, so the whole page must be a "drop zone"
   useEffect(() => {
-    const cancelDragEvent = (event) => {
+    const onDragOver = (event) => {
+      // "Cancel" the dragenter event to turn the body into a drop zone
       event.preventDefault();
+
+      // Coordinates on drag and dragend events are inconsistent across browsers.
+      // Must use dragover on the body to get last drag position consistently.
+      dragInfo.current.dragX = event.clientX;
+      dragInfo.current.dragY = event.clientY;
     };
 
     const onDrop = () => {
@@ -87,11 +93,11 @@ export function DragAndDrop({
       animateMove(dragInfo.current.dragged, movedX, movedY);
     };
 
-    document.body.addEventListener('dragover', cancelDragEvent);
+    document.body.addEventListener('dragover', onDragOver);
     document.body.addEventListener('drop', onDrop);
 
     return () => {
-      document.body.removeEventListener('dragover', cancelDragEvent);
+      document.body.removeEventListener('dragover', onDragOver);
       document.body.removeEventListener('drop', onDrop);
     };
   }, [dragInfo]);
@@ -107,11 +113,6 @@ export function DragAndDrop({
     requestAnimationFrame(() => {
       dragInfo.current.dragged.setAttribute('style', 'opacity: 0');
     });
-  }, [dragInfo]);
-
-  const onDrag = useCallback((event) => {
-    dragInfo.current.dragX = event.clientX;
-    dragInfo.current.dragY = event.clientY;
   }, [dragInfo]);
 
   const onDragEnd = useCallback(() => {
@@ -190,7 +191,6 @@ export function DragAndDrop({
         key,
         'data-drag-and-drop-key': key,
         draggable: true,
-        onDrag,
         onDragStart,
         onDragEnd,
         onDragEnter,
