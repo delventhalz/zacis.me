@@ -19,25 +19,19 @@ const DEFAULT_DRAG_INFO = {
 const calcMoveDuration = dist => Math.max(0, 150 * Math.log(1.5 * dist) - 300);
 
 const animateMove = (element, movedX, movedY) => {
-  requestAnimationFrame(() => {
-    const distance = Math.sqrt(movedX ** 2 + movedY ** 2);
-    const duration = calcMoveDuration(distance);
+  const distance = Math.sqrt(movedX ** 2 + movedY ** 2);
+  const duration = calcMoveDuration(distance);
 
-    element.animate(
-      [
-        {
-          transformOrigin: 'top left',
-          transform: `translate(${movedX}px, ${movedY}px)`
-        },
-        { transformOrigin: 'top left', transform: 'none' }
-      ],
-      { duration, easing: 'ease', fill: 'both' }
-    );
-  });
-};
-
-const hasRunningAnimation = (element) => {
-  return element.getAnimations().some(anim => anim.playState === 'running');
+  element.animate(
+    [
+      {
+        transformOrigin: 'top left',
+        transform: `translate(${movedX}px, ${movedY}px)`
+      },
+      { transformOrigin: 'top left', transform: 'none' }
+    ],
+    { duration, easing: 'ease', fill: 'both' }
+  );
 };
 
 /**
@@ -89,7 +83,6 @@ export function DragAndDrop({
       const { x, y, width, height } = dragInfo.current.dragged.getBoundingClientRect();
       const movedX = dragInfo.current.dragX - dragInfo.current.cursorOffsetX - x;
       const movedY = dragInfo.current.dragY - dragInfo.current.cursorOffsetY - y;
-
       animateMove(dragInfo.current.dragged, movedX, movedY);
     };
 
@@ -146,7 +139,7 @@ export function DragAndDrop({
       return;
     }
 
-    const { x, y, width, height } = draggedOverElement.getBoundingClientRect();
+    const { width, height } = draggedOverElement.getBoundingClientRect();
     const thresholdX = width * SWAP_THRESHOLD;
     const thresholdY = height * SWAP_THRESHOLD;
 
@@ -168,14 +161,14 @@ export function DragAndDrop({
         nextDraggables[draggedIndex] = prevDraggables[draggedOverIndex];
         nextDraggables[draggedOverIndex] = prevDraggables[draggedIndex];
 
+        const draggedLoc = dragInfo.current.dragged.getBoundingClientRect();
+        const draggedOverLoc = draggedOverElement.getBoundingClientRect();
+        const movedX = draggedOverLoc.x - draggedLoc.x;
+        const movedY = draggedOverLoc.y - draggedLoc.y;
+        animateMove(draggedOverElement, movedX, movedY);
+
         return nextDraggables;
       });
-
-      const draggedLoc = dragInfo.current.dragged.getBoundingClientRect();
-      const movedX = x - draggedLoc.x;
-      const movedY = y - draggedLoc.y;
-
-      animateMove(draggedOverElement, movedX, movedY);
     }
   }, [dragInfo, setDraggables]);
 
