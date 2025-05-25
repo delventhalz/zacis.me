@@ -1,7 +1,7 @@
 import { h, Fragment } from 'preact';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 
-// How much of an element before swapping with it
+// Percent of an element must be passed before position swap
 const SWAP_THRESHOLD = 0.4;
 
 const DEFAULT_DRAG_INFO = {
@@ -9,8 +9,8 @@ const DEFAULT_DRAG_INFO = {
   draggedOver: null,
   cursorOffsetX: -1,
   cursorOffsetY: -1,
-  lastX: -1,
-  lastY: -1,
+  dragX: -1,
+  dragY: -1,
   enterX: -1,
   enterY: -1
 };
@@ -41,12 +41,13 @@ const hasRunningAnimation = (element) => {
 };
 
 /**
- * Render an array of props as draggable components which can be rearranged.
+ * Uses the HTML Drag and Drop API to render an array of props as draggable
+ * components which can be rearranged.
  *
- * @param {object} props - DragAndDrop as well as any div props
+ * @param {object} props - DragAndDrop props as well as any div props
  * @param {array} props.propsForDraggables - Array of props to render draggable
- *     elements with, one object per element, determines initial order
- * @param {object} props.draggableComponent - Component to render draggable
+ *     elements with (one object per element, order determines initial order)
+ * @param {object} [props.draggableComponent] - Component to render draggable
  *     elements as, defaults to div
  */
 export function DragAndDrop({
@@ -57,8 +58,8 @@ export function DragAndDrop({
   const [draggables, setDraggables] = useState([]);
   const dragInfo = useRef(DEFAULT_DRAG_INFO);
 
+  // Use keys to match updated props to rendered elements even if reordered
   useEffect(() => {
-    // Use key to match updated props to rendered elements even if reordered
     setDraggables(prevDraggables => {
       const updatedPropsInOrder = prevDraggables
         .map(d => propsForDraggables.find(props => d.key === props.key))
@@ -67,11 +68,12 @@ export function DragAndDrop({
       const newProps = propsForDraggables.filter(props => !updatedPropsInOrder.includes(props));
       const orderedProps = [...updatedPropsInOrder, ...newProps];
 
-      // Ensure every passed draggable props always has a unique key
       return orderedProps.map((props, i) => ({ key: `draggable-${i}`, ...props }));
     });
-  }, [propsForDraggables]);
+  }, [propsForDraggables, setDraggables]);
 
+  // This is hacky, but if we want to control the animation when the drag ends,
+  // there has to be a successful drop, so the whole page must be a "drop zone"
   useEffect(() => {
     const cancelDragEvent = (event) => {
       event.preventDefault();
@@ -79,15 +81,12 @@ export function DragAndDrop({
 
     const onDrop = () => {
       const { x, y, width, height } = dragInfo.current.dragged.getBoundingClientRect();
-      const movedX = dragInfo.current.lastX - dragInfo.current.cursorOffsetX - x;
-      const movedY = dragInfo.current.lastY - dragInfo.current.cursorOffsetY - y;
+      const movedX = dragInfo.current.dragX - dragInfo.current.cursorOffsetX - x;
+      const movedY = dragInfo.current.dragY - dragInfo.current.cursorOffsetY - y;
 
       animateMove(dragInfo.current.dragged, movedX, movedY);
     };
 
-    // This is a massive hack, but if we want to control the animation when
-    // the drag ends, there has to be a successful drop, and for there to
-    // be a drop anywhere on the page, the whole page must be a "drop zone"
     document.body.addEventListener('dragenter', cancelDragEvent);
     document.body.addEventListener('dragover', cancelDragEvent);
     document.body.addEventListener('drop', onDrop);
@@ -97,26 +96,24 @@ export function DragAndDrop({
       document.body.removeEventListener('dragover', cancelDragEvent);
       document.body.removeEventListener('drop', onDrop);
     };
-  }, [dragInfo])
+  }, [dragInfo]);
 
   const onDragStart = useCallback((event) => {
     event.dataTransfer.effectAllowed = 'move';
 
-    const draggedElement = event.target.closest('[draggable=true]');
-    dragInfo.current.dragged = draggedElement;
+    dragInfo.current.dragged = event.target.closest('[draggable=true]');
     dragInfo.current.cursorOffsetX = event.offsetX;
     dragInfo.current.cursorOffsetY = event.offsetY;
 
-    // The DOM node must be visible when it gets set as the drag image,
-    // but we can hide it immediately afterwards
+    // DOM node must be visible when set as drag image, but we can hide it after
     requestAnimationFrame(() => {
       dragInfo.current.dragged.setAttribute('style', 'opacity: 0');
     });
   }, [dragInfo]);
 
   const onDrag = useCallback((event) => {
-    dragInfo.current.lastX = event.clientX;
-    dragInfo.current.lastY = event.clientY;
+    dragInfo.current.dragX = event.clientX;
+    dragInfo.current.dragY = event.clientY;
   }, [dragInfo]);
 
   const onDragEnd = useCallback(() => {
@@ -132,7 +129,7 @@ export function DragAndDrop({
       return;
     }
 
-    // A dragenter event can repeat when passing over children
+    // Ignore repeat dragenter events from children being passed over
     if (draggedEnterElement === dragInfo.current.draggedOver) {
       return;
     }
@@ -165,6 +162,7 @@ export function DragAndDrop({
     const distanceX = Math.abs(dragInfo.current.enterX - event.clientX);
     const distanceY = Math.abs(dragInfo.current.enterY - event.clientY);
 
+    // Dragged element has moved far enough, swap position with dragged over element
     if (distanceX > thresholdX || distanceY > thresholdY) {
       setDraggables(prevDraggables => {
         const draggedKey = dragInfo.current.dragged.getAttribute('data-drag-and-drop-key');
@@ -186,7 +184,7 @@ export function DragAndDrop({
 
       animateMove(draggedOverElement, movedX, movedY);
     }
-  }, [setDraggables]);
+  }, [dragInfo, setDraggables]);
 
   return h('div', renderProps,
     draggables.map(({ key, ...draggableProps }) => (
