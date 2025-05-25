@@ -133,10 +133,6 @@ export function DragAndDrop({
       return;
     }
 
-    if (hasRunningAnimation(draggedEnterElement)) {
-      return;
-    }
-
     dragInfo.current.draggedOver = draggedEnterElement;
     dragInfo.current.enterX = event.clientX;
     dragInfo.current.enterY = event.clientY;
@@ -145,12 +141,8 @@ export function DragAndDrop({
   const onDragOver = useCallback((event) => {
     const draggedOverElement = event.target.closest('[draggable=true]');
 
-    // Ignore dragover events from the currently dragged element
-    if (draggedOverElement === dragInfo.current.dragged) {
-      return;
-    }
-
-    if (hasRunningAnimation(draggedOverElement)) {
+    // Ignore dragover events from elements that did not emit last dragenter
+    if (draggedOverElement !== dragInfo.current.draggedOver) {
       return;
     }
 
@@ -163,9 +155,11 @@ export function DragAndDrop({
 
     // Dragged element has moved far enough, swap position with dragged over element
     if (distanceX > thresholdX || distanceY > thresholdY) {
+      dragInfo.current.draggedOver = null;
+
       setDraggables(prevDraggables => {
         const draggedKey = dragInfo.current.dragged.getAttribute('data-drag-and-drop-key');
-        const draggedOverKey = dragInfo.current.draggedOver.getAttribute('data-drag-and-drop-key');
+        const draggedOverKey = draggedOverElement.getAttribute('data-drag-and-drop-key');
 
         const draggedIndex = prevDraggables.findIndex(d => d.key === draggedKey);
         const draggedOverIndex = prevDraggables.findIndex(d => d.key === draggedOverKey);
