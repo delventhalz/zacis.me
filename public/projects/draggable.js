@@ -2,7 +2,7 @@ import { h, Fragment } from 'preact';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 
 // Percent of an element must be passed before position swap
-const SWAP_THRESHOLD = 0.4;
+const SWAP_THRESHOLD = 0.3;
 
 const DEFAULT_DRAG_INFO = {
   dragged: null,
