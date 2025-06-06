@@ -1,8 +1,11 @@
 import { h } from 'preact';
 
-export function Project({ id, title, ...props }) {
+export function Project({ id, image, title, ...props }) {
   return h('div', { id, class: 'project', ...props },
-    h('h3', null, title),
-    h('div', null, 'Some text')
+    h('img', {
+      src: `images/${image}`,
+      alt: title,
+      title
+    }),
   );
 }

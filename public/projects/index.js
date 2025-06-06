@@ -12,7 +12,7 @@ function Projects() {
     h(DragAndDrop, {
       class: 'projects',
       draggableComponent: Project,
-      propsForDraggables: data.map(({ id, title }) => ({ key: id, id, title }))
+      propsForDraggables: data.map(({ id, image, title }) => ({ key: id, id, image, title }))
     })
   ];
 }

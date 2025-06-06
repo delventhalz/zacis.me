@@ -3,10 +3,8 @@
   --horizontal-padding: 1.5rem;
   --max-gallery-width: 600px;
   --project-margin: 2px;
-  --project-padding: 0.25rem;
-  --total-project-gaps: calc(8 * var(--project-margin) + 6 * var(--project-padding));
-  --max-project-size: calc((var(--max-gallery-width) - var(--total-project-gaps)) / 3);
-  --project-size: calc((100vw - (2 * var(--horizontal-padding)) - var(--total-project-gaps)) / 3);
+  --max-project-size: calc((var(--max-gallery-width) - (8 * var(--project-margin))) / 3);
+  --project-size: calc((100vw - (2 * var(--horizontal-padding)) - (8 * var(--project-margin))) / 3);
 }
 
 body {
@@ -102,6 +100,12 @@ section#project-gallery {
   max-height: var(--max-project-size);
   overflow: hidden;
   background-color: #ddd;
-  padding: var(--project-padding);
   margin: var(--project-margin);
+}
+
+.project img {
+  width: var(--project-size);
+  height: var(--project-size);
+  max-width: var(--max-project-size);
+  max-height: var(--max-project-size);
 }

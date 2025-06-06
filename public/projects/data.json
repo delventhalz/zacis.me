@@ -6,6 +6,7 @@
     "startDate": "2021-02-01",
     "summary": "A narrative board game with magical app interactions, independently published through Kickstarter",
     "title": "Taelmoor",
+    "image": "taelmoor.webp",
     "url": "https://taelmoor.com"
   },
   {
@@ -20,6 +21,7 @@
     "startDate": "2021-10-01",
     "summary": "A web app providing the world's shrimp farmers with unprecedented real-time visibility into their operations",
     "title": "iQuatic",
+    "image": "iquatic.webp",
     "url": "https://www.cargill.com/animal-nutrition/species/aquaculture/products/iquatic"
   },
   {
@@ -29,6 +31,7 @@
     "startDate": "2019-01-20",
     "summary": "An evolving genetics simulation, written entirely in vanilla JS, full of living, feeding, mutating \"meebas\"",
     "title": "Meeba Farm",
+    "image": "meeba.webp",
     "url": "https://meeba-farm.github.io/"
   },
   {
@@ -47,6 +50,7 @@
     "startDate": "2016-06-01",
     "summary": "An enterprise blockchain platform that enforces trust by cryptographically verifying highly distributed data",
     "title": "Hyperledger Sawtooth",
+    "image": "sawtooth.webp",
     "url": "https://github.com/hyperledger/sawtooth-core"
   },
   {
@@ -56,6 +60,7 @@
     "startDate": "1997-06-01",
     "summary": "A long-running anime fan page and embarrassing archive of edgy teen years",
     "title": "AniMono",
+    "image": "animono.webp",
     "url": "https://web.archive.org/web/20041215215229/animono.org"
   }
 ]
