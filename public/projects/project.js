@@ -7,5 +7,6 @@ export function Project({ id, image, title, ...props }) {
       alt: title,
       title
     }),
+    h('div', { class: 'project-label' }, title)
   );
 }

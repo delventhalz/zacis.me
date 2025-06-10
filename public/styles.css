@@ -93,6 +93,7 @@ section#project-gallery {
 }
 
 .project {
+  position: relative;
   display: inline-block;
   width: var(--project-size);
   height: var(--project-size);
@@ -108,4 +109,14 @@ section#project-gallery {
   height: var(--project-size);
   max-width: var(--max-project-size);
   max-height: var(--max-project-size);
+}
+
+.project .project-label {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  padding: 0.2rem 0.6rem;
+  color: white;
+  background: rgba(28, 28, 28, 0.6);
 }
