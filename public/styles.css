@@ -2,9 +2,10 @@
   --max-width: 800px;
   --horizontal-padding: 1.5rem;
   --max-gallery-width: 600px;
-  --project-margin: 2px;
-  --max-project-size: calc((var(--max-gallery-width) - (8 * var(--project-margin))) / 3);
-  --project-size: calc((100vw - (2 * var(--horizontal-padding)) - (8 * var(--project-margin))) / 3);
+  --border-gap: 2px;
+  --max-project-size: calc((var(--max-gallery-width) - (8 * var(--border-gap))) / 3);
+  --project-size: calc((100vw - (2 * var(--horizontal-padding)) - (8 * var(--border-gap))) / 3);
+  --overlay-max-size: 300px;
 }
 
 body {
@@ -102,7 +103,7 @@ section#project-gallery {
   flex-wrap: wrap;
   justify-content: flex-start;
   background-color: #f9f9f9;
-  padding: var(--project-margin);
+  padding: var(--border-gap);
 }
 
 .project {
@@ -114,7 +115,7 @@ section#project-gallery {
   max-height: var(--max-project-size);
   overflow: hidden;
   background-color: #ddd;
-  margin: var(--project-margin);
+  margin: var(--border-gap);
 }
 
 .project img {
@@ -126,10 +127,89 @@ section#project-gallery {
 
 .project .project-label {
   position: absolute;
-  z-index: 100;
   top: 0;
   left: 0;
   padding: 0.2rem 0.6rem;
   color: white;
   background: rgba(28, 28, 28, 0.6);
+}
+
+.project.expanded {
+  opacity: 0;
+}
+
+.overlay-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(28, 28, 28, 0.6);
+}
+
+.overlay {
+  position: fixed;
+  width: var(--width);
+  height: var(--height);
+  left: calc((100vw - var(--width)) / 2);
+  top: calc((100vh - var(--height)) / 2);
+  padding: var(--border-gap);
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+}
+
+.overlay img {
+  width: var(--overlay-size);
+  height: var(--overlay-size);
+}
+
+.overlay .content {
+  width: var(--overlay-size);
+  height: var(--overlay-size);
+}
+
+.overlay .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.2rem 0.6rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media screen and (orientation:portrait) {
+  .overlay {
+    flex-direction: column;
+    --overlay-size: var(--overlay-max-size);
+    --width: var(--overlay-size);
+    --height: calc((2 * var(--overlay-size)) + var(--horizontal-padding));
+  }
+
+  @media (max-width: 304px) {
+    .overlay {
+      --overlay-size: 100vw;
+    }
+  }
+
+  .overlay .close {
+    color: white;
+    background: rgba(28, 28, 28, 0.6);
+  }
+}
+
+@media screen and (orientation:landscape) {
+  .overlay {
+    flex-direction: row;
+    --overlay-size: var(--overlay-max-size);
+    --width: calc((2 * var(--overlay-size)) + var(--horizontal-padding));
+    --height: var(--overlay-size);
+  }
+
+  @media (max-width: 606px) {
+    .overlay {
+      --overlay-size: calc((100vw - var(--horizontal-padding)) / 2);
+    }
+  }
 }
