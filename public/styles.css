@@ -177,6 +177,8 @@ section#project-gallery {
   padding: 0.2rem 0.6rem;
   text-decoration: underline;
   cursor: pointer;
+  background: none;
+  border: none;
 }
 
 @media screen and (orientation:portrait) {

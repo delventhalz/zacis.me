@@ -124,7 +124,12 @@ export function Overlay({ data, start, onDismiss }) {
         h('h2', null, data.title),
         h('p', null, data.summary)
       ),
-      h('span', { class: 'close', onClick: handleDismiss },
+      h('button',
+        {
+          class: 'close',
+          onClick: handleDismiss,
+          ariaLabel: 'Close'
+        },
         '[X]'
       )
     )
