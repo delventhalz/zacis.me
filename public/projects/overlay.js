@@ -1,5 +1,6 @@
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
+import { AnchorChain } from './anchor-chain.js';
 
 const ANIM_DURATION = 400;
 
@@ -122,7 +123,13 @@ export function Overlay({ data, start, onDismiss }) {
       }),
       h('div', { class: 'content' },
         h('h2', null, data.title),
-        h('p', null, data.summary)
+        data.clients.length > 0 && (
+          h('p', { class: 'for-line' },
+            'for ',
+            h(AnchorChain, { data: data.clients })
+          )
+        ),
+        h('p', { class: 'summary' }, data.summary)
       ),
       h('button',
         {

@@ -168,6 +168,20 @@ section#project-gallery {
 .overlay .content {
   width: var(--overlay-size);
   height: var(--overlay-size);
+  padding: 0.75rem;
+}
+
+.overlay h2 {
+  margin: 0;
+}
+
+.overlay .for-line {
+  font-style: italic;
+  margin: 0.75rem 0 0 0;
+}
+
+.overlay .summary {
+  margin: 1.5rem 0 0 0;
 }
 
 .overlay .close {
