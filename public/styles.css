@@ -180,18 +180,20 @@ section#project-gallery {
 }
 
 .overlay .content {
-  width: var(--overlay-size);
-  height: var(--overlay-size);
-  padding: 0.75rem;
+  --overlay-content-padding: 0.75em;
+  --overlay-content-size: calc(var(--overlay-size) - (2 * var(--overlay-content-padding)));
+  padding: var(--overlay-content-padding);
+  width: var(--overlay-content-size);
+  height: var(--overlay-content-size);
 }
 
 .overlay h2 {
   margin: 0;
-  width: var(--overlay-size);
+  width: var(--overlay-content-size);
 }
 
 .overlay p {
-  width: var(--overlay-size);
+  width: var(--overlay-content-size);
 }
 
 .overlay .url-line {
