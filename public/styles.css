@@ -173,6 +173,11 @@ section#project-gallery {
 
 .overlay h2 {
   margin: 0;
+  width: var(--overlay-size);
+}
+
+.overlay p {
+  width: var(--overlay-size);
 }
 
 .overlay .for-line {
