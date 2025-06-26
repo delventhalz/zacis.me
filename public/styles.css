@@ -180,6 +180,7 @@ section#project-gallery {
 }
 
 .overlay .content {
+  position: relative;
   --overlay-content-padding: 0.75em;
   --overlay-content-size: calc(var(--overlay-size) - (2 * var(--overlay-content-padding)));
   padding: var(--overlay-content-padding);
@@ -220,9 +221,11 @@ section#project-gallery {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0.2rem 0.6rem;
+  padding: 0.3rem 0.45rem 0.6rem 0.6rem;
   text-decoration: underline;
+  font-size: 1.1rem;
   cursor: pointer;
+  color: black;
   background: none;
   border: none;
 }
@@ -232,7 +235,7 @@ section#project-gallery {
     flex-direction: column;
     --overlay-size: var(--overlay-max-size);
     --width: var(--overlay-size);
-    --height: calc((2 * var(--overlay-size)) + var(--horizontal-padding));
+    --height: calc((2 * var(--overlay-size)) + var(--border-gap));
   }
 
   @media (max-width: 304px) {
@@ -240,24 +243,19 @@ section#project-gallery {
       --overlay-size: 100vw;
     }
   }
-
-  .overlay .close {
-    color: white;
-    background: rgba(28, 28, 28, 0.6);
-  }
 }
 
 @media screen and (orientation:landscape) {
   .overlay {
     flex-direction: row;
     --overlay-size: var(--overlay-max-size);
-    --width: calc((2 * var(--overlay-size)) + var(--horizontal-padding));
+    --width: calc((2 * var(--overlay-size)) + var(--border-gap));
     --height: var(--overlay-size);
   }
 
   @media (max-width: 606px) {
     .overlay {
-      --overlay-size: calc((100vw - var(--horizontal-padding)) / 2);
+      --overlay-size: calc((100vw - var(--border-gap)) / 2);
     }
   }
 }

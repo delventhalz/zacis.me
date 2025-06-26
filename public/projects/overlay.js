@@ -142,17 +142,17 @@ export function Overlay({ data, start, onDismiss }) {
             h(AnchorChain, { data: data.clients })
           )
         ),
-        h('p', { class: 'summary' }, data.summary)
-      ),
+        h('p', { class: 'summary' }, data.summary),
 
-      h('button',
-        {
-          class: 'close',
-          ref: closeRef,
-          onClick: handleDismiss,
-          ariaLabel: 'Close'
-        },
-        '[X]'
+        h('button',
+          {
+            class: 'close',
+            ref: closeRef,
+            onClick: handleDismiss,
+            ariaLabel: 'Close'
+          },
+          '[X]'
+        )
       )
     )
   ];
