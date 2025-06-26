@@ -66,7 +66,7 @@
     "summary": "An evolving genetics simulation, written entirely in vanilla JS, full of living, feeding, mutating \"meebas\"",
     "title": "Meeba Farm",
     "image": "meeba.webp",
-    "url": "https://meeba-farm.github.io/"
+    "url": "https://meeba-farm.github.io"
   },
   {
     "id": "sawtooth",

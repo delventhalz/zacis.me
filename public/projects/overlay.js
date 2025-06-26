@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
-import { AnchorChain } from './anchor-chain.js';
+import { Anchor, AnchorChain } from './anchors.js';
 
 const ANIM_DURATION = 400;
 
@@ -113,19 +113,29 @@ export function Overlay({ data, start, onDismiss }) {
       style: { opacity: backgroundRef.current ? 1 : 0 }, // Prevent flicker
       onClick: handleDismiss
     }),
+
     h('div',
       {
         class: 'overlay',
         ref: overlayRef,
         style: { opacity: overlayRef.current ? 1 : 0 } // Prevent flicker
       },
+
       h('img', {
         src: `images/${data.image}`,
         alt: data.title,
         ref: imageRef
       }),
+
       h('div', { class: 'content' },
         h('h2', null, data.title),
+
+        data.url && (
+          h('p', { class: 'url-line' },
+            h(Anchor, data)
+          )
+        ),
+
         data.clients.length > 0 && (
           h('p', { class: 'for-line' },
             'for ',
@@ -134,6 +144,7 @@ export function Overlay({ data, start, onDismiss }) {
         ),
         h('p', { class: 'summary' }, data.summary)
       ),
+
       h('button',
         {
           class: 'close',

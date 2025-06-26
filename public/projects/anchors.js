@@ -1,11 +1,13 @@
 import { h } from 'preact';
 
-function Anchor({ name, url }) {
+export function Anchor({ name, url }) {
   if (!url) {
     return name;
   }
 
-  return h('a', { href: url, target: '_blank' }, name);
+  const text = name || url.replace(/^https?:\/\/(?:www\.)?/, '');
+
+  return h('a', { href: url, target: '_blank' }, text);
 }
 
 export function AnchorChain({ data }) {

@@ -180,6 +180,13 @@ section#project-gallery {
   width: var(--overlay-size);
 }
 
+.overlay .url-line {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
 .overlay .for-line {
   font-style: italic;
   margin: 0.75rem 0 0 0;
