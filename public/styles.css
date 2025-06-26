@@ -1,11 +1,25 @@
 :root {
   --max-width: 800px;
-  --horizontal-padding: 1.5rem;
   --max-gallery-width: 600px;
-  --border-gap: 2px;
-  --max-project-size: calc((var(--max-gallery-width) - (8 * var(--border-gap))) / 3);
-  --project-size: calc((100vw - (2 * var(--horizontal-padding)) - (8 * var(--border-gap))) / 3);
   --overlay-max-size: 300px;
+  --horizontal-padding: 1.5rem;
+  --border-gap: 2px;
+  --projects-across: 3;
+  --total-project-gap: calc(2 * (var(--projects-across) + 1) * var(--border-gap));
+  --max-project-size: calc(
+    (var(--max-gallery-width) - var(--total-project-gap))
+    / var(--projects-across)
+  );
+  --project-size: calc(
+    (100vw - (2 * var(--horizontal-padding)) - var(--total-project-gap))
+    / var(--projects-across)
+  );
+}
+
+@media (max-width: 448px) {
+  :root {
+    --projects-across: 2;
+  }
 }
 
 body {
