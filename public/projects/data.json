@@ -19,6 +19,16 @@
     "url": ""
   },
   {
+    "id": "zacisme",
+    "clients": [],
+    "endDate": "2025-07-01",
+    "startDate": "2025-05-10",
+    "summary": "Just a humble place to share contact info and some past projects",
+    "title": "zacis.me",
+    "image": "zacisme.webp",
+    "url": "https://github.com/delventhalz/zacis.me"
+  },
+  {
     "id": "taelmoor",
     "clients": [],
     "endDate": "2024-10-01",
