@@ -1,22 +1,26 @@
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 import { Anchor, AnchorChain } from './anchors.js';
+import { Mirror } from './funhouse.js';
 
 const ANIM_DURATION = 400;
 
-const animateFadeIn = (element) => {
-  element.animate([{ opacity: 0 }, {}], {
+const animate = (element, frames, options = {}) => {
+  // Handle refs to preact components
+  const ref = element.animate ? element : element.base;
+  ref.animate(frames, {
     duration: ANIM_DURATION,
-    easing: 'ease-in-out'
+    easing: 'ease-in-out',
+    ...options
   });
 };
 
+const animateFadeIn = (element) => {
+  animate(element, [{ opacity: 0 }, {}]);
+};
+
 const animateFadeOut = (element) => {
-  element.animate([{}, { opacity: 0 }], {
-    duration: ANIM_DURATION,
-    easing: 'ease-in-out',
-    fill: 'forwards'
-  });
+  animate(element, [{}, { opacity: 0 }], { fill: 'forwards' });
 };
 
 const animateMoveIn = (element, start) => {
@@ -24,16 +28,13 @@ const animateMoveIn = (element, start) => {
   const movedX = start.x - end.x;
   const movedY = start.y - end.y;
 
-  element.animate(
-    [
-      {
-        transformOrigin: 'top left',
-        transform: `translate(${movedX}px, ${movedY}px)`,
-      },
-      {},
-    ],
-    { duration: ANIM_DURATION, easing: 'ease-in-out' }
-  );
+  animate(element, [
+    {
+      transformOrigin: 'top left',
+      transform: `translate(${movedX}px, ${movedY}px)`,
+    },
+    {},
+  ]);
 };
 
 const animateMoveOut = (element, end) => {
@@ -41,7 +42,8 @@ const animateMoveOut = (element, end) => {
   const movedX = end.x - start.x;
   const movedY = end.y - start.y;
 
-  element.animate(
+  animate(
+    element,
     [
       {},
       {
@@ -49,25 +51,23 @@ const animateMoveOut = (element, end) => {
         transform: `translate(${movedX}px, ${movedY}px)`,
       },
     ],
-    { duration: ANIM_DURATION, easing: 'ease-in-out', fill: 'forwards' }
+    { fill: 'forwards' }
   );
 };
 
 const animateResizeIn = (element, start) => {
-  element.animate(
-    [
-      {
-        width: `${start.width}px`,
-        height: `${start.height}px`
-      },
-      {}
-    ],
-    { duration: ANIM_DURATION, easing: 'ease-in-out' }
-  );
+  animate(element, [
+    {
+      width: `${start.width}px`,
+      height: `${start.height}px`
+    },
+    {}
+  ]);
 };
 
 const animateResizeOut = (element, end) => {
-  element.animate(
+  animate(
+    element,
     [
       {},
       {
@@ -75,7 +75,7 @@ const animateResizeOut = (element, end) => {
         height: `${end.height}px`
       }
     ],
-    { duration: ANIM_DURATION, easing: 'ease-in-out', fill: 'forwards' }
+    { fill: 'forwards' }
   );
 };
 
@@ -121,11 +121,24 @@ export function Overlay({ data, start, onDismiss }) {
         style: { opacity: overlayRef.current ? 1 : 0 } // Prevent flicker
       },
 
-      h('img', {
-        src: `images/${data.image}`,
-        alt: data.title,
-        ref: imageRef
-      }),
+      h('div', { class: 'overlay-image-wrapper' },
+        data.id === 'zacisme' ? (
+          h(Mirror, {
+            class: 'overlay-image',
+            source: 'main',
+            defaultImage: `images/${data.image}`,
+            updateCount: 18,
+            ref: imageRef
+          })
+        ) : (
+          h('img', {
+            class: 'overlay-image',
+            src: `images/${data.image}`,
+            alt: data.title,
+            ref: imageRef
+          })
+        )
+      ),
 
       h('div', { class: 'content' },
         h('h2', null, data.title),

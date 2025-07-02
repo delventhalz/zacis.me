@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
+const DEFAULT_UPDATE_COUNT = 4;
 const REPLACE_MEMOS = new Set();
 const UPDATE_QUEUES = new Map();
 
@@ -55,7 +56,11 @@ const burstUpdateCanvas = async (source, dest, count) => {
 
 // My v1 approach was to use the DOM to replace an image element with the canvas.
 // Not totally prepared to give up on this approach yet.
-export function replaceWithMirror(sourceQuery, destinationQuery) {
+export function replaceWithMirror(
+  sourceQuery,
+  destinationQuery,
+  updateCount = DEFAULT_UPDATE_COUNT
+) {
   // Ensure we never have multiple canvas replacements for the same destination
   if (REPLACE_MEMOS.has(destinationQuery)) {
     return;
@@ -79,11 +84,11 @@ export function replaceWithMirror(sourceQuery, destinationQuery) {
   destination.replaceWith(canvas);
 
   // Initial visual, typically takes ~100ms to build
-  burstUpdateCanvas(source, canvas, 5);
+  burstUpdateCanvas(source, canvas, updateCount);
 
   // Update any time source changes
   const observer = new MutationObserver(() => {
-    burstUpdateCanvas(source, canvas, 5);
+    burstUpdateCanvas(source, canvas, updateCount);
   });
 
   observer.observe(source, { attributes: true, childList: true, subtree: true });
@@ -96,7 +101,12 @@ export function replaceWithMirror(sourceQuery, destinationQuery) {
 }
 
 // Same functionality as replaceWithMirror but in a Preact component
-export function Mirror({ source, defaultImage, ...canvasProps }) {
+export function Mirror({
+  source,
+  defaultImage,
+  updateCount = DEFAULT_UPDATE_COUNT,
+  ...canvasProps
+}) {
   const canvasRef = useRef(null);
   const [_, triggerRerender] = useState(null);
 
@@ -122,12 +132,12 @@ export function Mirror({ source, defaultImage, ...canvasProps }) {
     }
 
     // Initial visual typically takes ~100ms to build
-    burstUpdateCanvas(sourceElem, canvasRef.current, 5);
+    burstUpdateCanvas(sourceElem, canvasRef.current, updateCount);
   }, []);
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
-      burstUpdateCanvas(sourceElem, canvasRef.current, 5);
+      burstUpdateCanvas(sourceElem, canvasRef.current, updateCount);
     });
 
     observer.observe(sourceElem, {

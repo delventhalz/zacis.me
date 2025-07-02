@@ -156,10 +156,10 @@ section#project-gallery {
 
 .overlay-background {
   position: fixed;
-  top: 0;
+  top: -100vmax;
   left: 0;
   width: 100vw;
-  height: 100vmax;
+  height: 300vmax;
   background: rgba(28, 28, 28, 0.6);
 }
 
@@ -181,6 +181,12 @@ section#project-gallery {
   height: auto;
   object-fit: cover;
   object-position: 50% top;
+}
+
+.overlay-image-wrapper {
+  width: var(--overlay-size);
+  height: var(--overlay-size);
+  overflow: hidden;
 }
 
 .overlay .content {
