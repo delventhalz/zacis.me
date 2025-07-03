@@ -88,7 +88,7 @@
     ],
     "endDate": "2019-10-24",
     "startDate": "2019-05-02",
-    "summary": "A consistent controller for purchased IoT devices, available on Android, iOS, and the Best Buy website",
+    "summary": "One consistent controller for purchased IoT devices, available on both the Best Buy mobile apps and through their website",
     "title": "IoT Controller",
     "image": "bestbuy.webp",
     "url": ""
