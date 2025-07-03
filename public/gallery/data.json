@@ -54,6 +54,16 @@
     "url": "https://www.cargill.com/animal-nutrition/species/aquaculture/products/iquatic"
   },
   {
+    "id": "hash",
+    "clients": [],
+    "endDate": "2022-04-05",
+    "startDate": "2022-01-13",
+    "summary": "A lightweight wrapper around the Web Crypto API, streamlining hash generation in browser",
+    "title": "browserHash",
+    "image": "hash.webp",
+    "url": "https://www.npmjs.com/package/browser-hash"
+  },
+  {
     "id": "canwe",
     "clients": [
       {
@@ -62,11 +72,26 @@
       }
     ],
     "endDate": "2020-11-20",
-    "startDate": "2019-04-22",
+    "startDate": "2019-11-10",
     "summary": "A mobile app building more meaningful relationships by allowing users to judiciously compare answers to important questions",
     "title": "CanWe",
     "image": "canwe.webp",
     "url": "https://canwe-reveal-our-potential.en.softonic.com/android"
+  },
+  {
+    "id": "bestbuy",
+    "clients": [
+      {
+        "name": "Best Buy",
+        "url": "https://www.bestbuy.com"
+      }
+    ],
+    "endDate": "2019-10-24",
+    "startDate": "2019-05-02",
+    "summary": "A consistent controller for purchased IoT devices, available on Android, iOS, and the Best Buy website",
+    "title": "IoT Controller",
+    "image": "bestbuy.webp",
+    "url": ""
   },
   {
     "id": "meeba",
@@ -77,6 +102,63 @@
     "title": "Meeba Farm",
     "image": "meeba.webp",
     "url": "https://meeba-farm.github.io"
+  },
+  {
+    "id": "cryptomoji",
+    "clients": [
+      {
+        "name": "Hack Reactor",
+        "url": "https://www.hackreactor.com"
+      },
+      {
+        "name": "The Linux Foundation",
+        "url": "https://www.linuxfoundation.org"
+      }
+    ],
+    "endDate": "2018-07-27",
+    "startDate": "2018-03-05",
+    "summary": "A sprint-style educational curriculum taking students through building their own blockchain game, a clone of Cryptokitties",
+    "title": "Cryptomoji",
+    "image": "cryptomoji.webp",
+    "url": "https://github.com/hyperledger/education-cryptomoji"
+  },
+  {
+    "id": "thrivent",
+    "clients": [
+      {
+        "name": "Thrivent",
+        "url": "https://www.thrivent.com"
+      }
+    ],
+    "endDate": "2019-05-01",
+    "startDate": "2018-08-02",
+    "summary": "A part of Thrivent's \"Brightpeak\" skunkworks initiative, the digital purchase portal was an innovative full-service insurance point-of-sale with no agent",
+    "title": "Purchase Portal",
+    "image": "thrivent.webp",
+    "url": ""
+  },
+  {
+    "id": "grid",
+    "clients": [
+      {
+        "name": "Cargill",
+        "url": "https://www.cargill.com"
+      },
+      {
+        "name": "Bitwise IO",
+        "url": "https://www.bitwise.io"
+      },
+      {
+        "name": "The Linux Foundation",
+        "url": "https://www.linuxfoundation.org"
+      }
+    ],
+    "endDate": "2018-08-01",
+    "startDate": "2017-02-01",
+    "summary": "A full stack supply-chain-on-the-blockchain solution, customizable to particular industries",
+    "title": "Hyperledger Grid",
+    "image": "grid.webp",
+    "url": "https://github.com/hyperledger/grid"
   },
   {
     "id": "sawtooth",
@@ -100,6 +182,16 @@
     "title": "Hyperledger Sawtooth",
     "image": "sawtooth.webp",
     "url": "https://github.com/hyperledger/sawtooth-core"
+  },
+  {
+    "id": "folio",
+    "clients": [],
+    "endDate": "2016-05-23",
+    "startDate": "2015-12-21",
+    "summary": "A dynamically styleable version of Shakespeare’s original 1623 manuscript for web and print, built with Bootstrap and a custom language parsing script",
+    "title": "The Open Folio",
+    "image": "folio.webp",
+    "url": "https://delventhalz.github.io/open-folio"
   },
   {
     "id": "animono",
