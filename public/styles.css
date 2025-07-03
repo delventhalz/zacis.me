@@ -128,7 +128,7 @@ section#project-gallery {
   max-width: var(--max-gallery-width);
 }
 
-.projects {
+.gallery {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

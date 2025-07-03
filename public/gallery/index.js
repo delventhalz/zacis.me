@@ -24,7 +24,7 @@ function Projects() {
     h('h2', null, 'Projects'),
 
     h(DragAndDrop, {
-      class: 'projects',
+      class: 'gallery',
       draggableComponent: Project,
       propsForDraggables: data.map(({ id, image, title }) => ({
         key: id,
