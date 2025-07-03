@@ -31,6 +31,7 @@ body {
 }
 
 main {
+  position: relative;
   max-width: var(--max-width);
   padding: 1rem var(--horizontal-padding);
   margin: 0 auto;
@@ -39,10 +40,6 @@ main {
 h1 {
   font-weight: 700;
   text-align: center;
-}
-
-a {
-  text-decoration: none;
 }
 
 a, a:visited {
@@ -61,6 +58,10 @@ ul.horizontal-list {
   list-style: none;
   text-align: center;
   padding: 0;
+}
+
+ul.horizontal-list a {
+  text-decoration: none;
 }
 
 ul.horizontal-list li {
@@ -103,6 +104,22 @@ ul.horizontal-list li + li::before {
     ul.horizontal-list li:first-child + li::before {
         content: " — ";
     }
+  }
+}
+
+.corner-link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: var(--horizontal-padding);
+}
+
+@media (max-width: 420px) {
+  .corner-link {
+    position: relative;
+    text-align: center;
+    margin-top: -0.6rem;
+    padding: 0;
   }
 }
 
@@ -214,13 +231,13 @@ section#project-gallery {
   margin: 0;
 }
 
+.url-line a {
+  text-decoration: none;
+}
+
 .overlay .for-line {
   font-style: italic;
   margin: 0.75rem 0 0 0;
-}
-
-.overlay .for-line a {
-  text-decoration: underline;
 }
 
 .overlay .summary {
