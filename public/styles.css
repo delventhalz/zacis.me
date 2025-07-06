@@ -195,6 +195,11 @@ section#project-gallery {
 
 .overlay-image {
   width: var(--overlay-size);
+  height: var(--overlay-size);
+}
+
+canvas.overlay-image {
+  width: var(--overlay-size);
   height: auto;
   object-fit: cover;
   object-position: 50% top;
