@@ -140,7 +140,7 @@ export function Overlay({ data, start, onDismiss }) {
 
         h('button',
           {
-            class: 'close',
+            class: 'close text-button',
             ref: closeRef,
             onClick: handleDismiss,
             ariaLabel: 'Close'

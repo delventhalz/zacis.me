@@ -123,6 +123,13 @@ ul.horizontal-list li + li::before {
   }
 }
 
+.text-button {
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
 section#project-gallery {
   margin: 2rem auto;
   max-width: var(--max-gallery-width);
@@ -257,12 +264,7 @@ canvas.overlay-image {
   top: 0;
   right: 0;
   padding: 0.3rem 0.45rem 0.6rem 0.6rem;
-  text-decoration: underline;
   font-size: 1.1rem;
-  cursor: pointer;
-  color: black;
-  background: none;
-  border: none;
 }
 
 @media screen and (orientation:portrait) {
