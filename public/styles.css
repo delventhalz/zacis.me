@@ -189,7 +189,7 @@ section#project-gallery {
   padding: var(--border-gap);
   overflow: hidden;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   background-color: #f9f9f9;
 }
 
@@ -201,9 +201,12 @@ section#project-gallery {
 }
 
 .overlay-image-wrapper {
-  width: var(--overlay-size);
-  height: var(--overlay-size);
+  max-width: var(--overlay-size);
+  max-height: var(--overlay-size);
   overflow: hidden;
+  position: absolute;
+  top: var(--border-gap);
+  left: var(--border-gap);
 }
 
 .overlay .content {

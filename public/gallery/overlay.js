@@ -121,25 +121,6 @@ export function Overlay({ data, start, onDismiss }) {
         style: { opacity: overlayRef.current ? 1 : 0 } // Prevent flicker
       },
 
-      h('div', { class: 'overlay-image-wrapper' },
-        data.id === 'zacisme' ? (
-          h(Mirror, {
-            class: 'overlay-image',
-            source: 'main',
-            defaultImage: `images/${data.image}`,
-            updateCount: 18,
-            ref: imageRef
-          })
-        ) : (
-          h('img', {
-            class: 'overlay-image',
-            src: `images/${data.image}`,
-            alt: data.title,
-            ref: imageRef
-          })
-        )
-      ),
-
       h('div', { class: 'content' },
         h('h2', null, data.title),
 
@@ -165,6 +146,25 @@ export function Overlay({ data, start, onDismiss }) {
             ariaLabel: 'Close'
           },
           '[X]'
+        )
+      ),
+
+      h('div', { class: 'overlay-image-wrapper' },
+        data.id === 'zacisme' ? (
+          h(Mirror, {
+            class: 'overlay-image',
+            source: 'main',
+            defaultImage: `images/${data.image}`,
+            updateCount: 18,
+            ref: imageRef
+          })
+        ) : (
+          h('img', {
+            class: 'overlay-image',
+            src: `images/${data.image}`,
+            alt: data.title,
+            ref: imageRef
+          })
         )
       )
     )
