@@ -16,6 +16,7 @@ export function Project({ id, title, image, display: _, ...divProps }) {
     id === 'zacisme' ? (
       h(Mirror, {
         class: 'project-image',
+        alt: title,
         source: 'main',
         defaultImage: `images/${image}`,
       })
