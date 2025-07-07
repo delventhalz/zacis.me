@@ -55,6 +55,8 @@ h3 {
   border-bottom: 0.75px solid #777;
 }
 
+/* Buttons and Links */
+
 .text-button {
   background: none;
   border: none;
@@ -96,6 +98,8 @@ a.quiet:visited:disabled,
 .text-button.quiet:disabled {
   color: #ccc;
 }
+
+/* Contact Info */
 
 .horizontal-list {
   list-style: none;
@@ -166,6 +170,8 @@ a.quiet:visited:disabled,
   }
 }
 
+/* Gallery Controls */
+
 .gallery-section {
   margin: 2rem auto;
   max-width: var(--max-gallery-width);
@@ -189,6 +195,8 @@ a.quiet:visited:disabled,
 .control-panel button {
   margin: var(--border-gap);
 }
+
+/* Gallery Projects */
 
 .gallery {
   display: flex;
@@ -232,6 +240,8 @@ a.quiet:visited:disabled,
 .project.expanded {
   opacity: 0;
 }
+
+/* Gallery Overlay */
 
 .overlay-background {
   position: fixed;
