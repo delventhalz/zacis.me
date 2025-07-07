@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 
 const getPrng = (initialSeed) => {
   let seed = initialSeed;
@@ -27,9 +27,12 @@ const sortByTitle = (data) => {
   return data.toSorted((a, b) => a.title.localeCompare(b.title));
 };
 
-const shuffle = (array) => {
+const shuffle = (array, seed) => {
+  // Allow shuffle to be rerun with the same seed to get the same shuffle
+  const prng = getPrng(seed * 2147483646);
+
   return array
-    .map(item => [Math.random(), item])
+    .map(item => [prng(), item])
     .sort(([a], [b]) => a - b)
     .map(([_, item]) => item);
 };
@@ -81,6 +84,7 @@ export function Controls({ fullData, onClick }) {
   const [sort, setSort] = useState(SORT_KEYS[0]);
   const [filter, setFilter] = useState(FILTER_KEYS[0]);
   const [disabled, setDisabled] = useState(false);
+  const seedRef = useRef(0);
 
   const debounce = () => {
     setDisabled(true);
@@ -90,10 +94,14 @@ export function Controls({ fullData, onClick }) {
   };
 
   const getOnSortClick = (key) => () => {
+    if (key === 'Random') {
+      seedRef.current = Math.random();
+    }
+
     if (sort !== key || key === 'Random') {
       const sortFn = SORT_MAP[key]
       const filterFn = FILTER_MAP[filter];
-      onClick(sortFn(filterFn(fullData, filter)));
+      onClick(sortFn(filterFn(fullData, filter), seedRef.current));
       setSort(key);
       debounce();
     }
@@ -103,7 +111,7 @@ export function Controls({ fullData, onClick }) {
     if (filter !== key) {
       const sortFn = SORT_MAP[sort]
       const filterFn = FILTER_MAP[key];
-      onClick(sortFn(filterFn(fullData, key)));
+      onClick(sortFn(filterFn(fullData, key), seedRef.current));
       setFilter(key);
       debounce();
     }
