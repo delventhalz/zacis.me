@@ -136,38 +136,34 @@ export function Controls({ initialData, onClick }) {
   };
 
   return [
+    h('h3', null, 'Sort'),
     h('div', { class: 'control-panel' },
-      h('h3', null, 'Sort'),
-      h('div', { class: 'buttons' },
-        SORT_KEYS.map((key) => (
-          h('button',
-            {
-              key,
-              disabled,
-              class: `text-button ${sort === key ? 'active' : 'inactive'}`,
-              onClick: () => onSortClick(key)
-            },
-            key
-          )
-        ))
-      )
+      SORT_KEYS.map((key) => (
+        h('button',
+          {
+            key,
+            disabled,
+            class: `text-button ${sort === key ? '' : 'quiet'}`,
+            onClick: () => onSortClick(key)
+          },
+          key
+        )
+      ))
     ),
 
+    h('h3', null, 'Filter'),
     h('div', { class: 'control-panel' },
-      h('h3', null, 'Filter'),
-      h('div', { class: 'buttons' },
-        FILTER_KEYS.map((key) => (
-          h('button',
-            {
-              key,
-              disabled,
-              class: `text-button ${display === key ? 'active' : 'inactive'}`,
-              onClick: () => onFilterClick(key)
-            },
-            key
-          )
-        ))
-      )
+      FILTER_KEYS.map((key) => (
+        h('button',
+          {
+            key,
+            disabled,
+            class: `text-button ${display === key ? '' : 'quiet'}`,
+            onClick: () => onFilterClick(key)
+          },
+          key
+        )
+      ))
     )
   ];
 }
