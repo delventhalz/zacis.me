@@ -97,54 +97,54 @@ a.quiet:visited:disabled,
   color: #ccc;
 }
 
-ul.horizontal-list {
+.horizontal-list {
   list-style: none;
   text-align: center;
   padding: 0;
 }
 
-ul.horizontal-list a {
+.horizontal-list a {
   text-decoration: none;
 }
 
-ul.horizontal-list li {
+.horizontal-list li {
   display: inline-block;
 }
 
-ul.horizontal-list li + li::before {
+.horizontal-list li + li::before {
     content: " — ";
 }
 
 /* Hacky way to rearrange when list must line wrap */
 @media (max-width: calc(82ch + 3rem)) {
   @media (max-width: calc(30ch + 3rem)) {
-    ul.horizontal-list li {
+    .horizontal-list li {
       display: block;
     }
 
-    ul.horizontal-list li + li::before {
+    .horizontal-list li + li::before {
       content: "";
     }
   }
 
   @media (min-width: calc(30ch + 3rem)) {
-    ul.horizontal-list li {
+    .horizontal-list li {
       display: block;
     }
 
-    ul.horizontal-list li + li::before {
+    .horizontal-list li + li::before {
       content: "";
     }
 
-    ul.horizontal-list li:first-child {
+    .horizontal-list li:first-child {
       display: inline-block;
     }
 
-    ul.horizontal-list li:first-child + li {
+    .horizontal-list li:first-child + li {
       display: inline-block;
     }
 
-    ul.horizontal-list li:first-child + li::before {
+    .horizontal-list li:first-child + li::before {
         content: " — ";
     }
   }
