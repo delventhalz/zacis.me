@@ -24,10 +24,7 @@
 
 body {
   color: #000;
-  font-family: "Corbel", "Lato", sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  font-style: normal;
+  font: normal 400 16px "Corbel", "Lato", sans-serif;
   margin: 0;
 }
 
@@ -49,9 +46,8 @@ h2 {
 }
 
 h3 {
-  font-weight: 700;
+  font: 700 16px;
   margin: 0.5rem 0 0 0;
-  font-size: 16px;
   border-bottom: 0.75px solid #777;
 }
 
@@ -203,7 +199,7 @@ a.quiet:visited:disabled,
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  background-color: #f9f9f9;
+  background: #f9f9f9;
   padding: var(--border-gap);
 }
 
@@ -215,7 +211,7 @@ a.quiet:visited:disabled,
   max-width: var(--max-project-size);
   max-height: var(--max-project-size);
   overflow: hidden;
-  background-color: #f5f5f5;
+  background: #f5f5f5;
   margin: var(--border-gap);
 }
 
@@ -262,7 +258,7 @@ a.quiet:visited:disabled,
   overflow: hidden;
   display: flex;
   justify-content: flex-end;
-  background-color: #f9f9f9;
+  background: #f9f9f9;
 }
 
 .overlay-image {
