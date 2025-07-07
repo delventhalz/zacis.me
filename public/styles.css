@@ -1,15 +1,21 @@
 :root {
+  --projects-across: 3;
   --max-width: 800px;
   --max-gallery-width: 600px;
   --overlay-max-size: 300px;
   --horizontal-padding: 1.5rem;
   --border-gap: 2px;
-  --projects-across: 3;
-  --total-project-gap: calc(2 * (var(--projects-across) + 1) * var(--border-gap));
+
+  --total-project-gap: calc(
+    2 * (var(--projects-across) + 1)
+    * var(--border-gap)
+  );
+
   --max-project-size: calc(
     (var(--max-gallery-width) - var(--total-project-gap))
     / var(--projects-across)
   );
+
   --project-size: calc(
     (100vw - (2 * var(--horizontal-padding)) - var(--total-project-gap))
     / var(--projects-across)
@@ -29,10 +35,10 @@ body {
 }
 
 main {
-  position: relative;
+  margin: 0 auto;
   max-width: var(--max-width);
   padding: 1rem var(--horizontal-padding);
-  margin: 0 auto;
+  position: relative;
 }
 
 h1 {
@@ -46,9 +52,9 @@ h2 {
 }
 
 h3 {
+  border-bottom: 0.75px solid #777;
   font: 700 16px;
   margin: 0.5rem 0 0 0;
-  border-bottom: 0.75px solid #777;
 }
 
 /* Buttons and Links */
@@ -99,8 +105,8 @@ a.quiet:visited:disabled,
 
 .horizontal-list {
   list-style: none;
-  text-align: center;
   padding: 0;
+  text-align: center;
 }
 
 .horizontal-list a {
@@ -151,18 +157,18 @@ a.quiet:visited:disabled,
 }
 
 .corner-link {
-  position: absolute;
-  top: 0;
-  right: 0;
   padding: var(--horizontal-padding);
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 @media (max-width: 420px) {
   .corner-link {
-    position: relative;
-    text-align: center;
     margin-top: -0.6rem;
     padding: 0;
+    position: relative;
+    text-align: center;
   }
 }
 
@@ -176,8 +182,8 @@ a.quiet:visited:disabled,
 .control-panel {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
   margin: 0 0 0.5rem 0;
   padding: var(--border-gap) 2rem;
 }
@@ -195,42 +201,42 @@ a.quiet:visited:disabled,
 /* Gallery Projects */
 
 .gallery {
+  background: #f9f9f9;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  background: #f9f9f9;
   padding: var(--border-gap);
 }
 
 .project {
-  position: relative;
-  display: inline-block;
-  width: var(--project-size);
-  height: var(--project-size);
-  max-width: var(--max-project-size);
-  max-height: var(--max-project-size);
-  overflow: hidden;
   background: #f5f5f5;
+  display: inline-block;
+  height: var(--project-size);
   margin: var(--border-gap);
+  max-height: var(--max-project-size);
+  max-width: var(--max-project-size);
+  overflow: hidden;
+  position: relative;
+  width: var(--project-size);
 }
 
 .project-image {
-  width: var(--project-size);
   height: auto;
-  max-width: var(--max-project-size);
   max-height: var(--max-project-size);
+  max-width: var(--max-project-size);
   object-fit: cover;
   object-position: 50% top;
+  width: var(--project-size);
 }
 
 .project .project-label {
-  position: absolute;
-  top: 0;
+  background: rgba(28, 28, 28, 0.6);
+  color: white;
   left: 0;
   padding: 0.2rem 0.6rem;
-  color: white;
-  background: rgba(28, 28, 28, 0.6);
+  position: absolute;
+  top: 0;
 }
 
 .project.expanded {
@@ -240,55 +246,55 @@ a.quiet:visited:disabled,
 /* Gallery Overlay */
 
 .overlay-background {
+  background: rgba(28, 28, 28, 0.6);
+  height: 300vmax;
+  left: 0;
   position: fixed;
   top: -100vmax;
-  left: 0;
   width: 100vw;
-  height: 300vmax;
-  background: rgba(28, 28, 28, 0.6);
 }
 
 .overlay {
-  position: fixed;
-  width: var(--width);
-  height: var(--height);
-  left: calc((100vw - var(--width)) / 2);
-  top: calc((100vh - var(--height)) / 2);
-  padding: var(--border-gap);
-  overflow: hidden;
-  display: flex;
-  justify-content: flex-end;
   background: #f9f9f9;
+  display: flex;
+  height: var(--height);
+  justify-content: flex-end;
+  left: calc((100vw - var(--width)) / 2);
+  overflow: hidden;
+  padding: var(--border-gap);
+  position: fixed;
+  top: calc((100vh - var(--height)) / 2);
+  width: var(--width);
 }
 
 .overlay-image {
-  width: var(--overlay-size);
   height: var(--overlay-size);
+  width: var(--overlay-size);
 }
 
 canvas.overlay-image {
-  width: var(--overlay-size);
   height: auto;
   object-fit: cover;
   object-position: 50% top;
+  width: var(--overlay-size);
 }
 
 .overlay-image-wrapper {
-  max-width: var(--overlay-size);
+  left: var(--border-gap);
   max-height: var(--overlay-size);
+  max-width: var(--overlay-size);
   overflow: hidden;
   position: absolute;
   top: var(--border-gap);
-  left: var(--border-gap);
 }
 
 .overlay .content {
-  position: relative;
   --overlay-content-padding: 0.75em;
   --overlay-content-size: calc(var(--overlay-size) - (2 * var(--overlay-content-padding)));
-  padding: var(--overlay-content-padding);
-  width: var(--overlay-content-size);
   height: var(--overlay-content-size);
+  padding: var(--overlay-content-padding);
+  position: relative;
+  width: var(--overlay-content-size);
 }
 
 .overlay h2 {
@@ -301,10 +307,10 @@ canvas.overlay-image {
 }
 
 .overlay .url-line {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .url-line a {
@@ -326,19 +332,19 @@ canvas.overlay-image {
 }
 
 .overlay .close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.3rem 0.45rem 0.6rem 0.6rem;
   font-size: 1.1rem;
+  padding: 0.3rem 0.45rem 0.6rem 0.6rem;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 @media screen and (orientation:portrait) {
   .overlay {
-    flex-direction: column;
+    --height: calc((2 * var(--overlay-size)) + var(--border-gap));
     --overlay-size: var(--overlay-max-size);
     --width: var(--overlay-size);
-    --height: calc((2 * var(--overlay-size)) + var(--border-gap));
+    flex-direction: column;
   }
 
   @media (max-width: 304px) {
@@ -350,10 +356,10 @@ canvas.overlay-image {
 
 @media screen and (orientation:landscape) {
   .overlay {
-    flex-direction: row;
+    --height: var(--overlay-size);
     --overlay-size: var(--overlay-max-size);
     --width: calc((2 * var(--overlay-size)) + var(--border-gap));
-    --height: var(--overlay-size);
+    flex-direction: row;
   }
 
   @media (max-width: 606px) {
