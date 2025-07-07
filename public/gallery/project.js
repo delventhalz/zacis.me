@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { useCallback } from 'preact/hooks';
 import { Mirror } from './funhouse.js';
 
-export function Project({ id, title, image, ...divProps }) {
+export function Project({ id, title, image, display: _, ...divProps }) {
   const onClick = useCallback((event) => {
     // Ensure currentTarget is populated
     event.currentTarget ??= event.target.closest('.project');
