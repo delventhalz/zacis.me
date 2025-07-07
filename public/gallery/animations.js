@@ -76,14 +76,16 @@ export const animate = (elemOrRef, options = {}) => {
 export const fadeIn = (elemOrRef, options = {}) => {
   animate(elemOrRef, {
     ...options,
-    start: { opacity: 0 }
+    start: { opacity: 0 },
+    end: { opacity: 1 },
   });
 };
 
 export const fadeOut = (elemOrRef, options = {}) => {
   animate(elemOrRef, {
     ...options,
-    end: { opacity: 0 }
+    start: { opacity: 1 },
+    end: { opacity: 0 },
   });
 };
 

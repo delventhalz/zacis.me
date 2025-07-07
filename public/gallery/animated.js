@@ -1,5 +1,8 @@
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
+import { fadeIn, fadeOut } from './animations.js';
+
+const FADE_DURATION = 600;
 
 const matchChildElements = (parent, flatChildren) => {
   const childElements = [...parent.children];
@@ -77,7 +80,7 @@ const animateReorder = (element, end) => {
   );
 };
 
-export function Reorderable({ children }) {
+export function Animated({ children }) {
   const parentRef = useRef(null);
   const locationCacheRef = useRef([]);
   const [renderedChildren, setRenderedChildren] = useState(children);
@@ -98,6 +101,14 @@ export function Reorderable({ children }) {
             animateReorder(childElements[prevIndex], end);
           }
         }
+
+        const prevChild = flatPrevChildren[prevIndex];
+        if (prevChild && prevChild.props.display && !child.props.display) {
+          fadeOut(childElements[prevIndex], { duration: FADE_DURATION });
+        }
+        if (prevChild && !prevChild.props.display && child.props.display) {
+          fadeIn(childElements[prevIndex], { duration: FADE_DURATION });
+        }
       });
 
       // Keep previous locations cached in case we return to a previous size
@@ -110,7 +121,7 @@ export function Reorderable({ children }) {
     });
   }, [children]);
 
-  return h('div', { class: 'reorderable', ref: parentRef },
+  return h('div', { ref: parentRef },
     renderedChildren
   );
 }

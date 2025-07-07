@@ -1,16 +1,19 @@
 import { h, render } from 'preact';
 import { useCallback, useRef, useState } from 'preact/hooks';
+import { Animated } from './animated.js';
 import { sortByRelevance, Controls } from './controls.js';
 import { Overlay } from './overlay.js';
 import { Project } from './project.js';
-import { Reorderable } from './reorderable.js';
 import data from './data.json' with { type: 'json' };
 
-const sortedData = sortByRelevance(data);
+const initialData = sortByRelevance(data).map(datum => ({
+  ...datum,
+  display: true
+}));
 
 function Projects() {
   const [expandedProject, setExpandedProject] = useState(null);
-  const [orderedData, setOrderedData] = useState(sortedData);
+  const [modifiedData, setModifiedData] = useState(initialData);
 
   const onProjectClick = useCallback((event) => {
     event.currentTarget.style.opacity = 0; // Prevent flicker
@@ -27,14 +30,15 @@ function Projects() {
   return [
     h('h2', null, 'Projects'),
 
-    h(Controls, { fullData: sortedData, onClick: setOrderedData }),
+    h(Controls, { initialData, onClick: setModifiedData }),
 
-    h(Reorderable, { class: 'gallery' },
-      orderedData.map(({ id, image, title }) => h(Project, {
+    h(Animated, { class: 'gallery' },
+      modifiedData.map(({ id, image, title, display }) => h(Project, {
         key: id,
         id,
         image,
         title,
+        display,
         onClick: onProjectClick
       }))
     ),

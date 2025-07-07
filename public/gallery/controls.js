@@ -37,18 +37,26 @@ const shuffle = (array, seed) => {
     .map(([_, item]) => item);
 };
 
-const filterAll = data => data;
-const filterProfessional = data => data.filter(data => data.clients.length > 0);
-const filterPersonal = data => data.filter(data => data.clients.length === 0);
+const displayAll = data => data.map(datum => ({ ...datum, display: true }));
+const displayProfessional = data => data.map(datum => ({
+  ...datum,
+  display: datum.clients.length > 0
+}));
+const displayPersonal = data => data.map(datum => ({
+  ...datum,
+  display: datum.clients.length === 0
+}));
 
 const smooshKey = key => key.replaceAll(/\s/gi, '').toLowerCase();
-const filterByKey = (data, key) => {
+const displayByKey = (data, key) => {
   const searchKey = smooshKey(key);
-  return data.filter(({ tools, tags }) => {
-    return [...tools, ...tags]
-      .map(smooshKey)
-      .some(smooshed => smooshed.includes(searchKey));
-  })
+  return data.map(datum => {
+    const keywords = [...datum.tools, ...datum.tags].map(smooshKey);
+    return {
+      ...datum,
+      display: keywords.some(word => word.includes(searchKey))
+    };
+  });
 };
 
 const DEBOUNCE_DURATION = 800;
@@ -62,29 +70,31 @@ const SORT_MAP = {
 const SORT_KEYS = Object.keys(SORT_MAP);
 
 const FILTER_MAP = {
-  All: filterAll,
-  Professional: filterProfessional,
-  Personal: filterPersonal,
-  React: filterByKey,
-  'React Native': filterByKey,
-  Node: filterByKey,
-  AWS: filterByKey,
-  GCP: filterByKey,
-  TypeScript: filterByKey,
-  Rust: filterByKey,
-  Python: filterByKey,
-  Web: filterByKey,
-  Mobile: filterByKey,
-  Games: filterByKey,
-  'Open Source': filterByKey,
+  All: displayAll,
+  Professional: displayProfessional,
+  Personal: displayPersonal,
+  React: data => displayByKey(data, 'React'),
+  'React Native': data => displayByKey(data, 'React Native'),
+  Node: data => displayByKey(data, 'Node'),
+  AWS: data => displayByKey(data, 'AWS'),
+  GCP: data => displayByKey(data, 'GCP'),
+  TypeScript: data => displayByKey(data, 'TypeScript'),
+  Rust: data => displayByKey(data, 'Rust'),
+  Python: data => displayByKey(data, 'Python'),
+  Web: data => displayByKey(data, 'Web'),
+  Mobile: data => displayByKey(data, 'Mobile'),
+  Games: data => displayByKey(data, 'Games'),
+  'Open Source': data => displayByKey(data, 'Open Source')
 };
 const FILTER_KEYS = Object.keys(FILTER_MAP);
 
-export function Controls({ fullData, onClick }) {
+export function Controls({ initialData, onClick }) {
   const [sort, setSort] = useState(SORT_KEYS[0]);
-  const [filter, setFilter] = useState(FILTER_KEYS[0]);
+  const [display, setFilter] = useState(FILTER_KEYS[0]);
   const [disabled, setDisabled] = useState(false);
+
   const seedRef = useRef(0);
+  const parentRef = useRef(null);
 
   const debounce = () => {
     setDisabled(true);
@@ -93,27 +103,35 @@ export function Controls({ fullData, onClick }) {
     }, DEBOUNCE_DURATION);
   };
 
-  const getOnSortClick = (key) => () => {
+  const onAnyClick = (sortKey, displayKey) => {
+    const sortFn = SORT_MAP[sortKey]
+    const sorted = sortFn(initialData, seedRef.current);
+
+    const displayFn = FILTER_MAP[displayKey];
+    const nextDisplay = displayFn(sorted);
+
+    debounce();
+    onClick([
+      ...nextDisplay.filter(datum => datum.display),
+      ...nextDisplay.filter(datum => !datum.display)
+    ]);
+  };
+
+  const onSortClick = (key) => {
     if (key === 'Random') {
       seedRef.current = Math.random();
     }
 
     if (sort !== key || key === 'Random') {
-      const sortFn = SORT_MAP[key]
-      const filterFn = FILTER_MAP[filter];
-      onClick(sortFn(filterFn(fullData, filter), seedRef.current));
+      onAnyClick(key, display);
       setSort(key);
-      debounce();
     }
   };
 
-  const getOnFilterClick = (key) => () => {
-    if (filter !== key) {
-      const sortFn = SORT_MAP[sort]
-      const filterFn = FILTER_MAP[key];
-      onClick(sortFn(filterFn(fullData, key), seedRef.current));
+  const onFilterClick = (key) => {
+    if (display !== key) {
+      onAnyClick(sort, key);
       setFilter(key);
-      debounce();
     }
   };
 
@@ -127,7 +145,7 @@ export function Controls({ fullData, onClick }) {
               key,
               disabled,
               class: `text-button ${sort === key ? 'active' : 'inactive'}`,
-              onClick: getOnSortClick(key)
+              onClick: () => onSortClick(key)
             },
             key
           )
@@ -143,13 +161,13 @@ export function Controls({ fullData, onClick }) {
             {
               key,
               disabled,
-              class: `text-button ${filter === key ? 'active' : 'inactive'}`,
-              onClick: getOnFilterClick(key)
+              class: `text-button ${display === key ? 'active' : 'inactive'}`,
+              onClick: () => onFilterClick(key)
             },
             key
           )
         ))
       )
     )
-  ]
+  ];
 }
