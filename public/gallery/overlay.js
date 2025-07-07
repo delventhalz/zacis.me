@@ -130,12 +130,18 @@ export function Overlay({ data, start, onDismiss }) {
           )
         ),
 
+        h('p', { class: 'built-line' },
+          'built with ',
+          h(AnchorChain, { data: data.tools.map(name => ({ name })) })
+        ),
+
         data.clients.length > 0 && (
           h('p', { class: 'for-line' },
             'for ',
             h(AnchorChain, { data: data.clients })
           )
         ),
+
         h('p', { class: 'summary' }, data.summary),
 
         h('button',

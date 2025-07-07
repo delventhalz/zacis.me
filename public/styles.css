@@ -297,9 +297,14 @@ canvas.overlay-image {
   text-decoration: none;
 }
 
-.overlay .for-line {
+.overlay .built-line {
   font-style: italic;
   margin: 0.75rem 0 0 0;
+}
+
+.overlay .for-line {
+  font-style: italic;
+  margin: 0.35rem 0 0 0;
 }
 
 .overlay .summary {
