@@ -129,9 +129,10 @@ export function Controls({ initialData, onClick }) {
   };
 
   const onFilterClick = (key) => {
-    if (display !== key) {
-      onAnyClick(sort, key);
-      setFilter(key);
+    const nextKey = display === key ? 'All' : key;
+    if (display !== nextKey) {
+      onAnyClick(sort, nextKey);
+      setFilter(nextKey);
     }
   };
 
