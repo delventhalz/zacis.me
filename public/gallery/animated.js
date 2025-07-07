@@ -80,6 +80,10 @@ const animateReorder = (element, end) => {
   );
 };
 
+/**
+ * A wrapper component designed to animate changes in children. Animates moves
+ * from one index to another, as well as fades in/out (using "display" prop).
+ */
 export function Animated({ children, ...divProps }) {
   const parentRef = useRef(null);
   const locationCacheRef = useRef([]);

@@ -51,6 +51,11 @@ const burstUpdateCanvas = async (source, dest, count, queue = []) => {
   }
 };
 
+/**
+ * A very silly component. Uses html2canvas to create a render of some source
+ * component (passed as either an element or a query string) and then updates
+ * the render live as the source component changes.
+ */
 export function Mirror({
   source,
   defaultImage,

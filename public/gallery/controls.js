@@ -88,6 +88,14 @@ const FILTER_MAP = {
 };
 const FILTER_KEYS = Object.keys(FILTER_MAP);
 
+/**
+ * Display controls for an array of data. Allows the user to sort or filter the
+ * data in a variety of ways, calling an "onClick" function with each new array.
+ *
+ * In order to make animations possible in rendered data, anything filtered out
+ * is marked as display: false and placed at the end, rather than actually being
+ * omitted from the new array.
+ */
 export function Controls({ initialData, onClick }) {
   const [sort, setSort] = useState(SORT_KEYS[0]);
   const [display, setFilter] = useState(FILTER_KEYS[0]);

@@ -13,6 +13,9 @@ import { Mirror } from './funhouse.js';
 
 const ANIM_DURATION = 400;
 
+/**
+ * A modal style overlay with additional information about a single Project.
+ */
 export function Overlay({ data, start, onDismiss }) {
   const backgroundRef = useRef(null);
   const overlayRef = useRef(null);

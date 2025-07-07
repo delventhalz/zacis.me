@@ -2,6 +2,9 @@ import { h } from 'preact';
 import { useCallback } from 'preact/hooks';
 import { Mirror } from './funhouse.js';
 
+/**
+ * A single project as displayed within the gallery.
+ */
 export function Project({ id, title, image, display: _, ...divProps }) {
   const onClick = useCallback((event) => {
     // Ensure currentTarget is populated

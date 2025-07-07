@@ -40,7 +40,10 @@ const makeFrame = (element, props) => {
   return frame;
 };
 
-// Takes an element and some start and/or end props and builds an animation
+/**
+ * Takes an element and some start and/or end props, then builds and runs
+ * an animation.
+ */
 export const animate = (elemOrRef, options = {}) => {
   const element = getDomElement(elemOrRef);
   if (!element) {
