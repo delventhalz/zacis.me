@@ -1,83 +1,17 @@
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 import { Anchor, AnchorChain } from './anchors.js';
+import {
+  fadeIn,
+  fadeOut,
+  resizeIn,
+  resizeOut,
+  transformIn,
+  transformOut
+} from './animations.js';
 import { Mirror } from './funhouse.js';
 
 const ANIM_DURATION = 400;
-
-const animate = (element, frames, options = {}) => {
-  // Handle refs to preact components
-  const ref = element.animate ? element : element.base;
-  ref.animate(frames, {
-    duration: ANIM_DURATION,
-    easing: 'ease-in-out',
-    ...options
-  });
-};
-
-const animateFadeIn = (element) => {
-  animate(element, [{ opacity: 0 }, {}]);
-};
-
-const animateFadeOut = (element) => {
-  animate(element, [{}, { opacity: 0 }], { fill: 'forwards' });
-};
-
-const animateMoveIn = (element, start) => {
-  const end = element.getBoundingClientRect();
-  const movedX = start.x - end.x;
-  const movedY = start.y - end.y;
-
-  animate(element, [
-    {
-      transformOrigin: 'top left',
-      transform: `translate(${movedX}px, ${movedY}px)`,
-    },
-    {},
-  ]);
-};
-
-const animateMoveOut = (element, end) => {
-  const start = element.getBoundingClientRect();
-  const movedX = end.x - start.x;
-  const movedY = end.y - start.y;
-
-  animate(
-    element,
-    [
-      {},
-      {
-        transformOrigin: 'top left',
-        transform: `translate(${movedX}px, ${movedY}px)`,
-      },
-    ],
-    { fill: 'forwards' }
-  );
-};
-
-const animateResizeIn = (element, start) => {
-  animate(element, [
-    {
-      width: `${start.width}px`,
-      height: `${start.height}px`
-    },
-    {}
-  ]);
-};
-
-const animateResizeOut = (element, end) => {
-  animate(
-    element,
-    [
-      {},
-      {
-        width: `${end.width}px`,
-        height: `${end.height}px`
-      }
-    ],
-    { fill: 'forwards' }
-  );
-};
 
 export function Overlay({ data, start, onDismiss }) {
   const backgroundRef = useRef(null);
@@ -88,18 +22,16 @@ export function Overlay({ data, start, onDismiss }) {
     if (backgroundRef.current && overlayRef.current && imageRef.current) {
       backgroundRef.current.style.opacity = 1;
       overlayRef.current.style.opacity = 1;
-      animateFadeIn(backgroundRef.current);
-      animateMoveIn(overlayRef.current, start);
-      animateResizeIn(overlayRef.current, start);
-      animateResizeIn(imageRef.current, start);
+      fadeIn(backgroundRef, { duration: ANIM_DURATION });
+      transformIn(overlayRef, start, { duration: ANIM_DURATION });
+      resizeIn(imageRef, start, { duration: ANIM_DURATION });
     }
   }, [backgroundRef.current, overlayRef.current, imageRef.current]);
 
   const handleDismiss = () => {
-    animateFadeOut(backgroundRef.current);
-    animateMoveOut(overlayRef.current, start);
-    animateResizeOut(overlayRef.current, start);
-    animateResizeOut(imageRef.current, start);
+    fadeOut(backgroundRef, { duration: ANIM_DURATION });
+    transformOut(overlayRef, start, { duration: ANIM_DURATION });
+    resizeOut(imageRef, start, { duration: ANIM_DURATION });
     setTimeout(onDismiss, ANIM_DURATION);
   };
 
