@@ -73,7 +73,7 @@ export function Mirror({
       fetch(defaultImage)
         .then(resp => resp.blob())
         .then(blob => createImageBitmap(blob))
-        .then(bitmap => {
+        .then((bitmap) => {
           const ctx = canvasRef.current.getContext('2d', { willReadFrequently: true });
           ctx.drawImage(bitmap, 0, 0, canvasRef.current.width, canvasRef.current.height);
         });

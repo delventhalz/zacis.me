@@ -1,9 +1,11 @@
 import { h, render } from 'preact';
-import { useCallback, useRef, useState } from 'preact/hooks';
+import { useCallback, useState } from 'preact/hooks';
+
 import { Animated } from './animated.js';
 import { sortByRelevance, Controls } from './controls.js';
 import { Overlay } from './overlay.js';
 import { Project } from './project.js';
+
 import data from './data.json' with { type: 'json' };
 
 const initialData = sortByRelevance(data).map(datum => ({
@@ -21,10 +23,10 @@ function Projects() {
   }, [setExpandedProject]);
 
   const onDismissOverlay = useCallback(() => {
-    setExpandedProject(prevExpandedProject => {
+    setExpandedProject((prevExpandedProject) => {
       prevExpandedProject.style.opacity = 1;
       return null;
-    })
+    });
   }, [setExpandedProject]);
 
   return [
@@ -33,13 +35,15 @@ function Projects() {
     h(Controls, { initialData, onClick: setModifiedData }),
 
     h(Animated, { class: 'gallery' },
-      modifiedData.map(({ id, image, title, display }) => h(Project, {
-        key: id,
-        image,
-        title,
-        display,
-        onClick: onProjectClick
-      }))
+      modifiedData.map(({ id, image, title, display }) => (
+        h(Project, {
+          key: id,
+          image,
+          title,
+          display,
+          onClick: onProjectClick
+        })
+      ))
     ),
 
     expandedProject && (

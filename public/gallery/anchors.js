@@ -11,7 +11,7 @@ export function Anchor({ name, url }) {
 }
 
 export function AnchorChain({ data }) {
-  switch(data.length) {
+  switch (data.length) {
     case 0:
       return [];
     case 1:
