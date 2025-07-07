@@ -80,7 +80,7 @@ const animateReorder = (element, end) => {
   );
 };
 
-export function Animated({ children }) {
+export function Animated({ children, ...divProps }) {
   const parentRef = useRef(null);
   const locationCacheRef = useRef([]);
   const [renderedChildren, setRenderedChildren] = useState(children);
@@ -121,7 +121,7 @@ export function Animated({ children }) {
     });
   }, [children]);
 
-  return h('div', { ref: parentRef },
+  return h('div', { ...divProps, ref: parentRef },
     renderedChildren
   );
 }
