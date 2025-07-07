@@ -1,20 +1,16 @@
 import { h, render } from 'preact';
 import { useCallback, useRef, useState } from 'preact/hooks';
+import { sortByRelevance, Controls } from './controls.js';
 import { Overlay } from './overlay.js';
 import { Project } from './project.js';
 import { Reorderable } from './reorderable.js';
 import data from './data.json' with { type: 'json' };
 
-const shuffle = (array) => {
-  return array
-    .map(item => [Math.random(), item])
-    .sort(([a], [b]) => a - b)
-    .map(([_, item]) => item);
-};
+const sortedData = sortByRelevance(data);
 
 function Projects() {
   const [expandedProject, setExpandedProject] = useState(null);
-  const [orderedData, setOrderedData] = useState(data);
+  const [orderedData, setOrderedData] = useState(sortedData);
 
   const onProjectClick = useCallback((event) => {
     event.currentTarget.style.opacity = 0; // Prevent flicker
@@ -28,24 +24,10 @@ function Projects() {
     })
   }, [setExpandedProject]);
 
-  const onRandom = () => {
-    setOrderedData(shuffle);
-  };
-
-  const onReverse = () => {
-    setOrderedData(prev => prev.toReversed());
-  };
-
   return [
     h('h2', null, 'Projects'),
 
-    h('button', { class: 'text-button', onClick: onRandom },
-      'Random'
-    ),
-
-    h('button', { class: 'text-button', onClick: onReverse },
-      'Reverse'
-    ),
+    h(Controls, { fullData: sortedData, onClick: setOrderedData }),
 
     h(Reorderable, { class: 'gallery' },
       orderedData.map(({ id, image, title }) => h(Project, {

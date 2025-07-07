@@ -26,6 +26,7 @@ body {
   color: #000;
   font-family: "Corbel", "Lato", sans-serif;
   font-weight: 400;
+  font-size: 16px;
   font-style: normal;
   margin: 0;
 }
@@ -40,6 +41,11 @@ main {
 h1 {
   font-weight: 700;
   text-align: center;
+}
+
+h2 {
+  font-weight: 700;
+  margin: 1rem 0;
 }
 
 a, a:visited {
@@ -130,9 +136,50 @@ ul.horizontal-list li + li::before {
   border: none;
 }
 
+.text-button.active {
+  color: #000;
+}
+
+.text-button.inactive {
+  color: #787878;
+}
+
+.text-button:disabled {
+  color: #bbb;
+}
+
 section#project-gallery {
   margin: 2rem auto;
   max-width: var(--max-gallery-width);
+}
+
+.control-panel {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 0 0.4rem 0;
+  background-color: #f5f5f5;
+  padding: var(--border-gap)
+}
+
+.control-panel h3 {
+  margin: var(--border-gap) 1rem var(--border-gap) var(--border-gap);
+  font-weight: 400;
+  font-size: 16px;
+  color: #565656;
+}
+
+.control-panel .buttons {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.control-panel button {
+  margin: var(--border-gap);
 }
 
 .gallery {
@@ -152,7 +199,7 @@ section#project-gallery {
   max-width: var(--max-project-size);
   max-height: var(--max-project-size);
   overflow: hidden;
-  background-color: #ddd;
+  background-color: #f5f5f5;
   margin: var(--border-gap);
 }
 

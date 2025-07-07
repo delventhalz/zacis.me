@@ -15,6 +15,7 @@
     "startDate": "2022-05-23",
     "title": "myTreasury",
     "summary": "This modern web app is under development for the Federal Reserve Bank and US Treasury. It has not been made public.",
+    "relevance": 71,
     "image": "mytreasury.webp",
     "url": ""
   },
@@ -25,6 +26,7 @@
     "startDate": "2025-05-10",
     "title": "zacis.me",
     "summary": "Just a humble place to share contact info and some past projects",
+    "relevance": 61,
     "image": "zacisme.webp",
     "url": "https://github.com/delventhalz/zacis.me"
   },
@@ -35,6 +37,7 @@
     "startDate": "2021-02-01",
     "title": "Taelmoor",
     "summary": "A narrative board game with magical app interactions, independently published through Kickstarter",
+    "relevance": 72,
     "image": "taelmoor.webp",
     "url": "https://taelmoor.com"
   },
@@ -50,6 +53,7 @@
     "startDate": "2021-10-01",
     "title": "iQuatic",
     "summary": "A web app providing the world's shrimp farmers with unprecedented real-time visibility into their operations",
+    "relevance": 53,
     "image": "iquatic.webp",
     "url": "https://www.cargill.com/animal-nutrition/species/aquaculture/products/iquatic"
   },
@@ -60,6 +64,7 @@
     "startDate": "2022-01-13",
     "title": "browserHash",
     "summary": "A lightweight wrapper around the Web Crypto API, streamlining hash generation in browser",
+    "relevance": 52,
     "image": "hash.webp",
     "url": "https://www.npmjs.com/package/browser-hash"
   },
@@ -75,6 +80,7 @@
     "startDate": "2019-11-10",
     "title": "CanWe",
     "summary": "A mobile app building more meaningful relationships by allowing users to judiciously compare answers to important questions",
+    "relevance": 51,
     "image": "canwe.webp",
     "url": "https://canwe-reveal-our-potential.en.softonic.com/android"
   },
@@ -90,6 +96,7 @@
     "startDate": "2019-05-02",
     "title": "IoT Controller",
     "summary": "One consistent controller for purchased IoT devices, available on both the Best Buy mobile apps and through their website",
+    "relevance": 31,
     "image": "bestbuy.webp",
     "url": ""
   },
@@ -100,6 +107,7 @@
     "startDate": "2019-01-20",
     "title": "Meeba Farm",
     "summary": "An evolving genetics simulation, written entirely in vanilla JS, full of living, feeding, mutating \"meebas\"",
+    "relevance": 32,
     "image": "meeba.webp",
     "url": "https://meeba-farm.github.io"
   },
@@ -119,6 +127,7 @@
     "startDate": "2018-03-05",
     "title": "Cryptomoji",
     "summary": "A sprint-style educational curriculum taking students through building their own blockchain game, a clone of Cryptokitties",
+    "relevance": 12,
     "image": "cryptomoji.webp",
     "url": "https://github.com/hyperledger/education-cryptomoji"
   },
@@ -134,6 +143,7 @@
     "startDate": "2018-08-02",
     "title": "Purchase Portal",
     "summary": "A part of Thrivent's \"Brightpeak\" skunkworks initiative, the digital purchase portal was an innovative full-service insurance point-of-sale with no agent",
+    "relevance": 21,
     "image": "thrivent.webp",
     "url": ""
   },
@@ -157,6 +167,7 @@
     "startDate": "2017-02-01",
     "title": "Hyperledger Grid",
     "summary": "A full stack supply-chain-on-the-blockchain solution, customizable to particular industries",
+    "relevance": 42,
     "image": "grid.webp",
     "url": "https://github.com/hyperledger/grid"
   },
@@ -180,6 +191,7 @@
     "startDate": "2016-06-01",
     "title": "Hyperledger Sawtooth",
     "summary": "An enterprise blockchain platform that enforces trust by cryptographically verifying highly distributed data",
+    "relevance": 41,
     "image": "sawtooth.webp",
     "url": "https://github.com/hyperledger/sawtooth-core"
   },
@@ -190,6 +202,7 @@
     "startDate": "2015-12-21",
     "title": "The Open Folio",
     "summary": "A dynamically styleable version of Shakespeare’s original 1623 manuscript for web and print, built with Bootstrap and a custom language parsing script",
+    "relevance": 22,
     "image": "folio.webp",
     "url": "https://delventhalz.github.io/open-folio"
   },
@@ -200,6 +213,7 @@
     "startDate": "1997-06-01",
     "title": "AniMono",
     "summary": "A long-running anime fan page and embarrassing archive of edgy teen years",
+    "relevance": 11,
     "image": "animono.webp",
     "url": "https://web.archive.org/web/20041215215229/animono.org"
   }
