@@ -83,14 +83,12 @@ export function Overlay({ data, start, onDismiss }) {
   const backgroundRef = useRef(null);
   const overlayRef = useRef(null);
   const imageRef = useRef(null);
-  const closeRef = useRef(null);
 
   useEffect(() => {
     if (backgroundRef.current && overlayRef.current && imageRef.current) {
       backgroundRef.current.style.opacity = 1;
       overlayRef.current.style.opacity = 1;
       animateFadeIn(backgroundRef.current);
-      animateFadeIn(closeRef.current);
       animateMoveIn(overlayRef.current, start);
       animateResizeIn(overlayRef.current, start);
       animateResizeIn(imageRef.current, start);
@@ -99,7 +97,6 @@ export function Overlay({ data, start, onDismiss }) {
 
   const handleDismiss = () => {
     animateFadeOut(backgroundRef.current);
-    animateFadeOut(closeRef.current);
     animateMoveOut(overlayRef.current, start);
     animateResizeOut(overlayRef.current, start);
     animateResizeOut(imageRef.current, start);
@@ -147,7 +144,6 @@ export function Overlay({ data, start, onDismiss }) {
         h('button',
           {
             class: 'close text-button',
-            ref: closeRef,
             onClick: handleDismiss,
             ariaLabel: 'Close'
           },
