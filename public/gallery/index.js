@@ -35,7 +35,6 @@ function Projects() {
     h(Animated, { class: 'gallery' },
       modifiedData.map(({ id, image, title, display }) => h(Project, {
         key: id,
-        id,
         image,
         title,
         display,
