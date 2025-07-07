@@ -1,6 +1,11 @@
 [
   {
     "id": "mytreasury",
+    "endDate": "2025-09-01",
+    "startDate": "2022-05-23",
+    "title": "myTreasury",
+    "summary": "This modern web app is under development for the Federal Reserve Bank and US Treasury. It has not been made public.",
+    "relevance": 71,
     "clients": [
       {
         "name": "Federal Reserve Bank of Minneapolis",
@@ -11,116 +16,124 @@
         "url": "https://home.treasury.gov"
       }
     ],
-    "endDate": "2025-09-01",
-    "startDate": "2022-05-23",
-    "title": "myTreasury",
-    "summary": "This modern web app is under development for the Federal Reserve Bank and US Treasury. It has not been made public.",
-    "relevance": 71,
+    "tags": ["Web"],
     "tools": ["React", "Node", "AWS", "TypeScript"],
     "image": "mytreasury.webp",
     "url": ""
   },
   {
     "id": "zacisme",
-    "clients": [],
     "endDate": "2025-07-01",
     "startDate": "2025-05-10",
     "title": "zacis.me",
     "summary": "Just a humble place to share contact info and some past projects",
     "relevance": 61,
+    "clients": [],
+    "tags": ["Web"],
     "tools": ["Preact", "JavaScript"],
     "image": "zacisme.webp",
     "url": "https://github.com/delventhalz/zacis.me"
   },
   {
     "id": "taelmoor",
-    "clients": [],
     "endDate": "2024-10-01",
     "startDate": "2021-02-01",
     "title": "Taelmoor",
     "summary": "A narrative board game with magical app interactions, independently published through Kickstarter",
     "relevance": 72,
+    "clients": [],
+    "tags": ["Mobile", "Games"],
     "tools": ["React Native", "Node", "TypeScript"],
     "image": "taelmoor.webp",
     "url": "https://taelmoor.com"
   },
   {
     "id": "iquatic",
+    "endDate": "2022-05-01",
+    "startDate": "2021-10-01",
+    "title": "iQuatic",
+    "summary": "A web app providing the world's shrimp farmers with unprecedented real-time visibility into their operations",
+    "relevance": 53,
     "clients": [
       {
         "name": "Cargill",
         "url": "https://www.cargill.com"
       }
     ],
-    "endDate": "2022-05-01",
-    "startDate": "2021-10-01",
-    "title": "iQuatic",
-    "summary": "A web app providing the world's shrimp farmers with unprecedented real-time visibility into their operations",
-    "relevance": 53,
+    "tags": ["Web"],
     "tools": ["Svelte", "Node", "AWS", "JavaScript"],
     "image": "iquatic.webp",
     "url": "https://www.cargill.com/animal-nutrition/species/aquaculture/products/iquatic"
   },
   {
     "id": "hash",
-    "clients": [],
     "endDate": "2022-04-05",
     "startDate": "2022-01-13",
     "title": "browserHash",
     "summary": "A lightweight wrapper around the Web Crypto API, streamlining hash generation in browser",
     "relevance": 52,
+    "clients": [],
+    "tags": ["Web", "Open Source"],
     "tools": ["JavaScript", "TypeScript"],
     "image": "hash.webp",
     "url": "https://www.npmjs.com/package/browser-hash"
   },
   {
     "id": "canwe",
+    "endDate": "2020-11-20",
+    "startDate": "2019-11-10",
+    "title": "CanWe",
+    "summary": "A mobile app building more meaningful relationships by allowing users to judiciously compare answers to important questions",
+    "relevance": 51,
     "clients": [
       {
         "name": "Unveil.Social",
         "url": ""
       }
     ],
-    "endDate": "2020-11-20",
-    "startDate": "2019-11-10",
-    "title": "CanWe",
-    "summary": "A mobile app building more meaningful relationships by allowing users to judiciously compare answers to important questions",
-    "relevance": 51,
+    "tags": ["Mobile"],
     "tools": ["React Native", "GCP", "JavaScript"],
     "image": "canwe.webp",
     "url": "https://canwe-reveal-our-potential.en.softonic.com/android"
   },
   {
     "id": "bestbuy",
+    "endDate": "2019-10-24",
+    "startDate": "2019-05-02",
+    "title": "IoT Controller",
+    "summary": "One consistent controller for purchased IoT devices, available on both the Best Buy mobile apps and through their website",
+    "relevance": 31,
     "clients": [
       {
         "name": "Best Buy",
         "url": "https://www.bestbuy.com"
       }
     ],
-    "endDate": "2019-10-24",
-    "startDate": "2019-05-02",
-    "title": "IoT Controller",
-    "summary": "One consistent controller for purchased IoT devices, available on both the Best Buy mobile apps and through their website",
-    "relevance": 31,
+    "tags": ["Mobile", "Web"],
     "tools": ["React Native Web", "Node", "Groovy", "TypeScript"],
     "image": "bestbuy.webp",
     "url": ""
   },
   {
     "id": "meeba",
-    "clients": [],
     "endDate": "2019-08-19",
     "startDate": "2019-01-20",
     "title": "Meeba Farm",
     "summary": "An evolving genetics simulation, written entirely in vanilla JS, full of living, feeding, mutating \"meebas\"",
     "relevance": 32,
+    "clients": [],
+    "tags": ["Web", "Games"],
     "tools": ["JavaScript"],
     "image": "meeba.webp",
     "url": "https://meeba-farm.github.io"
   },
   {
     "id": "cryptomoji",
+    "endDate": "2018-07-27",
+    "startDate": "2018-03-05",
+    "title": "Cryptomoji",
+    "summary": "A sprint-style educational curriculum taking students through building their own blockchain game, a clone of Cryptokitties",
+    "relevance": 12,
     "clients": [
       {
         "name": "Hack Reactor",
@@ -131,34 +144,36 @@
         "url": "https://www.linuxfoundation.org"
       }
     ],
-    "endDate": "2018-07-27",
-    "startDate": "2018-03-05",
-    "title": "Cryptomoji",
-    "summary": "A sprint-style educational curriculum taking students through building their own blockchain game, a clone of Cryptokitties",
-    "relevance": 12,
+    "tags": ["Open Source", "Games", "Education"],
     "tools": ["JavaScript"],
     "image": "cryptomoji.webp",
     "url": "https://github.com/hyperledger/education-cryptomoji"
   },
   {
     "id": "thrivent",
+    "endDate": "2019-05-01",
+    "startDate": "2018-08-02",
+    "title": "Purchase Portal",
+    "summary": "A part of Thrivent's \"Brightpeak\" skunkworks initiative, the digital purchase portal was an innovative full-service insurance point-of-sale with no agent",
+    "relevance": 21,
     "clients": [
       {
         "name": "Thrivent",
         "url": "https://www.thrivent.com"
       }
     ],
-    "endDate": "2019-05-01",
-    "startDate": "2018-08-02",
-    "title": "Purchase Portal",
-    "summary": "A part of Thrivent's \"Brightpeak\" skunkworks initiative, the digital purchase portal was an innovative full-service insurance point-of-sale with no agent",
-    "relevance": 21,
+    "tags": ["Web"],
     "tools": ["Angular", "Node", "AWS", "TypeScript"],
     "image": "thrivent.webp",
     "url": ""
   },
   {
     "id": "grid",
+    "endDate": "2018-08-01",
+    "startDate": "2017-02-01",
+    "title": "Hyperledger Grid",
+    "summary": "A full stack supply-chain-on-the-blockchain solution, customizable to particular industries",
+    "relevance": 42,
     "clients": [
       {
         "name": "Cargill",
@@ -173,17 +188,18 @@
         "url": "https://www.linuxfoundation.org"
       }
     ],
-    "endDate": "2018-08-01",
-    "startDate": "2017-02-01",
-    "title": "Hyperledger Grid",
-    "summary": "A full stack supply-chain-on-the-blockchain solution, customizable to particular industries",
-    "relevance": 42,
+    "tags": ["Open Source"],
     "tools": ["JavaScript", "Rust", "Python"],
     "image": "grid.webp",
     "url": "https://github.com/hyperledger/grid"
   },
   {
     "id": "sawtooth",
+    "endDate": "2018-08-01",
+    "startDate": "2016-06-01",
+    "title": "Hyperledger Sawtooth",
+    "summary": "An enterprise blockchain platform that enforces trust by cryptographically verifying highly distributed data",
+    "relevance": 41,
     "clients": [
       {
         "name": "Intel",
@@ -198,35 +214,33 @@
         "url": "https://www.linuxfoundation.org"
       }
     ],
-    "endDate": "2018-08-01",
-    "startDate": "2016-06-01",
-    "title": "Hyperledger Sawtooth",
-    "summary": "An enterprise blockchain platform that enforces trust by cryptographically verifying highly distributed data",
-    "relevance": 41,
+    "tags": ["Open Source"],
     "tools": ["JavaScript", "Rust", "Python", "Clojure"],
     "image": "sawtooth.webp",
     "url": "https://github.com/hyperledger/sawtooth-core"
   },
   {
     "id": "folio",
-    "clients": [],
     "endDate": "2016-05-23",
     "startDate": "2015-12-21",
     "title": "The Open Folio",
     "summary": "A dynamically styleable version of Shakespeare’s original 1623 manuscript for web and print, built with Bootstrap and a custom language parsing script",
     "relevance": 22,
+    "clients": [],
+    "tags": ["Web"],
     "tools": ["jQuery", "Bootstrap", "JavaScript"],
     "image": "folio.webp",
     "url": "https://delventhalz.github.io/open-folio"
   },
   {
     "id": "animono",
-    "clients": [],
     "endDate": "2004-12-01",
     "startDate": "1997-06-01",
     "title": "AniMono",
     "summary": "A long-running anime fan page and embarrassing archive of edgy teen years",
     "relevance": 11,
+    "clients": [],
+    "tags": ["Web"],
     "tools": ["JavaScript"],
     "image": "animono.webp",
     "url": "https://web.archive.org/web/20041215215229/animono.org"

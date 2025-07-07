@@ -34,6 +34,20 @@ const shuffle = (array) => {
     .map(([_, item]) => item);
 };
 
+const filterAll = data => data;
+const filterProfessional = data => data.filter(data => data.clients.length > 0);
+const filterPersonal = data => data.filter(data => data.clients.length === 0);
+
+const smooshKey = key => key.replaceAll(/\s/gi, '').toLowerCase();
+const filterByKey = (data, key) => {
+  const searchKey = smooshKey(key);
+  return data.filter(({ tools, tags }) => {
+    return [...tools, ...tags]
+      .map(smooshKey)
+      .some(smooshed => smooshed.includes(searchKey));
+  })
+};
+
 const DEBOUNCE_DURATION = 800;
 
 const SORT_MAP = {
@@ -44,8 +58,28 @@ const SORT_MAP = {
 };
 const SORT_KEYS = Object.keys(SORT_MAP);
 
+const FILTER_MAP = {
+  All: filterAll,
+  Professional: filterProfessional,
+  Personal: filterPersonal,
+  React: filterByKey,
+  'React Native': filterByKey,
+  Node: filterByKey,
+  AWS: filterByKey,
+  GCP: filterByKey,
+  TypeScript: filterByKey,
+  Rust: filterByKey,
+  Python: filterByKey,
+  Web: filterByKey,
+  Mobile: filterByKey,
+  Games: filterByKey,
+  'Open Source': filterByKey,
+};
+const FILTER_KEYS = Object.keys(FILTER_MAP);
+
 export function Controls({ fullData, onClick }) {
   const [sort, setSort] = useState(SORT_KEYS[0]);
+  const [filter, setFilter] = useState(FILTER_KEYS[0]);
   const [disabled, setDisabled] = useState(false);
 
   const debounce = () => {
@@ -58,8 +92,19 @@ export function Controls({ fullData, onClick }) {
   const getOnSortClick = (key) => () => {
     if (sort !== key || key === 'Random') {
       const sortFn = SORT_MAP[key]
-      onClick(sortFn(fullData));
+      const filterFn = FILTER_MAP[filter];
+      onClick(sortFn(filterFn(fullData, filter)));
       setSort(key);
+      debounce();
+    }
+  };
+
+  const getOnFilterClick = (key) => () => {
+    if (filter !== key) {
+      const sortFn = SORT_MAP[sort]
+      const filterFn = FILTER_MAP[key];
+      onClick(sortFn(filterFn(fullData, key)));
+      setFilter(key);
       debounce();
     }
   };
@@ -75,6 +120,23 @@ export function Controls({ fullData, onClick }) {
               disabled,
               class: `text-button ${sort === key ? 'active' : 'inactive'}`,
               onClick: getOnSortClick(key)
+            },
+            key
+          )
+        ))
+      )
+    ),
+
+    h('div', { class: 'control-panel' },
+      h('h3', null, 'Filter'),
+      h('div', { class: 'buttons' },
+        FILTER_KEYS.map((key) => (
+          h('button',
+            {
+              key,
+              disabled,
+              class: `text-button ${filter === key ? 'active' : 'inactive'}`,
+              onClick: getOnFilterClick(key)
             },
             key
           )

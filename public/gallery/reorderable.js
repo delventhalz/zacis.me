@@ -79,6 +79,7 @@ const animateReorder = (element, end) => {
 
 export function Reorderable({ children }) {
   const parentRef = useRef(null);
+  const locationCacheRef = useRef([]);
   const [renderedChildren, setRenderedChildren] = useState(children);
 
   useEffect(() => {
@@ -92,9 +93,17 @@ export function Reorderable({ children }) {
       flatNextChildren.forEach((child, nextIndex) => {
         const prevIndex = matchChildIndex(flatPrevChildren, child);
         if (prevIndex !== -1 && prevIndex !== nextIndex) {
-          animateReorder(childElements[prevIndex], childLocations[nextIndex]);
+          const end = childLocations[nextIndex] ?? locationCacheRef.current[nextIndex];
+          if (end) {
+            animateReorder(childElements[prevIndex], end);
+          }
         }
       });
+
+      // Keep previous locations cached in case we return to a previous size
+      if (childLocations.length >= locationCacheRef.current.length) {
+        locationCacheRef.current = childLocations;
+      }
 
       // Render updated children only after animation starts
       return children;
