@@ -182,7 +182,7 @@ a.quiet:visited:disabled,
 
 /* Gallery Controls */
 
-.gallery-section {
+.projects-section {
   margin: 2rem auto;
   max-width: var(--max-gallery-width);
 }
