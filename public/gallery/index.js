@@ -1,5 +1,5 @@
 import { h, render } from 'preact';
-import { useCallback, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 
 import { Animated } from './animated.js';
 import { sortByRelevance, Controls } from './controls.js';
@@ -17,17 +17,17 @@ function Projects() {
   const [expandedProject, setExpandedProject] = useState(null);
   const [modifiedData, setModifiedData] = useState(initialData);
 
-  const onProjectClick = useCallback((data, { currentTarget }) => {
+  const onProjectClick = (data, { currentTarget }) => {
     currentTarget.style.opacity = 0; // Prevent flicker
     setExpandedProject({ data, elem: currentTarget });
-  }, [setExpandedProject]);
+  };
 
-  const onDismissOverlay = useCallback(() => {
+  const onDismissOverlay = () => {
     setExpandedProject((prevExpandedProject) => {
       prevExpandedProject.elem.style.opacity = 1;
       return null;
     });
-  }, [setExpandedProject]);
+  };
 
   return [
     h('h2', null, 'Projects'),
