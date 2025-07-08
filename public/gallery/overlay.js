@@ -22,14 +22,12 @@ export function Overlay({ data, start, onDismiss }) {
   const imageRef = useRef(null);
 
   useEffect(() => {
-    if (backgroundRef.current && overlayRef.current && imageRef.current) {
-      backgroundRef.current.style.opacity = 1;
-      overlayRef.current.style.opacity = 1;
-      fadeIn(backgroundRef, { duration: ANIM_DURATION });
-      transformIn(overlayRef, start, { duration: ANIM_DURATION });
-      resizeIn(imageRef, start, { duration: ANIM_DURATION });
-    }
-  }, [backgroundRef.current, overlayRef.current, imageRef.current]);
+    backgroundRef.current.style.opacity = 1;
+    overlayRef.current.style.opacity = 1;
+    fadeIn(backgroundRef, { duration: ANIM_DURATION });
+    transformIn(overlayRef, start, { duration: ANIM_DURATION });
+    resizeIn(imageRef, start, { duration: ANIM_DURATION });
+  }, []);
 
   const handleDismiss = () => {
     fadeOut(backgroundRef, { duration: ANIM_DURATION });
