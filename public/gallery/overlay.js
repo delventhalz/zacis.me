@@ -21,6 +21,13 @@ export function Overlay({ data, start, onDismiss }) {
   const overlayRef = useRef(null);
   const imageRef = useRef(null);
 
+  const handleDismiss = () => {
+    fadeOut(backgroundRef, { duration: ANIM_DURATION });
+    transformOut(overlayRef, start, { duration: ANIM_DURATION });
+    resizeOut(imageRef, start, { duration: ANIM_DURATION });
+    setTimeout(onDismiss, ANIM_DURATION);
+  };
+
   useEffect(() => {
     // Undo flicker workaround from below before animating in
     backgroundRef.current.style.removeProperty('opacity');
@@ -30,12 +37,17 @@ export function Overlay({ data, start, onDismiss }) {
     resizeIn(imageRef, start, { duration: ANIM_DURATION });
   }, []);
 
-  const handleDismiss = () => {
-    fadeOut(backgroundRef, { duration: ANIM_DURATION });
-    transformOut(overlayRef, start, { duration: ANIM_DURATION });
-    resizeOut(imageRef, start, { duration: ANIM_DURATION });
-    setTimeout(onDismiss, ANIM_DURATION);
-  };
+  useEffect(() => {
+    const onKeydown = (event) => {
+      if (event.key === 'Escape') {
+        handleDismiss();
+      }
+    };
+    window.addEventListener('keydown', onKeydown);
+    return () => {
+      window.removeEventListener('keydown', onKeydown);
+    };
+  }, []);
 
   return [
     h('div', {

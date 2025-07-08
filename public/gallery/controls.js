@@ -96,7 +96,7 @@ const FILTER_KEYS = Object.keys(FILTER_MAP);
  * is marked as display: false and placed at the end, rather than actually being
  * omitted from the new array.
  */
-export function Controls({ initialData, onClick }) {
+export function Controls({ initialData, onClick, ...divProps }) {
   const [sort, setSort] = useState(SORT_KEYS[0]);
   const [display, setFilter] = useState(FILTER_KEYS[0]);
   const [disabled, setDisabled] = useState(false);
@@ -144,7 +144,7 @@ export function Controls({ initialData, onClick }) {
     }
   };
 
-  return [
+  return h('div', { class: 'controls', ...divProps },
     h('h3', null, 'Sort'),
     h('div', { class: 'control-panel' },
       SORT_KEYS.map((key) => (
@@ -174,5 +174,5 @@ export function Controls({ initialData, onClick }) {
         )
       ))
     )
-  ];
+  );
 }

@@ -223,12 +223,14 @@ a.quiet:visited:disabled,
 
 .project {
   background: #f5f5f5;
+  border: none;
   display: inline-block;
   height: var(--project-size);
   margin: var(--border-gap);
   max-height: var(--max-project-size);
   max-width: var(--max-project-size);
   overflow: hidden;
+  padding: 0;
   position: relative;
   width: var(--project-size);
 }

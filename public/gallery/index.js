@@ -28,9 +28,13 @@ function Projects() {
   return [
     h('h2', null, 'Projects'),
 
-    h(Controls, { initialData, onClick: setModifiedData }),
+    h(Controls, {
+      initialData,
+      inert: Boolean(expandedProject),
+      onClick: setModifiedData
+    }),
 
-    h(Animated, { class: 'gallery' },
+    h(Animated, { class: 'gallery', inert: Boolean(expandedProject) },
       modifiedData.map((data) => (
         h(Project, {
           key: data.id,

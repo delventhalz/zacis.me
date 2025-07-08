@@ -108,9 +108,11 @@ export function Animated({ children, ...divProps }) {
 
         const prevChild = flatPrevChildren[prevIndex];
         if (prevChild && prevChild.props.display && !child.props.display) {
+          childElements[prevIndex].inert = true;
           fadeOut(childElements[prevIndex], { duration: FADE_DURATION });
         }
         if (prevChild && !prevChild.props.display && child.props.display) {
+          childElements[prevIndex].inert = false;
           fadeIn(childElements[prevIndex], { duration: FADE_DURATION });
         }
       });
