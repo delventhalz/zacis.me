@@ -101,7 +101,6 @@ export function Overlay({ data, start, onDismiss }) {
         data.id === 'zacisme' ? (
           h(Mirror, {
             class: 'overlay-image',
-            alt: data.title,
             source: 'main',
             defaultImage: `images/${data.image}`,
             updateCount: 18,
@@ -111,7 +110,6 @@ export function Overlay({ data, start, onDismiss }) {
           h('img', {
             class: 'overlay-image',
             src: `images/${data.image}`,
-            alt: data.title,
             ref: imageRef
           })
         )
