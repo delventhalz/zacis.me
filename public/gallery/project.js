@@ -4,29 +4,29 @@ import { Mirror } from './funhouse.js';
 /**
  * A single project as displayed within the gallery.
  */
-export function Project({ id, title, image, display: _, ...divProps }) {
+export function Project({ data, onClick, display: _, ...divProps }) {
   const className = divProps.class ? `project ${divProps.class}` : 'project';
 
-  const onClick = (event) => {
+  const handleClick = (event) => {
     // Ensure currentTarget is populated
     event.currentTarget ??= event.target.closest('.project');
-    divProps.onClick?.(event);
+    onClick(event);
   };
 
-  return h('button', { ...divProps, class: className, onClick },
-    id === 'zacisme' ? (
+  return h('button', { ...divProps, class: className, onClick: handleClick },
+    data.id === 'zacisme' ? (
       h(Mirror, {
         class: 'project-image',
         source: 'main',
-        defaultImage: `images/${image}`,
+        defaultImage: `images/${data.image}`,
       })
     ) : (
       h('img', {
         class: 'project-image',
-        src: `images/${image}`,
-        title
+        src: `images/${data.image}`,
+        title: data.title
       })
     ),
-    h('div', { class: 'project-label' }, title)
+    h('div', { class: 'project-label' }, data.title)
   );
 }

@@ -39,11 +39,9 @@ function Projects() {
         h(Project, {
           key: data.id,
           class: expandedProject?.data.id === data.id ? 'hidden' : null,
-          id: data.id,
-          image: data.image,
-          title: data.title,
+          onClick: event => onProjectClick(data, event),
           display: data.display,
-          onClick: event => onProjectClick(data, event)
+          data
         })
       ))
     ),
