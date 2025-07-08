@@ -17,14 +17,14 @@ function Projects() {
   const [expandedProject, setExpandedProject] = useState(null);
   const [modifiedData, setModifiedData] = useState(initialData);
 
-  const onProjectClick = useCallback((event) => {
-    event.currentTarget.style.opacity = 0; // Prevent flicker
-    setExpandedProject(event.currentTarget);
+  const onProjectClick = useCallback((data, { currentTarget }) => {
+    currentTarget.style.opacity = 0; // Prevent flicker
+    setExpandedProject({ data, elem: currentTarget });
   }, [setExpandedProject]);
 
   const onDismissOverlay = useCallback(() => {
     setExpandedProject((prevExpandedProject) => {
-      prevExpandedProject.style.opacity = 1;
+      prevExpandedProject.elem.style.opacity = 1;
       return null;
     });
   }, [setExpandedProject]);
@@ -35,21 +35,21 @@ function Projects() {
     h(Controls, { initialData, onClick: setModifiedData }),
 
     h(Animated, { class: 'gallery' },
-      modifiedData.map(({ id, image, title, display }) => (
+      modifiedData.map((data) => (
         h(Project, {
-          key: id,
-          image,
-          title,
-          display,
-          onClick: onProjectClick
+          key: data.id,
+          image: data.image,
+          title: data.title,
+          display: data.display,
+          onClick: event => onProjectClick(data, event)
         })
       ))
     ),
 
     expandedProject && (
       h(Overlay, {
-        data: data.find(({ id }) => id === expandedProject.id),
-        start: expandedProject.getBoundingClientRect(),
+        data: expandedProject.data,
+        start: expandedProject.elem.getBoundingClientRect(),
         onDismiss: onDismissOverlay
       })
     )
