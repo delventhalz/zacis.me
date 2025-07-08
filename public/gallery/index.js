@@ -18,15 +18,11 @@ function Projects() {
   const [modifiedData, setModifiedData] = useState(initialData);
 
   const onProjectClick = (data, { currentTarget }) => {
-    currentTarget.style.opacity = 0; // Prevent flicker
     setExpandedProject({ data, elem: currentTarget });
   };
 
   const onDismissOverlay = () => {
-    setExpandedProject((prevExpandedProject) => {
-      prevExpandedProject.elem.style.opacity = 1;
-      return null;
-    });
+    setExpandedProject(null);
   };
 
   return [
@@ -38,6 +34,7 @@ function Projects() {
       modifiedData.map((data) => (
         h(Project, {
           key: data.id,
+          class: expandedProject?.data.id === data.id ? 'hidden' : null,
           id: data.id,
           image: data.image,
           title: data.title,

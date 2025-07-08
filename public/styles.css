@@ -58,6 +58,10 @@ h3 {
   margin: 0.5rem 0 0 0;
 }
 
+.hidden {
+  opacity: 0;
+}
+
 /* Buttons and Links */
 
 .text-button {

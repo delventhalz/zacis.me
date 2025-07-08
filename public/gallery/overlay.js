@@ -22,8 +22,9 @@ export function Overlay({ data, start, onDismiss }) {
   const imageRef = useRef(null);
 
   useEffect(() => {
-    backgroundRef.current.style.opacity = 1;
-    overlayRef.current.style.opacity = 1;
+    // Undo flicker workaround from below before animating in
+    backgroundRef.current.style.removeProperty('opacity');
+    overlayRef.current.style.removeProperty('opacity');
     fadeIn(backgroundRef, { duration: ANIM_DURATION });
     transformIn(overlayRef, start, { duration: ANIM_DURATION });
     resizeIn(imageRef, start, { duration: ANIM_DURATION });
@@ -40,7 +41,7 @@ export function Overlay({ data, start, onDismiss }) {
     h('div', {
       class: 'overlay-background',
       ref: backgroundRef,
-      style: { opacity: backgroundRef.current ? 1 : 0 }, // Prevent flicker
+      style: backgroundRef.current ? null : { opacity: 0 }, // Prevent flicker
       onClick: handleDismiss
     }),
 
@@ -48,7 +49,7 @@ export function Overlay({ data, start, onDismiss }) {
       {
         class: 'overlay',
         ref: overlayRef,
-        style: { opacity: overlayRef.current ? 1 : 0 } // Prevent flicker
+        style: overlayRef.current ? null : { opacity: 0 } // Prevent flicker
       },
 
       h('div', { class: 'content' },
