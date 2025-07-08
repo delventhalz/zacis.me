@@ -79,13 +79,15 @@ a.quiet,
   color: #777;
 }
 
-a:hover,
-a.quiet:hover,
-a:visited:hover,
-a.quiet:visited:hover,
-.text-button:hover,
-.text-button.quiet:hover {
-  color: #999;
+@media (hover: hover) {
+  a:hover,
+  a.quiet:hover,
+  a:visited:hover,
+  a.quiet:visited:hover,
+  .text-button:hover,
+  .text-button.quiet:hover {
+    color: #999;
+  }
 }
 
 a:active,
