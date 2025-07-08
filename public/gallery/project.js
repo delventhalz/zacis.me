@@ -13,7 +13,7 @@ export function Project({ id, title, image, display: _, ...divProps }) {
     divProps.onClick?.(event);
   };
 
-  return h('div', { ...divProps, id, class: className, onClick },
+  return h('button', { ...divProps, class: className, onClick },
     id === 'zacisme' ? (
       h(Mirror, {
         class: 'project-image',

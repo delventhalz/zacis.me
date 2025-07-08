@@ -38,6 +38,7 @@ function Projects() {
       modifiedData.map((data) => (
         h(Project, {
           key: data.id,
+          id: data.id,
           image: data.image,
           title: data.title,
           display: data.display,
