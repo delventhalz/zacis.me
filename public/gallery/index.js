@@ -5,7 +5,7 @@ import data from './data.json' with { type: 'json' };
 
 const headerStyle = 'font: normal 700 2rem "Corbel", "Lato", sans-serif;'
 const bodyStyle = 'font: normal 400 1rem "Corbel", "Lato", sans-serif;'
-const signoffStyle = 'font: italic 400 1rem "Corbel", "Lato", sans-serif;'
+const nameStyle = 'font: italic 400 1rem "Corbel", "Lato", sans-serif;'
 
 const header = 'Hello\n\n';
 const body = `\
@@ -15,9 +15,9 @@ served statically without a build step, so feel free to poke around in here \
 if you want the details. You might also head over to \
 https://github.com/delventhalz/zacis.me if you are going to really dig in.\
 `;
-const signoff = '\n\n\nCheers, Zac'
+const name = '\n\n\n– Zac'
 
-console.log(`%c${header}%c${body}%c${signoff}`, headerStyle, bodyStyle, signoffStyle);
+console.log(`%c${header}%c${body}%c${name}`, headerStyle, bodyStyle, nameStyle);
 
 const initialData = sortByRelevance(data).map(datum => ({
   ...datum,
