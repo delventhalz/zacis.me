@@ -106,10 +106,14 @@ export function Animated({ children, ...divProps }) {
 
           if (prevChild.props.display && !child.props.display) {
             element.inert = true;
-            fadeOut(element, { duration: FADE_DURATION });
+            fadeOut(element, { duration: FADE_DURATION }).then(() => {
+              element.classList.add('hidden');
+            });
           } else if (!prevChild.props.display && child.props.display) {
             element.inert = false;
-            fadeIn(element, { duration: FADE_DURATION });
+            fadeIn(element, { duration: FADE_DURATION }).then(() => {
+              element.classList.remove('hidden');
+            });
           }
 
           if (prevIndex !== nextIndex) {
