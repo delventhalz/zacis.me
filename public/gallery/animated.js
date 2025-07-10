@@ -99,21 +99,25 @@ export function Animated({ children, ...divProps }) {
       // Start animations for index changes
       flatNextChildren.forEach((child, nextIndex) => {
         const prevIndex = matchChildIndex(flatPrevChildren, child);
-        if (prevIndex !== -1 && prevIndex !== nextIndex) {
-          const end = childLocations[nextIndex] ?? locationCacheRef.current[nextIndex];
-          if (end) {
-            animateReorder(childElements[prevIndex], end);
-          }
-        }
 
-        const prevChild = flatPrevChildren[prevIndex];
-        if (prevChild && prevChild.props.display && !child.props.display) {
-          childElements[prevIndex].inert = true;
-          fadeOut(childElements[prevIndex], { duration: FADE_DURATION });
-        }
-        if (prevChild && !prevChild.props.display && child.props.display) {
-          childElements[prevIndex].inert = false;
-          fadeIn(childElements[prevIndex], { duration: FADE_DURATION });
+        if (prevIndex !== -1) {
+          const prevChild = flatPrevChildren[prevIndex];
+          const element = childElements[prevIndex];
+
+          if (prevChild.props.display && !child.props.display) {
+            element.inert = true;
+            fadeOut(element, { duration: FADE_DURATION });
+          } else if (!prevChild.props.display && child.props.display) {
+            element.inert = false;
+            fadeIn(element, { duration: FADE_DURATION });
+          }
+
+          if (prevIndex !== nextIndex) {
+            const end = childLocations[nextIndex] ?? locationCacheRef.current[nextIndex];
+            if (end) {
+              animateReorder(childElements[prevIndex], end);
+            }
+          }
         }
       });
 
