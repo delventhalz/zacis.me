@@ -89,9 +89,11 @@ export function Overlay({ data, start, onDismiss }) {
         ),
 
         h('div', { class: 'content-footer' },
-          h('p', { class: 'built-line' },
-            'built with ',
-            h(AnchorChain, { data: data.tools.map(name => ({ name })) })
+          data.id !== 'treasury' && (
+            h('p', { class: 'built-line' },
+              'built with ',
+              h(AnchorChain, { data: data.tools.map(name => ({ name })) })
+            )
           )
         ),
 
