@@ -80,7 +80,7 @@ export function Mirror({
         .then(blob => createImageBitmap(blob))
         .then((bitmap) => {
           const ctx = canvasRef.current.getContext('2d', { willReadFrequently: true });
-          ctx.drawImage(bitmap, 0, 0, canvasRef.current.width, canvasRef.current.height);
+          ctx.drawImage(bitmap, 0, 0, canvasRef.current.width, canvasRef.current.width);
         });
     }
 
