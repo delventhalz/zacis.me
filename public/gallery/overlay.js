@@ -67,27 +67,33 @@ export function Overlay({ data, start, onDismiss }) {
       },
 
       h('div', { class: 'content' },
-        h('h2', null, data.title),
+        h('div', { class: 'content-header' },
+          h('h2', null, data.title),
 
-        data.url && (
-          h('p', { class: 'url-line' },
-            h(Anchor, data)
+          data.url && (
+            h('p', { class: 'url-line' },
+              h(Anchor, data)
+            )
+          ),
+
+          data.clients.length > 0 && (
+            h('p', { class: 'for-line' },
+              'for ',
+              h(AnchorChain, { data: data.clients })
+            )
           )
         ),
 
-        h('p', { class: 'built-line' },
-          'built with ',
-          h(AnchorChain, { data: data.tools.map(name => ({ name })) })
+        h('div', { class: 'content-body' },
+          h('p', { class: 'summary' }, data.summary),
         ),
 
-        data.clients.length > 0 && (
-          h('p', { class: 'for-line' },
-            'for ',
-            h(AnchorChain, { data: data.clients })
+        h('div', { class: 'content-footer' },
+          h('p', { class: 'built-line' },
+            'built with ',
+            h(AnchorChain, { data: data.tools.map(name => ({ name })) })
           )
         ),
-
-        h('p', { class: 'summary' }, data.summary),
 
         h('button',
           {
