@@ -38,7 +38,7 @@
     "endDate": "2025-07-01",
     "startDate": "2025-05-10",
     "title": "zacis.me",
-    "summary": "Just a humble place to share contact info and some past projects",
+    "summary": "Just a simple space to share contact info and some past projects",
     "relevance": 61,
     "clients": [],
     "tags": ["Web"],
@@ -53,7 +53,7 @@
     "endDate": "2024-10-01",
     "startDate": "2021-02-01",
     "title": "Taelmoor",
-    "summary": "A narrative board game with magical app interactions, independently published through Kickstarter",
+    "summary": "A narrative board game with magical app interactions, independently published through Kickstarter. Get your copy today!",
     "relevance": 72,
     "clients": [],
     "tags": ["Mobile", "Games"],
@@ -133,7 +133,7 @@
     "endDate": "2020-11-20",
     "startDate": "2019-11-10",
     "title": "CanWe",
-    "summary": "A mobile app building more meaningful relationships by allowing users to judiciously compare answers to important questions",
+    "summary": "A mobile app helping build more meaningful relationships by allowing users to judiciously compare answers to important questions",
     "relevance": 51,
     "clients": [
       {
@@ -156,7 +156,7 @@
     "endDate": "2019-10-24",
     "startDate": "2019-05-02",
     "title": "IoT Controller",
-    "summary": "One consistent controller for purchased IoT devices, available on both the Best Buy mobile apps and through their website",
+    "summary": "One consistent controller for purchased IoT devices, made available on both Best Buy mobile apps and through their website",
     "relevance": 31,
     "clients": [
       {
@@ -201,7 +201,7 @@
     "endDate": "2018-07-27",
     "startDate": "2018-03-05",
     "title": "Cryptomoji",
-    "summary": "A sprint-style educational curriculum taking students through building their own blockchain game, a clone of Cryptokitties",
+    "summary": "A sprint-style educational curriculum taking students through building their own blockchain game, a clone of the briefly popular Cryptokitties",
     "relevance": 12,
     "clients": [
       {
@@ -235,7 +235,7 @@
     "endDate": "2019-05-01",
     "startDate": "2018-08-02",
     "title": "Purchase Portal",
-    "summary": "A part of Thrivent's \"Brightpeak\" skunkworks initiative, the digital purchase portal was an innovative full-service insurance point-of-sale with no agent",
+    "summary": "A part of Thrivent's \"Brightpeak\" skunkworks initiative, the digital purchase portal was an innovative insurance point-of-sale with no agent",
     "relevance": 21,
     "clients": [
       {
@@ -262,7 +262,7 @@
     "endDate": "2018-08-01",
     "startDate": "2017-02-01",
     "title": "Hyperledger Grid",
-    "summary": "A full stack supply-chain-on-the-blockchain solution, customizable to particular industries",
+    "summary": "A full stack supply-chain-on-the-blockchain solution, deeply customizable to particular industries",
     "relevance": 42,
     "clients": [
       {
@@ -328,7 +328,7 @@
     "endDate": "2016-05-23",
     "startDate": "2015-12-21",
     "title": "The Open Folio",
-    "summary": "A dynamically styleable version of Shakespeare’s original 1623 manuscript for web and print, built with Bootstrap and a custom language parsing script",
+    "summary": "A dynamically styleable version of Shakespeare’s original 1623 manuscript for web and print, built with a custom language parsing script and a lot of trail and error",
     "relevance": 22,
     "clients": [],
     "tags": ["Web"],
