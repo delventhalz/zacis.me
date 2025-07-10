@@ -10,6 +10,7 @@ import { Overlay } from './overlay.js';
  */
 function Project({ data, onClick, display: _, ...divProps }) {
   const className = divProps.class ? `project ${divProps.class}` : 'project';
+  const srcSet = data.images.map((img, i) => `${img} ${i + 1}x`).join(', ');
 
   const handleClick = (event) => {
     // Ensure currentTarget is populated
@@ -22,13 +23,13 @@ function Project({ data, onClick, display: _, ...divProps }) {
       h(Mirror, {
         class: 'project-image',
         source: 'main',
-        defaultImage: `images/${data.image}`,
+        defaultImage: data.image,
       })
     ) : (
       h('img', {
         class: 'project-image',
-        src: `images/${data.image}`,
-        title: data.title
+        title: data.title,
+        ...(srcSet ? { srcSet } : { src: data.image })
       })
     ),
     h('div', { class: 'project-label' }, data.title)

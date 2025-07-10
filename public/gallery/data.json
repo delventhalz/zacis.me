@@ -1,6 +1,6 @@
 [
   {
-    "id": "mytreasury",
+    "id": "treasury",
     "endDate": "2025-09-01",
     "startDate": "2022-05-23",
     "title": "myTreasury",
@@ -18,7 +18,19 @@
     ],
     "tags": ["Web"],
     "tools": ["React", "Node", "AWS", "TypeScript"],
-    "image": "mytreasury.webp",
+    "image": "",
+    "images": [
+      "images/treasury-1x.png",
+      "images/treasury-2x.png",
+      "images/treasury-3x.png",
+      "images/treasury-4x.png"
+    ],
+    "largeImages": [
+      "images/treasury-lg-1x.png",
+      "images/treasury-lg-2x.png",
+      "images/treasury-lg-3x.png",
+      "images/treasury-lg-4x.png"
+    ],
     "url": ""
   },
   {
@@ -31,7 +43,9 @@
     "clients": [],
     "tags": ["Web"],
     "tools": ["Preact", "JavaScript"],
-    "image": "zacisme.webp",
+    "image": "images/zacisme.png",
+    "images": [],
+    "largeImages": [],
     "url": "https://github.com/delventhalz/zacis.me"
   },
   {
@@ -44,7 +58,19 @@
     "clients": [],
     "tags": ["Mobile", "Games"],
     "tools": ["React Native", "Node", "TypeScript"],
-    "image": "taelmoor.webp",
+    "image": "",
+    "images": [
+      "images/taelmoor-1x.webp",
+      "images/taelmoor-2x.webp",
+      "images/taelmoor-3x.webp",
+      "images/taelmoor-4x.webp"
+    ],
+    "largeImages": [
+      "images/taelmoor-lg-1x.webp",
+      "images/taelmoor-lg-2x.webp",
+      "images/taelmoor-lg-3x.webp",
+      "images/taelmoor-lg-4x.webp"
+    ],
     "url": "https://taelmoor.com"
   },
   {
@@ -62,7 +88,19 @@
     ],
     "tags": ["Web"],
     "tools": ["Svelte", "Node", "AWS", "JavaScript"],
-    "image": "iquatic.webp",
+    "image": "",
+    "images": [
+      "images/iquatic-1x.png",
+      "images/iquatic-2x.png",
+      "images/iquatic-3x.png",
+      "images/iquatic-4x.png"
+    ],
+    "largeImages": [
+      "images/iquatic-lg-1x.png",
+      "images/iquatic-lg-2x.png",
+      "images/iquatic-lg-3x.png",
+      "images/iquatic-lg-4x.png"
+    ],
     "url": "https://www.cargill.com/animal-nutrition/species/aquaculture/products/iquatic"
   },
   {
@@ -75,7 +113,19 @@
     "clients": [],
     "tags": ["Web", "Open Source"],
     "tools": ["JavaScript", "TypeScript"],
-    "image": "hash.webp",
+    "image": "",
+    "images": [
+      "images/hash-1x.png",
+      "images/hash-2x.png",
+      "images/hash-3x.png",
+      "images/hash-4x.png"
+    ],
+    "largeImages": [
+      "images/hash-lg-1x.png",
+      "images/hash-lg-2x.png",
+      "images/hash-lg-3x.png",
+      "images/hash-lg-4x.png"
+    ],
     "url": "https://www.npmjs.com/package/browser-hash"
   },
   {
@@ -93,7 +143,12 @@
     ],
     "tags": ["Mobile"],
     "tools": ["React Native", "GCP", "JavaScript"],
-    "image": "canwe.webp",
+    "image": "",
+    "images": [
+      "images/canwe-1x.png",
+      "images/canwe-2x.png"
+    ],
+    "largeImages": ["images/canwe-lg-1x.png"],
     "url": "https://canwe-reveal-our-potential.en.softonic.com/android"
   },
   {
@@ -111,7 +166,19 @@
     ],
     "tags": ["Mobile", "Web"],
     "tools": ["React Native Web", "Node", "Groovy", "TypeScript"],
-    "image": "bestbuy.webp",
+    "image": "",
+    "images": [
+      "images/bestbuy-1x.webp",
+      "images/bestbuy-2x.webp",
+      "images/bestbuy-3x.webp",
+      "images/bestbuy-4x.webp"
+    ],
+    "largeImages": [
+      "images/bestbuy-lg-1x.webp",
+      "images/bestbuy-lg-2x.webp",
+      "images/bestbuy-lg-3x.webp",
+      "images/bestbuy-lg-4x.webp"
+    ],
     "url": ""
   },
   {
@@ -124,11 +191,13 @@
     "clients": [],
     "tags": ["Web", "Games"],
     "tools": ["JavaScript"],
-    "image": "meeba.webp",
+    "image": "images/meeba.svg",
+    "images": [],
+    "largeImages": [],
     "url": "https://meeba-farm.github.io"
   },
   {
-    "id": "cryptomoji",
+    "id": "moji",
     "endDate": "2018-07-27",
     "startDate": "2018-03-05",
     "title": "Cryptomoji",
@@ -146,7 +215,19 @@
     ],
     "tags": ["Open Source", "Games", "Education"],
     "tools": ["JavaScript"],
-    "image": "cryptomoji.webp",
+    "image": "",
+    "images": [
+      "images/moji-1x.png",
+      "images/moji-2x.png",
+      "images/moji-3x.png",
+      "images/moji-4x.png"
+    ],
+    "largeImages": [
+      "images/moji-lg-1x.png",
+      "images/moji-lg-2x.png",
+      "images/moji-lg-3x.png",
+      "images/moji-lg-4x.png"
+    ],
     "url": "https://github.com/hyperledger/education-cryptomoji"
   },
   {
@@ -164,7 +245,16 @@
     ],
     "tags": ["Web"],
     "tools": ["Angular", "Node", "AWS", "TypeScript"],
-    "image": "thrivent.webp",
+    "image": "",
+    "images": [
+      "images/thrivent-1x.png",
+      "images/thrivent-2x.png",
+      "images/thrivent-3x.png"
+    ],
+    "largeImages": [
+      "images/thrivent-lg-1x.png",
+      "images/thrivent-lg-2x.png"
+    ],
     "url": ""
   },
   {
@@ -190,7 +280,9 @@
     ],
     "tags": ["Open Source"],
     "tools": ["JavaScript", "Rust", "Python"],
-    "image": "grid.webp",
+    "image": "images/grid.svg",
+    "images": [],
+    "largeImages": [],
     "url": "https://github.com/hyperledger/grid"
   },
   {
@@ -216,7 +308,19 @@
     ],
     "tags": ["Open Source"],
     "tools": ["JavaScript", "Rust", "Python", "Clojure"],
-    "image": "sawtooth.webp",
+    "image": "",
+    "images": [
+      "images/sawtooth-1x.webp",
+      "images/sawtooth-2x.webp",
+      "images/sawtooth-3x.webp",
+      "images/sawtooth-4x.webp"
+    ],
+    "largeImages": [
+      "images/sawtooth-lg-1x.webp",
+      "images/sawtooth-lg-2x.webp",
+      "images/sawtooth-lg-3x.webp",
+      "images/sawtooth-lg-4x.webp"
+    ],
     "url": "https://github.com/hyperledger/sawtooth-core"
   },
   {
@@ -229,7 +333,19 @@
     "clients": [],
     "tags": ["Web"],
     "tools": ["jQuery", "Bootstrap", "JavaScript"],
-    "image": "folio.webp",
+    "image": "",
+    "images": [
+      "images/folio-1x.webp",
+      "images/folio-2x.webp",
+      "images/folio-3x.webp",
+      "images/folio-4x.webp"
+    ],
+    "largeImages": [
+      "images/folio-lg-1x.webp",
+      "images/folio-lg-2x.webp",
+      "images/folio-lg-3x.webp",
+      "images/folio-lg-4x.webp"
+    ],
     "url": "https://delventhalz.github.io/open-folio"
   },
   {
@@ -242,7 +358,12 @@
     "clients": [],
     "tags": ["Web"],
     "tools": ["JavaScript"],
-    "image": "animono.webp",
+    "image": "",
+    "images": [
+      "images/animono-1x.png",
+      "images/animono-2x.png"
+    ],
+    "largeImages": ["images/animono-lg-1x.png"],
     "url": "https://web.archive.org/web/20041215215229/animono.org"
   }
 ]

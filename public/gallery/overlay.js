@@ -21,6 +21,8 @@ export function Overlay({ data, start, onDismiss }) {
   const overlayRef = useRef(null);
   const imageRef = useRef(null);
 
+  const srcSet = data.largeImages.map((img, i) => `${img} ${i + 1}x`).join(', ');
+
   const handleDismiss = () => {
     fadeOut(backgroundRef, { duration: ANIM_DURATION });
     transformOut(overlayRef, start, { duration: ANIM_DURATION });
@@ -102,15 +104,15 @@ export function Overlay({ data, start, onDismiss }) {
           h(Mirror, {
             class: 'overlay-image',
             source: 'main',
-            defaultImage: `images/${data.image}`,
+            defaultImage: data.image,
             updateCount: 18,
             ref: imageRef
           })
         ) : (
           h('img', {
             class: 'overlay-image',
-            src: `images/${data.image}`,
-            ref: imageRef
+            ref: imageRef,
+            ...(srcSet ? { srcSet } : { src: data.image })
           })
         )
       )
