@@ -66,9 +66,9 @@ export function Overlay({ data, start, onDismiss }) {
         style: overlayRef.current ? null : { opacity: 0 } // Prevent flicker
       },
 
-      h('div', { class: 'content' },
+      h('section', { class: 'content' },
         h('div', { class: 'content-header' },
-          h('h2', null, data.title),
+          h('h3', null, data.title),
 
           data.url && (
             h('p', { class: 'url-line' },
