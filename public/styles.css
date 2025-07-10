@@ -225,6 +225,7 @@ a.quiet:visited:disabled,
   background: #f5f5f5;
   border: none;
   display: inline-block;
+  font: inherit;
   height: var(--project-size);
   margin: var(--border-gap);
   max-height: var(--max-project-size);
@@ -232,6 +233,7 @@ a.quiet:visited:disabled,
   overflow: hidden;
   padding: 0;
   position: relative;
+  text-align: left;
   width: var(--project-size);
 }
 
