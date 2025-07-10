@@ -8,7 +8,7 @@ import { Overlay } from './overlay.js';
 /**
  * A single project as displayed within the gallery.
  */
-function Project({ data, onClick, display: _, ...divProps }) {
+function Project({ data, lazy, onClick, display: _, ...divProps }) {
   const className = divProps.class ? `project ${divProps.class}` : 'project';
   const srcSet = data.images.map((img, i) => `${img} ${i + 1}x`).join(', ');
 
@@ -29,6 +29,7 @@ function Project({ data, onClick, display: _, ...divProps }) {
       h('img', {
         class: 'project-image',
         title: data.title,
+        ...(lazy ? { loading: 'lazy' } : {}),
         ...(srcSet ? { srcSet } : { src: data.image })
       })
     ),
@@ -61,11 +62,12 @@ export function Projects({ data }) {
     }),
 
     h(Animated, { class: 'gallery', inert: Boolean(expandedProject) },
-      modifiedData.map((data) => (
+      modifiedData.map((data, i) => (
         h(Project, {
           key: data.id,
           class: expandedProject?.data.id === data.id ? 'hidden' : null,
           onClick: event => onProjectClick(data, event),
+          lazy: i > 5,
           display: data.display,
           data
         })
