@@ -257,10 +257,6 @@ a.quiet:visited:disabled,
   top: 0;
 }
 
-.project.expanded {
-  opacity: 0;
-}
-
 /* Gallery Overlay */
 
 .overlay-background {
