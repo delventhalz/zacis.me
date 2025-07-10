@@ -11,8 +11,6 @@ import {
 } from './animations.js';
 import { Mirror } from './funhouse.js';
 
-const ANIM_DURATION = 400;
-
 /**
  * A modal style overlay with additional information about a single Project.
  */
@@ -23,20 +21,22 @@ export function Overlay({ data, start, onDismiss }) {
 
   const srcSet = data.largeImages.map((img, i) => `${img} ${i + 1}x`).join(', ');
 
-  const handleDismiss = () => {
-    fadeOut(backgroundRef, { duration: ANIM_DURATION });
-    transformOut(overlayRef, start, { duration: ANIM_DURATION });
-    resizeOut(imageRef, start, { duration: ANIM_DURATION });
-    setTimeout(onDismiss, ANIM_DURATION);
+  const handleDismiss = async () => {
+    await Promise.all([
+      fadeOut(backgroundRef),
+      transformOut(overlayRef, start),
+      resizeOut(imageRef, start)
+    ]);
+    onDismiss();
   };
 
   useEffect(() => {
     // Undo flicker workaround from below before animating in
     backgroundRef.current.style.removeProperty('opacity');
     overlayRef.current.style.removeProperty('opacity');
-    fadeIn(backgroundRef, { duration: ANIM_DURATION });
-    transformIn(overlayRef, start, { duration: ANIM_DURATION });
-    resizeIn(imageRef, start, { duration: ANIM_DURATION });
+    fadeIn(backgroundRef);
+    transformIn(overlayRef, start);
+    resizeIn(imageRef, start);
   }, []);
 
   useEffect(() => {

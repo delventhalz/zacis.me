@@ -64,6 +64,9 @@ export const animate = (elemOrRef, options = {}) => {
     dynamicOptions.fill = 'forwards';
   }
 
+  // Add any passed animateOptions into our final dynamicOptions object
+  Object.assign(dynamicOptions, animateOptions);
+
   const frames = [{}];
 
   if (start) {
@@ -73,11 +76,12 @@ export const animate = (elemOrRef, options = {}) => {
     frames.push(makeFrame(element, end));
   }
 
-  element.animate(frames, Object.assign(dynamicOptions, animateOptions));
+  const animation = element.animate(frames, dynamicOptions);
+  return animation.finished;
 };
 
 export const fadeIn = (elemOrRef, options = {}) => {
-  animate(elemOrRef, {
+  return animate(elemOrRef, {
     ...options,
     start: { opacity: 0 },
     end: { opacity: 1 },
@@ -85,7 +89,7 @@ export const fadeIn = (elemOrRef, options = {}) => {
 };
 
 export const fadeOut = (elemOrRef, options = {}) => {
-  animate(elemOrRef, {
+  return animate(elemOrRef, {
     ...options,
     start: { opacity: 1 },
     end: { opacity: 0 },
@@ -93,42 +97,42 @@ export const fadeOut = (elemOrRef, options = {}) => {
 };
 
 export const moveIn = (elemOrRef, { x, y }, options = {}) => {
-  animate(elemOrRef, {
+  return animate(elemOrRef, {
     ...options,
     start: { x, y }
   });
 };
 
 export const moveOut = (elemOrRef, { x, y }, options = {}) => {
-  animate(elemOrRef, {
+  return animate(elemOrRef, {
     ...options,
     end: { x, y }
   });
 };
 
 export const resizeIn = (elemOrRef, { width, height }, options = {}) => {
-  animate(elemOrRef, {
+  return animate(elemOrRef, {
     ...options,
     start: { width, height }
   });
 };
 
 export const resizeOut = (elemOrRef, { width, height }, options = {}) => {
-  animate(elemOrRef, {
+  return animate(elemOrRef, {
     ...options,
     end: { width, height }
   });
 };
 
 export const transformIn = (elemOrRef, start, options = {}) => {
-  animate(elemOrRef, {
+  return animate(elemOrRef, {
     ...options,
     start
   });
 };
 
 export const transformOut = (elemOrRef, end, options = {}) => {
-  animate(elemOrRef, {
+  return animate(elemOrRef, {
     ...options,
     end
   });
