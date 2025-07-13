@@ -49,14 +49,23 @@ function Project({ data, lazy, onClick, display: _, ...divProps }) {
  */
 export function Projects({ data }) {
   const [expandedProject, setExpandedProject] = useState(null);
+  const [hiddenProjectId, setHiddenProjectId] = useState('');
   const [modifiedData, setModifiedData] = useState(data);
 
   const onProjectClick = (data, { currentTarget }) => {
     setExpandedProject({ data, elem: currentTarget });
+    // Give overlay a chance to render before hiding project
+    requestAnimationFrame(() => {
+      setHiddenProjectId(data.id);
+    });
   };
 
   const onDismissOverlay = () => {
-    setExpandedProject(null);
+    setHiddenProjectId('');
+    // Give project a chance to render before hiding overlay
+    requestAnimationFrame(() => {
+      setExpandedProject(null);
+    });
   };
 
   return [
@@ -72,7 +81,7 @@ export function Projects({ data }) {
       modifiedData.map((data, i) => (
         h(Project, {
           key: data.id,
-          class: expandedProject?.data.id === data.id ? 'hidden' : null,
+          class: hiddenProjectId === data.id ? 'hidden' : null,
           onClick: event => onProjectClick(data, event),
           lazy: i > 5,
           display: data.display,
