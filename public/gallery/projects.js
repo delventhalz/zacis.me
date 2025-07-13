@@ -1,7 +1,8 @@
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { Animated } from './animated.js';
 import { Controls } from './controls.js';
+import { urlsToSet } from './dom.js';
 import { Mirror } from './funhouse.js';
 import { Overlay } from './overlay.js';
 
@@ -10,7 +11,13 @@ import { Overlay } from './overlay.js';
  */
 function Project({ data, lazy, onClick, display: _, ...divProps }) {
   const className = divProps.class ? `project ${divProps.class}` : 'project';
-  const srcSet = data.images.map((img, i) => `${img} ${i + 1}x`).join(', ');
+  const srcSet = urlsToSet(data.images);
+
+  // Prevent a flash of white by caching the large image required by the overlay
+  useEffect(() => {
+    const img = new Image();
+    img.srcset = urlsToSet(data.largeImages);
+  }, []);
 
   const handleClick = (event) => {
     // Ensure currentTarget is populated

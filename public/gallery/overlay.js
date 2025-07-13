@@ -9,6 +9,7 @@ import {
   transformIn,
   transformOut
 } from './animations.js';
+import { urlsToSet } from './dom.js';
 import { Mirror } from './funhouse.js';
 
 /**
@@ -19,7 +20,7 @@ export function Overlay({ data, start, onDismiss }) {
   const overlayRef = useRef(null);
   const imageRef = useRef(null);
 
-  const srcSet = data.largeImages.map((img, i) => `${img} ${i + 1}x`).join(', ');
+  const srcSet = urlsToSet(data.largeImages);
 
   const handleDismiss = async () => {
     await Promise.all([
