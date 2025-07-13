@@ -148,13 +148,12 @@ export function Controls({ initialData, onClick, ...divProps }) {
     h('h3', null, 'Sort'),
     h('div', { class: 'control-panel' },
       SORT_KEYS.map((key) => (
-        h('button',
-          {
-            key,
-            disabled,
-            class: `text-button ${sort === key ? '' : 'quiet'}`,
-            onClick: () => onSortClick(key)
-          },
+        h('button', {
+          key,
+          disabled,
+          class: `text-button ${sort === key ? '' : 'quiet'}`,
+          onClick: () => onSortClick(key)
+        },
           key
         )
       ))
@@ -163,13 +162,12 @@ export function Controls({ initialData, onClick, ...divProps }) {
     h('h3', null, 'Filter'),
     h('div', { class: 'control-panel' },
       FILTER_KEYS.map((key) => (
-        h('button',
-          {
-            key,
-            disabled,
-            class: `text-button ${display === key ? '' : 'quiet'}`,
-            onClick: () => onFilterClick(key)
-          },
+        h('button', {
+          key,
+          disabled,
+          class: `text-button ${display === key ? '' : 'quiet'}`,
+          onClick: () => onFilterClick(key)
+        },
           key
         )
       ))

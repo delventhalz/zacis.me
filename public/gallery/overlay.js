@@ -60,13 +60,11 @@ export function Overlay({ data, start, onDismiss }) {
       onClick: handleDismiss
     }),
 
-    h('div',
-      {
-        class: 'overlay',
-        ref: overlayRef,
-        style: overlayRef.current ? null : { opacity: 0 } // Prevent flicker
-      },
-
+    h('div', {
+      class: 'overlay',
+      ref: overlayRef,
+      style: overlayRef.current ? null : { opacity: 0 } // Prevent flicker
+    },
       h('section', { class: 'content' },
         h('div', { class: 'content-header' },
           h('h3', null, data.title),
@@ -98,12 +96,11 @@ export function Overlay({ data, start, onDismiss }) {
           )
         ),
 
-        h('button',
-          {
-            class: 'close text-button',
-            onClick: handleDismiss,
-            ariaLabel: 'Close'
-          },
+        h('button', {
+          class: 'close text-button',
+          onClick: handleDismiss,
+          ariaLabel: 'Close'
+        },
           '[X]'
         )
       ),
