@@ -1,21 +1,7 @@
+import { getDomNode } from './dom.js';
+
 const DEFAULT_DURATION = 400;
 const DEFAULT_EASE = 'ease-in-out';
-
-const getDomElement = (elemOrRef) => {
-  if (elemOrRef.animate) {
-    return elemOrRef;
-  }
-  if (elemOrRef.base?.animate) {
-    return elemOrRef.base;
-  }
-  if (elemOrRef.current?.animate) {
-    return elemOrRef.current;
-  }
-  if (elemOrRef.current?.base?.animate) {
-    return elemOrRef.current.base;
-  }
-  return null;
-}
 
 const makeFrame = (element, props) => {
   const frame = {};
@@ -40,17 +26,33 @@ const makeFrame = (element, props) => {
   return frame;
 };
 
+// Duration grows quickly with distance but then levels off, 500ms ~ 800ms
+const calcDynamicDuration = (element, start = {}, end = {}) => {
+  const loc = element.getBoundingClientRect();
+
+  const deltaX = (start.x ?? loc.x) - (end.x ?? loc.x);
+  const deltaY = (start.y ?? loc.y) - (end.y ?? loc.y);
+  const deltaWidth = (start.width ?? loc.width) - (end.width ?? loc.width);
+  const deltaHeight = (start.height ?? loc.height) - (end.height ?? loc.height);
+
+  const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+  const growth = Math.sqrt(deltaWidth ** 2 + deltaHeight ** 2);
+  const magnitude = distance + growth;
+
+  return Math.max(0, 150 * Math.log(1.5 * magnitude) - 300);
+};
+
 /**
  * Takes an element and some start and/or end props, then builds and runs
  * an animation.
  */
 export const animate = (elemOrRef, options = {}) => {
-  const element = getDomElement(elemOrRef);
+  const element = getDomNode(elemOrRef);
   if (!element) {
     return;
   }
 
-  const { start, end, ...animateOptions } = options;
+  const { start, end, dynamicDuration, ...animateOptions } = options;
   const dynamicOptions = {
     duration: DEFAULT_DURATION,
     easing: DEFAULT_EASE
@@ -62,6 +64,10 @@ export const animate = (elemOrRef, options = {}) => {
     dynamicOptions.fill = 'backwards';
   } else if (end) {
     dynamicOptions.fill = 'forwards';
+  }
+
+  if (typeof dynamicDuration === 'number') {
+    dynamicOptions.duration = dynamicDuration * calcDynamicDuration(element, start, end);
   }
 
   // Add any passed animateOptions into our final dynamicOptions object
