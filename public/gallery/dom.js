@@ -1,4 +1,15 @@
 /**
+ * Accepts any number of strings or props objects and joins them into one string
+ */
+export const mixClasses = (...classArgs) => {
+  return classArgs
+    .flat(Infinity)
+    .map(arg => arg?.class ? arg.class : arg)
+    .filter(className => className && typeof className === 'string')
+    .join(' ');
+};
+
+/**
  * Convert an array of URL strings to "1x, 2x..." srcset string
  */
 export const urlsToSet = (imageUrls) => {
@@ -22,4 +33,22 @@ export const getDomNode = (elemOrRef) => {
     return elemOrRef.current.base;
   }
   return null;
+};
+
+/**
+ * Waits for a DOM element to load or an optional timeout, whichever is first
+ */
+export const waitForLoad = (elemOrRef, timeout) => {
+  const element = getDomNode(elemOrRef);
+
+  return new Promise(resolve => {
+    element.addEventListener('load', resolve, { times: 1 });
+
+    if (typeof timeout === 'number') {
+      setTimeout(() => {
+        element.removeEventListener('load', resolve);
+        resolve();
+      }, timeout);
+    }
+  });
 };

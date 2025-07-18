@@ -1,8 +1,8 @@
 import { h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { Animated } from './animated.js';
 import { Controls } from './controls.js';
-import { urlsToSet } from './dom.js';
+import { getDomNode, mixClasses, urlsToSet } from './dom.js';
 import { Mirror } from './funhouse.js';
 import { Overlay } from './overlay.js';
 
@@ -10,22 +10,20 @@ import { Overlay } from './overlay.js';
  * A single project as displayed within the gallery.
  */
 function Project({ data, lazy, onClick, display: _, ...divProps }) {
-  const className = divProps.class ? `project ${divProps.class}` : 'project';
+  const className = mixClasses(divProps, 'project');
   const srcSet = urlsToSet(data.images);
+  const projectRef = useRef(null);
 
-  // Prevent a flash of white by caching the large image required by the overlay
-  useEffect(() => {
-    const img = new Image();
-    img.srcset = urlsToSet(data.largeImages);
-  }, []);
-
-  const handleClick = (event) => {
-    // Ensure currentTarget is populated
-    event.currentTarget ??= event.target.closest('.project');
-    onClick(event);
+  const handleClick = () => {
+    onClick({ data, element: getDomNode(projectRef) });
   };
 
-  return h('button', { ...divProps, class: className, onClick: handleClick },
+  return h('button', {
+    ...divProps,
+    class: className,
+    onClick: handleClick,
+    ref: projectRef
+  },
     data.id === 'zacisme' ? (
       h(Mirror, {
         class: 'project-image',
@@ -49,23 +47,11 @@ function Project({ data, lazy, onClick, display: _, ...divProps }) {
  */
 export function Projects({ data }) {
   const [expandedProject, setExpandedProject] = useState(null);
-  const [hiddenProjectId, setHiddenProjectId] = useState('');
+  const [overlayShowing, setOverlayShowing] = useState(false);
   const [modifiedData, setModifiedData] = useState(data);
 
-  const onProjectClick = (data, { currentTarget }) => {
-    setExpandedProject({ data, elem: currentTarget });
-    // Give overlay a chance to render before hiding project
-    requestAnimationFrame(() => {
-      setHiddenProjectId(data.id);
-    });
-  };
-
   const onDismissOverlay = () => {
-    setHiddenProjectId('');
-    // Give project a chance to render before hiding overlay
-    requestAnimationFrame(() => {
-      setExpandedProject(null);
-    });
+    setExpandedProject(null);
   };
 
   return [
@@ -81,8 +67,8 @@ export function Projects({ data }) {
       modifiedData.map((data, i) => (
         h(Project, {
           key: data.id,
-          class: hiddenProjectId === data.id ? 'hidden' : null,
-          onClick: event => onProjectClick(data, event),
+          class: expandedProject?.data.id === data.id && overlayShowing ? 'hidden' : null,
+          onClick: setExpandedProject,
           lazy: i > 5,
           display: data.display,
           data
@@ -93,7 +79,8 @@ export function Projects({ data }) {
     expandedProject && (
       h(Overlay, {
         data: expandedProject.data,
-        start: expandedProject.elem.getBoundingClientRect(),
+        start: expandedProject.element.getBoundingClientRect(),
+        onShowing: setOverlayShowing,
         onDismiss: onDismissOverlay
       })
     )

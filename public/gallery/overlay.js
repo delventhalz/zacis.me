@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useEffect, useRef } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { Anchor, AnchorChain } from './anchors.js';
 import {
   fadeIn,
@@ -9,13 +9,16 @@ import {
   transformIn,
   transformOut
 } from './animations.js';
-import { urlsToSet } from './dom.js';
+import { mixClasses, urlsToSet, waitForLoad } from './dom.js';
 import { Mirror } from './funhouse.js';
+
+const MAX_LOAD_WAIT = 50;
 
 /**
  * A modal style overlay with additional information about a single Project.
  */
-export function Overlay({ data, start, onDismiss }) {
+export function Overlay({ data, start, onDismiss, onShowing }) {
+  const [showing, setShowing] = useState(false);
   const backgroundRef = useRef(null);
   const overlayRef = useRef(null);
   const imageRef = useRef(null);
@@ -28,16 +31,20 @@ export function Overlay({ data, start, onDismiss }) {
       transformOut(overlayRef, start),
       resizeOut(imageRef, start)
     ]);
-    onDismiss();
+
+    setShowing(false);
+    onShowing(false);
+    requestAnimationFrame(onDismiss);
   };
 
   useEffect(() => {
-    // Undo flicker workaround from below before animating in
-    backgroundRef.current.style.removeProperty('opacity');
-    overlayRef.current.style.removeProperty('opacity');
-    fadeIn(backgroundRef);
-    transformIn(overlayRef, start);
-    resizeIn(imageRef, start);
+    waitForLoad(imageRef, MAX_LOAD_WAIT).then(() => {
+      setShowing(true);
+      onShowing(true);
+      fadeIn(backgroundRef);
+      transformIn(overlayRef, start);
+      resizeIn(imageRef, start);
+    });
   }, []);
 
   useEffect(() => {
@@ -54,16 +61,14 @@ export function Overlay({ data, start, onDismiss }) {
 
   return [
     h('div', {
-      class: 'overlay-background',
+      class: mixClasses('overlay-background', showing ? null : 'hidden'),
       ref: backgroundRef,
-      style: backgroundRef.current ? null : { opacity: 0 }, // Prevent flicker
       onClick: handleDismiss
     }),
 
     h('div', {
-      class: 'overlay',
-      ref: overlayRef,
-      style: overlayRef.current ? null : { opacity: 0 } // Prevent flicker
+      class: mixClasses('overlay', showing ? null : 'hidden'),
+      ref: overlayRef
     },
       h('section', { class: 'content' },
         h('div', { class: 'content-header' },
