@@ -13,7 +13,9 @@ const handleEnterLeave = (event, state) => {
     }
 
     const location = element.getBoundingClientRect();
-    return event.x > location.x
+    return !element.inert
+      && !element.disabled
+      && event.x > location.x
       && event.x < location.x + location.width
       && event.y > location.y
       && event.y < location.y + location.height;
