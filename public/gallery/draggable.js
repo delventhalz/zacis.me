@@ -36,13 +36,13 @@ const handleEnterLeave = (event, state) => {
   }
 
   if (state.dropTarget) {
-    state.dropTarget.dispatchEvent(new DragEvent('dragleave', { ...event, bubbles: true }));
+    state.dropTarget.dispatchEvent(new DragEvent('dragleave', event));
   }
 
   state.dropTarget = dropTarget;
 
   if (dropTarget) {
-    dropTarget.dispatchEvent(new DragEvent('dragenter', { ...event, bubbles: true }));
+    dropTarget.dispatchEvent(new DragEvent('dragenter', event));
   }
 };
 
