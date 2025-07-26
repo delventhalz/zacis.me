@@ -15,15 +15,13 @@ often the strongest advocate for sophisticated frameworks, robust build
 pipelines, and strict types and testing, but when you don't need it, don't use
 it.
 
-Static files also happen to be both incredibly fast and transparent for anyone
-who goes snooping in their browser's developer tools. Two big selling points for
-a portfolio site.
+Static files also happen to be fast and transparent for anyone who goes snooping
+with their dev tools. Two big selling points for a portfolio site.
 
 ## Usage
 
-The easiest way to use this project is just to
-[visit the url](https://zacis.me). If for some reason you really want to run the
-page locally, that is also possible.
+The easiest way to use this project is just to [visit it](https://zacis.me). If
+for some reason you really want to run the page locally, that is also possible.
 
 First clone the repo and install the dependencies
 (requires [Node](https://nodejs.org/)):
