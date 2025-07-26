@@ -6,14 +6,11 @@ const DEFAULT_OPTIONS = {
 
 const handleEnterLeave = (event, state) => {
   const droppables = [...state.settings.container.querySelectorAll(state.settings.droppable)];
-
   const hits = droppables.filter(element => {
-    if (element === state.target || element === state.placeholder) {
-      return false;
-    }
-
     const location = element.getBoundingClientRect();
-    return !element.inert
+    return element !== state.target
+      && element !== state.placeholder
+      && !element.inert
       && !element.disabled
       && event.x > location.x
       && event.x < location.x + location.width
