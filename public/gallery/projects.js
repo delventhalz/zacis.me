@@ -7,7 +7,7 @@ import { Mirror } from './funhouse.js';
 import { Overlay } from './overlay.js';
 import { useDragOver } from './use-drag-over.js';
 
-const SWAP_THRESHOLD = 0.3;
+const SWAP_THRESHOLD = 0.2;
 
 /**
  * A single project as displayed within the gallery.
