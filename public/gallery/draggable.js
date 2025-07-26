@@ -9,7 +9,7 @@ const handleEnterLeave = (event, state) => {
   const hits = droppables.filter(element => {
     const location = element.getBoundingClientRect();
     return element !== state.target
-      && element !== state.placeholder
+      && element !== state.dragImage
       && !element.inert
       && !element.disabled
       && event.x > location.x
@@ -45,8 +45,8 @@ const handleEnterLeave = (event, state) => {
 
 const handlePointerMove = (event, state) => {
   event.preventDefault();
-  state.target.style.top = `${event.y - state.offset.y}px`;
-  state.target.style.left = `${event.x - state.offset.x}px`;
+  state.dragImage.style.top = `${event.y - state.offset.y}px`;
+  state.dragImage.style.left = `${event.x - state.offset.x}px`;
   state.target.dispatchEvent(new DragEvent('drag', event));
 
   // Let new coordinates render immediately before running enter/leave logic
@@ -82,27 +82,25 @@ const handlePointerDown = (event, settings) => {
     y: event.y - y
   };
 
-  const placeholder = target.cloneNode();
-  placeholder.opacity = 0;
-  placeholder.inert = true;
-  target.replaceWith(placeholder);
+  const dragImage = target.cloneNode(true);
+  dragImage.style.position = 'fixed';
+  dragImage.style.top = `${y}px`;
+  dragImage.style.left = `${x}px`;
+  dragImage.inert = true;
+  settings.container.append(dragImage);
 
-  const originalStyles = {
-    position: target.style.position,
-    top: target.style.top,
-    left: target.style.left
+  const originalProps = {
+    opacity: target.style.opacity,
+    intert: target.inert
   };
-
-  target.style.position = 'fixed';
-  target.style.top = `${y}px`;
-  target.style.left = `${x}px`;
-  settings.container.append(target);
+  target.style.opacity = 0;
+  target.inert = true;
 
   // Mutable state shared by all handlers
   const state = {
     target,
     dropTarget: null,
-    placeholder,
+    dragImage,
     offset,
     settings
   };
@@ -117,11 +115,9 @@ const handlePointerDown = (event, settings) => {
   state.restore = () => {
     window.removeEventListener('pointermove', onPointerMove);
     window.removeEventListener('pointerup', onPointerUp);
-
-    target.style.position = originalStyles.position;
-    target.style.top = originalStyles.top;
-    target.style.left = originalStyles.left;
-    placeholder.replaceWith(target);
+    target.style.opacity = originalProps.opacity;
+    target.inert = originalProps.inert;
+    dragImage.remove();
   };
 };
 
