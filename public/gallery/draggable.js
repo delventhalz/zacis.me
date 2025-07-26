@@ -1,3 +1,5 @@
+import { moveOut } from './animations.js';
+
 const DEFAULT_MAKE_DRAG_IMAGE = (target) => {
   const dragImage = target.cloneNode(true);
   dragImage.style.opacity = 0.8;
@@ -9,6 +11,8 @@ const DEFAULT_OPTIONS = {
   dragTrigger: '[draggable="true"]',
   droppable: '[data-droppable="true"]',
   draggedClass: '',
+  animateDrop: false,
+  animateCancel: true,
   makeDragImage: DEFAULT_MAKE_DRAG_IMAGE
 };
 
@@ -65,13 +69,29 @@ const handlePointerMove = (event, state) => {
 
 const handlePointerUp = (event, state) => {
   event.preventDefault();
-  state.restore();
 
-  if (state.dropTarget) {
-    state.dropTarget.dispatchEvent(new DragEvent('drop', event));
-  }
+  const {
+    target,
+    dropTarget,
+    dragImage,
+    restore,
+    settings
+  } = state;
 
-  state.target.dispatchEvent(new DragEvent('dragend', event));
+  const isAnimated = dropTarget ? settings.animateDrop : settings.animateCancel;
+  const animation = isAnimated
+    ? moveOut(dragImage, target.getBoundingClientRect(), { dynamicDuration: 0.8 })
+    : Promise.resolve();
+
+  animation.then(() => {
+    restore();
+
+    if (dropTarget) {
+      dropTarget.dispatchEvent(new DragEvent('drop', event));
+    }
+
+    target.dispatchEvent(new DragEvent('dragend', event));
+  });
 };
 
 // Kicks off initial DOM modifications and all the other event listeners

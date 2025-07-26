@@ -166,7 +166,7 @@ export function Animated({ children, ...divProps }) {
 
           if (prevChild && prevIndex !== nextIndex) {
             restoreModifiedChild(children, element);
-            moveIn(element, prevLocations[prevIndex], { dynamicDuration: 1 });
+            moveIn(element, prevLocations[prevIndex], { dynamicDuration: 0.6 });
           }
 
           if (prevChild && prevChild.props.display && !nextChild.props.display) {

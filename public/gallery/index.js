@@ -50,6 +50,8 @@ const swapMirror = (container) => {
 initDraggable(gallerySection, {
   dragTrigger: '.drag-trigger',
   draggedClass: 'hidden',
+  animateDrop: true,
+  animateCancel: true,
   makeDragImage: (target) => {
     const dragImage = target.cloneNode(true);
 
