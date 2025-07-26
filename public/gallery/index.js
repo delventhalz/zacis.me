@@ -29,5 +29,7 @@ const gallerySection = document.getElementById('project-gallery');
 render(h(Projects, { data: initialData }), gallerySection);
 
 initDraggable(gallerySection, {
-  dragTrigger: '.drag-trigger'
+  dragTrigger: '.drag-trigger',
+  draggedClass: 'hidden',
+  makeDragImage: target => target.cloneNode(true)
 });

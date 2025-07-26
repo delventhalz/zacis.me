@@ -1,7 +1,15 @@
+const DEFAULT_MAKE_DRAG_IMAGE = (target) => {
+  const dragImage = target.cloneNode(true);
+  dragImage.style.opacity = 0.8;
+  return dragImage;
+};
+
 const DEFAULT_OPTIONS = {
   draggable: '[draggable="true"]',
   dragTrigger: '[draggable="true"]',
-  droppable: '[data-droppable="true"]'
+  droppable: '[data-droppable="true"]',
+  draggedClass: '',
+  makeDragImage: DEFAULT_MAKE_DRAG_IMAGE
 };
 
 const handleEnterLeave = (event, state) => {
@@ -82,19 +90,19 @@ const handlePointerDown = (event, settings) => {
     y: event.y - y
   };
 
-  const dragImage = target.cloneNode(true);
+  const dragImage = settings.makeDragImage(target);
   dragImage.style.position = 'fixed';
   dragImage.style.top = `${y}px`;
   dragImage.style.left = `${x}px`;
   dragImage.inert = true;
   settings.container.append(dragImage);
 
-  const originalProps = {
-    opacity: target.style.opacity,
-    intert: target.inert
-  };
-  target.style.opacity = 0;
+  const originalInert = target.inert;
   target.inert = true;
+
+  if (settings.draggedClass) {
+    target.classList.add(settings.draggedClass);
+  }
 
   // Mutable state shared by all handlers
   const state = {
@@ -115,8 +123,12 @@ const handlePointerDown = (event, settings) => {
   state.restore = () => {
     window.removeEventListener('pointermove', onPointerMove);
     window.removeEventListener('pointerup', onPointerUp);
-    target.style.opacity = originalProps.opacity;
-    target.inert = originalProps.inert;
+
+    target.inert = originalInert;
+    if (settings.draggedClass) {
+      target.classList.remove(settings.draggedClass);
+    }
+
     dragImage.remove();
   };
 };
