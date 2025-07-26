@@ -1,6 +1,7 @@
 import { h, render } from 'preact';
 import { sortByRelevance } from './controls.js';
 import { initDraggable } from './draggable.js';
+import { Mirror } from './funhouse.js';
 import { Projects } from './projects.js';
 import data from './data.json' with { type: 'json' };
 
@@ -28,8 +29,34 @@ const initialData = sortByRelevance(data).map(datum => ({
 const gallerySection = document.getElementById('project-gallery');
 render(h(Projects, { data: initialData }), gallerySection);
 
+// Can't just clone a Mirror, it needs a bunch of listeners
+const swapMirror = (container) => {
+  // Assuming mirror element is first with ui elements on top
+  const uiElements = [...container.children].slice(1);
+  container.replaceChildren();
+
+  const mirror = h(Mirror, {
+    class: 'project-image',
+    source: 'main',
+    defaultImage: 'images/zacisme.webp'
+  });
+  render(mirror, container);
+
+  for (const uiElement of uiElements) {
+    container.append(uiElement);
+  }
+};
+
 initDraggable(gallerySection, {
   dragTrigger: '.drag-trigger',
   draggedClass: 'hidden',
-  makeDragImage: target => target.cloneNode(true)
+  makeDragImage: (target) => {
+    const dragImage = target.cloneNode(true);
+
+    if (dragImage.id === 'project-zacisme') {
+      swapMirror(dragImage);
+    }
+
+    return dragImage;
+  }
 });
