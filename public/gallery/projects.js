@@ -5,6 +5,9 @@ import { Controls } from './controls.js';
 import { getDomNode, mixClasses, urlsToSet } from './dom.js';
 import { Mirror } from './funhouse.js';
 import { Overlay } from './overlay.js';
+import { useDragOver } from './use-drag-over.js';
+
+const SWAP_THRESHOLD = 0.3;
 
 /**
  * A single project as displayed within the gallery.
@@ -19,7 +22,10 @@ function Project({ data, lazy, onClick, display: _, ...divProps }) {
   };
 
   return h('button', {
+    draggable: true,
+    'data-droppable': true,
     ...divProps,
+    id: `project-${data.id}`,
     class: className,
     onClick: handleClick,
     ref: projectRef
@@ -38,7 +44,14 @@ function Project({ data, lazy, onClick, display: _, ...divProps }) {
         ...(srcSet ? { srcSet } : { src: data.image })
       })
     ),
-    h('div', { class: 'project-label' }, data.title)
+    h('div', { class: 'project-label' }, data.title),
+    h('div', { class: 'drag-trigger' },
+      h('img', {
+        src: 'images/drag-icon.svg',
+        alt: 'Drag to rearrange',
+        title: 'Drag to rearrange'
+      })
+    )
   );
 }
 
@@ -49,6 +62,20 @@ export function Projects({ data }) {
   const [expandedProject, setExpandedProject] = useState(null);
   const [overlayShowing, setOverlayShowing] = useState(false);
   const [modifiedData, setModifiedData] = useState(data);
+  const galleryRef = useRef(null);
+
+  useDragOver((over, under) => {
+    setModifiedData(prevData => {
+      const overIndex = prevData.findIndex(data => over.id === `project-${data.id}`);
+      const underIndex = prevData.findIndex(data => under.id === `project-${data.id}`);
+
+      const nextData = [...prevData];
+      nextData[overIndex] = prevData[underIndex];
+      nextData[underIndex] = prevData[overIndex];
+
+      return nextData;
+    });
+  }, { threshold: SWAP_THRESHOLD });
 
   const onDismissOverlay = () => {
     setExpandedProject(null);
@@ -63,7 +90,11 @@ export function Projects({ data }) {
       onClick: setModifiedData
     }),
 
-    h(Animated, { class: 'gallery', inert: Boolean(expandedProject) },
+    h(Animated, {
+      class: 'gallery',
+      inert: Boolean(expandedProject),
+      ref: galleryRef
+    },
       modifiedData.map((data, i) => (
         h(Project, {
           key: data.id,

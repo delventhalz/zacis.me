@@ -257,6 +257,19 @@ a.quiet:visited:disabled,
   top: 0;
 }
 
+.project .drag-trigger {
+  bottom: 0;
+  padding: 1.5rem 0.75rem 0 1.5rem;
+  position: absolute;
+  right: 0;
+  touch-action: none;
+}
+
+.drag-trigger img {
+  height: 2.25rem;
+  width: 2.25rem;
+}
+
 /* Gallery Overlay */
 
 .overlay-background {

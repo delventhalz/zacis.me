@@ -1,5 +1,6 @@
 import { h, render } from 'preact';
 import { sortByRelevance } from './controls.js';
+import { initDraggable } from './draggable.js';
 import { Projects } from './projects.js';
 import data from './data.json' with { type: 'json' };
 
@@ -26,3 +27,7 @@ const initialData = sortByRelevance(data).map(datum => ({
 
 const gallerySection = document.getElementById('project-gallery');
 render(h(Projects, { data: initialData }), gallerySection);
+
+initDraggable(gallerySection, {
+  dragTrigger: '.drag-trigger'
+});
