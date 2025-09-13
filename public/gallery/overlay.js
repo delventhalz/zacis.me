@@ -9,10 +9,13 @@ import {
   transformIn,
   transformOut
 } from './animations.js';
-import { mixClasses, urlsToSet, waitForLoad } from './dom.js';
+import { mixClasses, urlsToSet } from './dom.js';
 import { Mirror } from './funhouse.js';
 
-const MAX_LOAD_WAIT = 50;
+// Give the overlay image a couple of frames to render before we show the
+// rest of the overlay and obscure the equivalent image in the gallery.
+// This should prevent a flash of white on opening the overlay.
+const SHOW_DELAY = 32;
 
 /**
  * A modal style overlay with additional information about a single Project.
@@ -38,13 +41,13 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
   };
 
   useEffect(() => {
-    waitForLoad(imageRef, MAX_LOAD_WAIT).then(() => {
+    setTimeout(() => {
       setShowing(true);
       onShowing(true);
       fadeIn(backgroundRef);
       transformIn(overlayRef, start);
       resizeIn(imageRef, start);
-    });
+    }, SHOW_DELAY);
   }, []);
 
   useEffect(() => {
@@ -110,7 +113,7 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
         )
       ),
 
-      h('div', { class: 'overlay-image-wrapper' },
+      h('div', { class: mixClasses('overlay-image-wrapper', showing ? null : 'not-hidden') },
         data.id === 'zacisme' ? (
           h(Mirror, {
             class: 'overlay-image',

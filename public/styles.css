@@ -64,6 +64,10 @@ h3 {
   opacity: 0;
 }
 
+.not-hidden {
+  opacity: 1;
+}
+
 /* Buttons and Links */
 
 .text-button {
@@ -313,6 +317,10 @@ canvas.overlay-image {
   overflow: hidden;
   position: absolute;
   top: var(--border-gap);
+}
+
+.overlay-image-wrapper.not-hidden {
+  background: rgba(0, 0, 0, 0);
 }
 
 .overlay .content {
