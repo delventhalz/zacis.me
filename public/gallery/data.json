@@ -1,7 +1,7 @@
 [
   {
     "id": "treasury",
-    "endDate": "2025-09-01",
+    "endDate": "2026-09-01",
     "startDate": "2022-05-23",
     "title": "myTreasury",
     "summary": "This modern web app is under development for the Federal Reserve Bank and US Treasury. It has not been made public.",
