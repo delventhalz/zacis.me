@@ -57,7 +57,7 @@
     "relevance": 72,
     "clients": [],
     "tags": ["Mobile", "Games"],
-    "tools": ["React Native", "Node", "TypeScript"],
+    "tools": ["React Native", "Node", "TypeScript", "Go"],
     "image": "",
     "images": [
       "images/taelmoor-1x.webp",
