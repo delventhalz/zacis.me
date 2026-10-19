@@ -4,10 +4,10 @@ import { Anchor, AnchorChain } from './anchors.js';
 import {
   fadeIn,
   fadeOut,
-  resizeIn,
-  resizeOut,
-  transformIn,
-  transformOut
+  resize,
+  resizeFrom,
+  transform,
+  transformFrom
 } from './animations.js';
 import { mixClasses, urlsToSet } from './dom.js';
 import { Mirror } from './funhouse.js';
@@ -30,14 +30,19 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
 
   const handleDismiss = async () => {
     await Promise.all([
-      fadeOut(backgroundRef),
-      transformOut(overlayRef, start),
-      resizeOut(imageRef, start)
+      fadeOut(backgroundRef, { fill: 'forwards' }),
+      transform(overlayRef, start),
+      transform(imageRef, start)
     ]);
 
-    setShowing(false);
+    // Notify the underlying project to display
     onShowing(false);
-    requestAnimationFrame(onDismiss);
+
+    requestAnimationFrame(() => {
+      // Actually hide/dismiss after the underlying project has rendered
+      setShowing(false);
+      onDismiss()
+    });
   };
 
   useEffect(() => {
@@ -45,8 +50,8 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
       setShowing(true);
       onShowing(true);
       fadeIn(backgroundRef);
-      transformIn(overlayRef, start);
-      resizeIn(imageRef, start);
+      transformFrom(overlayRef, start);
+      transformFrom(imageRef, start);
     }, SHOW_DELAY);
   }, []);
 
@@ -112,24 +117,24 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
           '[X]'
         )
       ),
+    ),
 
-      h('div', { class: mixClasses('overlay-image-wrapper', showing ? null : 'not-hidden') },
-        data.id === 'zacisme' ? (
-          h(Mirror, {
-            class: 'overlay-image',
-            source: 'main',
-            defaultImage: data.image,
-            updateCount: 18,
-            ref: imageRef
-          })
-        ) : (
-          h('img', {
-            class: 'overlay-image',
-            ref: imageRef,
-            ...(srcSet ? { srcSet } : { src: data.image })
-          })
-        )
+    data.id === 'zacisme' ? (
+      h('div', { class: mixClasses('overlay-image', showing ? null : 'hidden') },
+        h(Mirror, {
+          class: 'funhouse-mirror',
+          source: 'main',
+          defaultImage: data.image,
+          updateCount: 18,
+          ref: imageRef
+        })
       )
+    ) : (
+      h('img', {
+        class: mixClasses('overlay-image', showing ? null : 'hidden'),
+        ref: imageRef,
+        ...(srcSet ? { srcSet } : { src: data.image })
+      })
     )
   ];
 }

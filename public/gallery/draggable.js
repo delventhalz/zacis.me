@@ -1,4 +1,4 @@
-import { moveOut } from './animations.js';
+import { move } from './animations.js';
 
 const DEFAULT_MAKE_DRAG_IMAGE = (target) => {
   const dragImage = target.cloneNode(true);
@@ -80,7 +80,7 @@ const handlePointerUp = (event, state) => {
 
   const isAnimated = dropTarget ? settings.animateDrop : settings.animateCancel;
   const animation = isAnimated
-    ? moveOut(dragImage, target.getBoundingClientRect(), { dynamicDuration: 0.8 })
+    ? move(dragImage, target.getBoundingClientRect(), { dynamicDuration: 0.8 })
     : Promise.resolve();
 
   animation.then(() => {

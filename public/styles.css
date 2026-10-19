@@ -5,6 +5,7 @@
   --overlay-max-size: 300px;
   --horizontal-padding: 1.5rem;
   --border-gap: 2px;
+  --gallery-background: #f9f9f9;
 
   --total-project-gap: calc(
     2 * (var(--projects-across) + 1)
@@ -219,7 +220,7 @@ a.quiet:visited:disabled,
 /* Gallery Projects */
 
 .gallery {
-  background: #f9f9f9;
+  background: var(--gallery-background);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -286,41 +287,38 @@ a.quiet:visited:disabled,
 }
 
 .overlay {
-  background: #f9f9f9;
+  background: var(--gallery-background);
   display: flex;
-  height: var(--height);
+  height: var(--overlay-height);
   justify-content: flex-end;
-  left: calc((100vw - var(--width)) / 2);
+  left: calc((100vw - var(--overlay-width)) / 2);
   overflow: hidden;
   padding: var(--border-gap);
   position: fixed;
-  top: calc((100vh - var(--height)) / 2);
-  width: var(--width);
+  top: calc((100vh - var(--overlay-height)) / 2);
+  width: var(--overlay-width);
 }
 
 .overlay-image {
+  border: var(--border-gap) solid var(--gallery-background);
   height: var(--overlay-size);
+  left: calc((100vw - var(--overlay-width)) / 2);
+  position: fixed;
+  top: calc((100vh - var(--overlay-height)) / 2);
   width: var(--overlay-size);
 }
 
-canvas.overlay-image {
+div.overlay-image {
+  /* Border won't animate on div, but it works as transparent spacing */
+  border: var(--border-gap) solid rgba(0, 0, 0, 0);
+  overflow: hidden;
+}
+
+div.overlay-image .funhouse-mirror {
   height: auto;
   object-fit: cover;
   object-position: 50% top;
   width: var(--overlay-size);
-}
-
-.overlay-image-wrapper {
-  left: var(--border-gap);
-  max-height: var(--overlay-size);
-  max-width: var(--overlay-size);
-  overflow: hidden;
-  position: absolute;
-  top: var(--border-gap);
-}
-
-.overlay-image-wrapper.not-hidden {
-  background: rgba(0, 0, 0, 0);
 }
 
 .overlay .content {
@@ -385,30 +383,36 @@ canvas.overlay-image {
 }
 
 @media screen and (orientation:portrait) {
-  .overlay {
-    --height: calc((2 * var(--overlay-size)) + var(--border-gap));
+  :root {
+    --overlay-height: calc((2 * var(--overlay-size)) + var(--border-gap));
     --overlay-size: var(--overlay-max-size);
-    --width: var(--overlay-size);
+    --overlay-width: var(--overlay-size);
+  }
+
+  .overlay {
     flex-direction: column;
   }
 
   @media (max-width: 304px) {
-    .overlay {
+    :root {
       --overlay-size: 100vw;
     }
   }
 }
 
 @media screen and (orientation:landscape) {
-  .overlay {
-    --height: var(--overlay-size);
+  :root {
+    --overlay-height: var(--overlay-size);
     --overlay-size: var(--overlay-max-size);
-    --width: calc((2 * var(--overlay-size)) + var(--border-gap));
+    --overlay-width: calc((2 * var(--overlay-size)) + var(--border-gap));
+  }
+
+  .overlay {
     flex-direction: row;
   }
 
   @media (max-width: 606px) {
-    .overlay {
+    :root {
       --overlay-size: calc((100vw - var(--border-gap)) / 2);
     }
   }
