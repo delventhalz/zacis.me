@@ -46,7 +46,7 @@ function Project({
   },
     data.id === 'zacisme' ? (
       h(Mirror, {
-        class: 'project-image',
+        class: 'project-image funhouse-mirror',
         source: 'main',
         defaultImage: data.image,
       })

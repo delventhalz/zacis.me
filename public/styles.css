@@ -393,6 +393,10 @@ div.overlay-image .funhouse-mirror {
     flex-direction: column;
   }
 
+  .project-image.funhouse-mirror{
+    object-position: 50% 30%;
+  }
+
   @media (max-width: 304px) {
     :root {
       --overlay-size: 100vw;

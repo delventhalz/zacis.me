@@ -26,6 +26,13 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
   const overlayRef = useRef(null);
   const imageRef = useRef(null);
 
+  // Overlay is centered over scrolled content but funhouse mirror reflects the
+  // whole page contents. Shift it down to show the overlay in the viewport.
+  const [funhouseShift] = useState(() => {
+    const widthsScrolled = window.scrollY / window.innerWidth;
+    return Math.min(0, -widthsScrolled * 300);
+  });
+
   const srcSet = urlsToSet(data.largeImages);
 
   const handleDismiss = async () => {
@@ -123,6 +130,7 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
       h('div', { class: mixClasses('overlay-image', showing ? null : 'hidden') },
         h(Mirror, {
           class: 'funhouse-mirror',
+          style: { marginTop: `${funhouseShift}px` },
           source: 'main',
           defaultImage: data.image,
           updateCount: 18,
