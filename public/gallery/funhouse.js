@@ -9,6 +9,23 @@ const waitForAnimationFrame = () => {
   });
 };
 
+const isVisible = (element) => {
+  if (!element.checkVisibility({ opacityProperty: true, visibilityProperty: true })) {
+    return false;
+  }
+
+  const bounds = element.getBoundingClientRect();
+  const top = window.scrollY;
+  const bottom = top + window.innerHeight;
+  const left = window.scrollX;
+  const right = left + window.innerWidth;
+
+  return bounds.top < bottom
+    && bounds.bottom > top
+    && bounds.left < right
+    && bounds.right > left;
+}
+
 const updateCanvas = async (source, dest) => {
   if (window.html2canvas) {
     // Creating the canvas ourselves allows us to use willReadFrequently,
@@ -90,18 +107,27 @@ export function Mirror({
   }, []);
 
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      burstUpdateCanvas(sourceElem, canvasRef.current, updateCount, updateQueue);
-    });
+    const update = () => {
+      if (isVisible(canvasRef.current)) {
+        burstUpdateCanvas(sourceElem, canvasRef.current, updateCount, updateQueue);
+      }
+    };
 
+    const observer = new MutationObserver(update);
     observer.observe(sourceElem, {
       attributes: true,
       childList: true,
       subtree: true
     });
 
+    window.addEventListener('resize', update);
+    window.addEventListener('scroll', update);
+
     return () => {
       observer.disconnect();
+      window.removeEventListener('resize', update);
+      window.removeEventListener('scroll', update);
+
     };
   }, [sourceElem]);
 
