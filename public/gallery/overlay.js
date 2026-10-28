@@ -133,7 +133,7 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
           style: { marginTop: `${funhouseShift}px` },
           source: 'main',
           defaultImage: data.image,
-          updateCount: 18,
+          updateCount: 14,
           ref: imageRef
         })
       )

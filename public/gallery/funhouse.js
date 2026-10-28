@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 
-const DEFAULT_UPDATE_COUNT = 4;
+const DEFAULT_UPDATE_COUNT = 2;
 
 const waitForAnimationFrame = () => {
   return new Promise((resolve) => {
