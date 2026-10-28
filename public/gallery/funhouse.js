@@ -21,6 +21,7 @@ const updateCanvas = async (source, dest) => {
     await window.html2canvas(source, {
       logging: false,
       scale: 1,
+      removeContainer: false,
       canvas: scratchpad
     });
 
