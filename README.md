@@ -23,7 +23,7 @@ with their dev tools. Two big selling points for a portfolio site.
 The easiest way to use this project is just to [visit it](https://zacis.me). If
 for some reason you really want to run the page locally, that is also possible.
 
-First clone the repo and install the dependencies
+First clone the repo and install the dev dependencies
 (requires [Node](https://nodejs.org/)):
 
 ```
