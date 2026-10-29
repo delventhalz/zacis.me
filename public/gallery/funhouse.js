@@ -78,6 +78,8 @@ export function Mirror({
   source,
   defaultImage,
   updateCount = DEFAULT_UPDATE_COUNT,
+  stopUpdate = false,
+  onUpdate = () => Promise.resolve(),
   ...canvasProps
 }) {
   const updateQueue = useMemo(() => [], []);
@@ -107,8 +109,12 @@ export function Mirror({
   }, []);
 
   useEffect(() => {
-    const update = () => {
-      if (isVisible(canvasRef.current)) {
+    if (stopUpdate) {
+      return;
+    }
+
+    const update = async () => {
+      if (isVisible(canvasRef.current) && await onUpdate() !== false) {
         burstUpdateCanvas(sourceElem, canvasRef.current, updateCount, updateQueue);
       }
     };
@@ -122,6 +128,7 @@ export function Mirror({
 
     window.addEventListener('resize', update);
     window.addEventListener('scroll', update);
+    update();
 
     return () => {
       observer.disconnect();
@@ -129,7 +136,7 @@ export function Mirror({
       window.removeEventListener('scroll', update);
 
     };
-  }, [sourceElem]);
+  }, [sourceElem, updateCount, stopUpdate, onUpdate]);
 
   return h('canvas', {
     ref: canvasRef,

@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 import { Animated } from './animated.js';
 import { Controls } from './controls.js';
 import { getDomNode, mixClasses, urlsToSet } from './dom.js';
@@ -8,12 +8,55 @@ import { Overlay } from './overlay.js';
 import { useDragOver } from './use-drag-over.js';
 
 const SWAP_THRESHOLD = 0.2;
+const MIRROR_DELAY = 32;
 
 // No guarantee Preact renders before window loads so we need a global listener
 let globalIsPageLoaded = false;
 window.addEventListener('load', () => {
   globalIsPageLoaded = true;
 }, { once: true });
+
+function MirrorProject({ defaultImage }) {
+  const [stopUpdate, setStopUpdate] = useState(false);
+  const stoppedRef = useRef(stopUpdate);
+
+  useEffect(() => {
+    const onDragStart = () => {
+      setStopUpdate(true);
+      stoppedRef.current = true;
+    };
+    const onDragEnd = () => {
+      setStopUpdate(false);
+      stoppedRef.current = false;
+    };
+
+    document.addEventListener('dragstart', onDragStart);
+    document.addEventListener('dragend', onDragEnd);
+
+    return () => {
+      document.removeEventListener('dragstart', onDragStart);
+      document.removeEventListener('dragend', onDragEnd);
+    };
+  }, []);
+
+  const awaitAnimations = useCallback(() => {
+    return new Promise((resolve) => {
+      setTimeout(async () => {
+        const animations = document.getAnimations().filter(anim => anim.playState === 'running');
+        await Promise.all(animations.map(anim => anim.finished));
+        resolve(stoppedRef.current !== true);
+      }, MIRROR_DELAY);
+    });
+  }, []);
+
+  return h(Mirror, {
+    class: 'project-image funhouse-mirror',
+    source: 'main',
+    defaultImage,
+    stopUpdate,
+    onUpdate: awaitAnimations
+  });
+}
 
 /**
  * A single project as displayed within the gallery.
@@ -45,11 +88,7 @@ function Project({
     ref: projectRef
   },
     data.id === 'zacisme' ? (
-      h(Mirror, {
-        class: 'project-image funhouse-mirror',
-        source: 'main',
-        defaultImage: data.image,
-      })
+      h(MirrorProject, { defaultImage: data.image })
     ) : (
       h('img', {
         class: 'project-image',
