@@ -29,24 +29,6 @@ const initialData = sortByRelevance(data).map(datum => ({
 const gallerySection = document.getElementById('project-gallery');
 render(h(Projects, { data: initialData }), gallerySection);
 
-// Can't just clone a Mirror, it needs a bunch of listeners
-const swapMirror = (container) => {
-  // Assuming mirror element is first with ui elements on top
-  const uiElements = [...container.children].slice(1);
-  container.replaceChildren();
-
-  const mirror = h(Mirror, {
-    class: 'project-image',
-    source: 'main',
-    defaultImage: 'images/zacisme.webp'
-  });
-  render(mirror, container);
-
-  for (const uiElement of uiElements) {
-    container.append(uiElement);
-  }
-};
-
 initDraggable(gallerySection, {
   dragTrigger: '.drag-trigger',
   draggedClass: 'hidden',
@@ -55,9 +37,11 @@ initDraggable(gallerySection, {
   makeDragImage: (target) => {
     const dragImage = target.cloneNode(true);
 
-    if (dragImage.id === 'project-zacisme') {
-      swapMirror(dragImage);
-    }
+    [...dragImage.children].forEach((child, i) => {
+      if (child.tagName === 'CANVAS') {
+        child.getContext('2d').drawImage(target.children[i], 0, 0);
+      }
+    });
 
     return dragImage;
   }
