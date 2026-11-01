@@ -7,7 +7,11 @@ import { Mirror } from './funhouse.js';
 import { Overlay } from './overlay.js';
 import { useDragOver } from './use-drag-over.js';
 
+// How far to drag one project over another before swapping their positions
 const SWAP_THRESHOLD = 0.2;
+
+// Mirror updates are CPU-intensive. We want to pause them while animations run.
+// Give those animations a couple of frames to start before checking for them.
 const MIRROR_DELAY = 32;
 
 // No guarantee Preact renders before window loads so we need a global listener

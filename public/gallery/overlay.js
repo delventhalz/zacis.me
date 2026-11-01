@@ -12,11 +12,6 @@ import {
 import { mixClasses, urlsToSet } from './dom.js';
 import { Mirror } from './funhouse.js';
 
-// Give the overlay image a couple of frames to render before we show the
-// rest of the overlay and obscure the equivalent image in the gallery.
-// This should prevent a flash of white on opening the overlay.
-const SHOW_DELAY = 32;
-
 /**
  * A modal style overlay with additional information about a single Project.
  */
@@ -48,18 +43,19 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
     requestAnimationFrame(() => {
       // Actually hide/dismiss after the underlying project has rendered
       setShowing(false);
-      onDismiss()
+      onDismiss();
     });
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    // Wait a frame for the overlay to load before hiding the project underneath
+    requestAnimationFrame(() => {
       setShowing(true);
       onShowing(true);
       fadeIn(backgroundRef);
       transformFrom(overlayRef, start);
       transformFrom(imageRef, start);
-    }, SHOW_DELAY);
+    });
   }, []);
 
   useEffect(() => {
