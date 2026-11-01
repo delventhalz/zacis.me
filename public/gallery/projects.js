@@ -11,8 +11,8 @@ import { useDragOver } from './use-drag-over.js';
 const SWAP_THRESHOLD = 0.2;
 
 // Mirror updates are CPU-intensive. We want to pause them while animations run.
-// Give those animations a couple of frames to start before checking for them.
-const MIRROR_DELAY = 32;
+// Give those animations a few frames to kick off before checking for them.
+const MIRROR_DELAY = 50;
 
 // No guarantee Preact renders before window loads so we need a global listener
 let globalIsPageLoaded = false;
