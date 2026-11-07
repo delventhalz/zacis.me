@@ -17,6 +17,23 @@ export const urlsToSet = (imageUrls) => {
 };
 
 /**
+ * Sends a low priority fetch request for a resource so it will be cached
+ */
+export const cacheResource = async (resourceUrl) => {
+  await fetch(resourceUrl, { priority: 'low', cache: 'reload' });
+};
+
+/**
+ * Caches the correct pixel density image from an array of image urls.
+ * Array must be sorted starting with 1x, then 2x, and so on with no gaps.
+ */
+export const cacheImageSet = async (imageUrls) => {
+  const usedIndex = Math.ceil(window.devicePixelRatio - 1);
+  const imageUrl = imageUrls[usedIndex] ?? imageUrls.at(-1);
+  await cacheResource(imageUrl);
+};
+
+/**
  * Pull a valid DOM node out of a preact ref or element
  */
 export const getDomNode = (elemOrRef) => {

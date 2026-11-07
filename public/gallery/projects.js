@@ -14,12 +14,6 @@ const SWAP_THRESHOLD = 0.2;
 // Give those animations a few frames to kick off before checking for them.
 const MIRROR_DELAY = 50;
 
-// No guarantee Preact renders before window loads so we need a global listener
-let globalIsPageLoaded = false;
-window.addEventListener('load', () => {
-  globalIsPageLoaded = true;
-}, { once: true });
-
 function MirrorProject({ defaultImage }) {
   const [stopUpdate, setStopUpdate] = useState(false);
   const stoppedRef = useRef(stopUpdate);
@@ -68,14 +62,12 @@ function MirrorProject({ defaultImage }) {
 function Project({
   data,
   onClick,
-  useLowRes,
-  useHighRes,
   display: _,
   ...divProps
 }) {
   const className = mixClasses(divProps, 'project');
   const src = data.image || data.images[0] || '';
-  const srcSet = urlsToSet(useHighRes ? data.largeImages : data.images);
+  const srcSet = urlsToSet(data.images);
   const projectRef = useRef(null);
 
   const handleClick = () => {
@@ -97,7 +89,7 @@ function Project({
       h('img', {
         class: 'project-image',
         title: data.title,
-        ...(srcSet && !useLowRes ? { srcSet } : { src })
+        ...(srcSet ? { srcSet } : { src })
       })
     ),
     h('div', { class: 'project-label' }, data.title),
@@ -118,7 +110,6 @@ export function Projects({ data }) {
   const [expandedProject, setExpandedProject] = useState(null);
   const [overlayShowing, setOverlayShowing] = useState(false);
   const [modifiedData, setModifiedData] = useState(data);
-  const [isPageLoaded, setIsPageLoaded] = useState(globalIsPageLoaded);
   const galleryRef = useRef(null);
 
   useDragOver((over, under) => {
@@ -133,20 +124,6 @@ export function Projects({ data }) {
       return nextData;
     });
   }, { threshold: SWAP_THRESHOLD });
-
-  useEffect(() => {
-    const onLoad = () => {
-      setIsPageLoaded(true);
-    };
-
-    if (!isPageLoaded) {
-      window.addEventListener('load', onLoad, { once: true });
-    }
-
-    return () => {
-      window.removeEventListener('load', onLoad);
-    }
-  }, []);
 
   const onDismissOverlay = () => {
     setExpandedProject(null);
@@ -171,8 +148,6 @@ export function Projects({ data }) {
           key: data.id,
           class: expandedProject?.data.id === data.id && overlayShowing ? 'hidden' : null,
           onClick: setExpandedProject,
-          useLowRes: !isPageLoaded && i > 5, // Speed up initial load if off screen
-          useHighRes: isPageLoaded, // Use overlay images to prevent flash of white
           display: data.display,
           data
         })
