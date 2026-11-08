@@ -15,15 +15,10 @@ const isVisible = (element) => {
   }
 
   const bounds = element.getBoundingClientRect();
-  const top = window.scrollY;
-  const bottom = top + window.innerHeight;
-  const left = window.scrollX;
-  const right = left + window.innerWidth;
-
-  return bounds.top < bottom
-    && bounds.bottom > top
-    && bounds.left < right
-    && bounds.right > left;
+  return bounds.top < window.innerHeight
+    && bounds.bottom > 0
+    && bounds.left < window.innerWidth
+    && bounds.right > 0;
 }
 
 const updateCanvas = async (source, dest) => {
