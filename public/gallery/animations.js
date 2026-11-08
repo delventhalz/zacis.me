@@ -68,7 +68,7 @@ const makeTransformResetFrame = () => ({
 
 const getOriginalBounds = (element, currentBounds) => {
   const transformStr = window.getComputedStyle(element).transform;
-  const matrixStr = transformStr.match(/matrix\(([0-9 ,]+?)\)/)?.[1];
+  const matrixStr = transformStr.match(/matrix\(([0-9 ,.-]+?)\)/)?.[1];
   if (!matrixStr) {
     return currentBounds;
   }
