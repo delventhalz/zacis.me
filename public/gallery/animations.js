@@ -63,6 +63,7 @@ const matrixToTransformFrame = (matrix) => ({
 });
 
 const makeTransformResetFrame = () => ({
+  transformOrigin: 'top left',
   transform: 'matrix(1, 0, 0, 1, 0, 0)'
 });
 

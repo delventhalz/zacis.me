@@ -12,16 +12,12 @@ import {
 import { mixClasses, urlsToSet } from './dom.js';
 import { Mirror } from './funhouse.js';
 
-// Give the overlay image a couple of frames to render before we show the
-// rest of the overlay and obscure the equivalent image in the gallery.
-// This should prevent a flash of white on opening the overlay.
-const SHOW_DELAY = 32;
-
 /**
  * A modal style overlay with additional information about a single Project.
  */
 export function Overlay({ data, start, onDismiss, onShowing }) {
-  const [showing, setShowing] = useState(false);
+  const [imageShowing, setImageShowing] = useState(false);
+  const [overlayShowing, setOverlayShowing] = useState(false);
   const backgroundRef = useRef(null);
   const overlayRef = useRef(null);
   const imageRef = useRef(null);
@@ -42,24 +38,37 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
       transform(imageRef, start)
     ]);
 
-    // Notify the underlying project to display
+    // Notify the wrapping component we are about to hide
     onShowing(false);
 
+    // Actually hide/dismiss after any wrapping component updates have rendered
     requestAnimationFrame(() => {
-      // Actually hide/dismiss after the underlying project has rendered
-      setShowing(false);
+      setImageShowing(false);
+      setOverlayShowing(false);
       onDismiss();
     });
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowing(true);
-      onShowing(true);
-      fadeIn(backgroundRef);
-      transformFrom(overlayRef, start);
-      transformFrom(imageRef, start);
-    }, SHOW_DELAY);
+    requestAnimationFrame(async () => {
+      // After the hidden image is rendered and has dimensions,
+      // transform it to match the start dimensions then show
+      await transform(imageRef, start, { duration: 0 });
+      setImageShowing(true);
+
+      // Once the visible image has rendered, show rest of overlay and animate
+      requestAnimationFrame(() => {
+        setOverlayShowing(true);
+        fadeIn(backgroundRef);
+        transformFrom(overlayRef, start);
+        transformFrom(imageRef, start);
+
+        // Finally, notify the wrapping component that everything is showing
+        requestAnimationFrame(() => {
+          onShowing(true);
+        });
+      });
+    });
   }, []);
 
   useEffect(() => {
@@ -76,13 +85,13 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
 
   return [
     h('div', {
-      class: mixClasses('overlay-background', showing ? null : 'hidden'),
+      class: mixClasses('overlay-background', overlayShowing ? null : 'hidden'),
       ref: backgroundRef,
       onClick: handleDismiss
     }),
 
     h('div', {
-      class: mixClasses('overlay', showing ? null : 'hidden'),
+      class: mixClasses('overlay', overlayShowing ? null : 'hidden'),
       ref: overlayRef
     },
       h('section', { class: 'content' },
@@ -127,7 +136,7 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
     ),
 
     data.id === 'zacisme' ? (
-      h('div', { class: mixClasses('overlay-image', showing ? null : 'hidden') },
+      h('div', { class: mixClasses('overlay-image', imageShowing ? null : 'hidden') },
         h(Mirror, {
           class: 'funhouse-mirror',
           style: { marginTop: `${funhouseShift}px` },
@@ -139,7 +148,7 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
       )
     ) : (
       h('img', {
-        class: mixClasses('overlay-image', showing ? null : 'hidden'),
+        class: mixClasses('overlay-image', imageShowing ? null : 'hidden'),
         ref: imageRef,
         ...(srcSet ? { srcSet } : { src: data.image })
       })
