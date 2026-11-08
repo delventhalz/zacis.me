@@ -1,13 +1,8 @@
 import { h } from 'preact';
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { untilNextFrame } from './dom.js';
 
 const DEFAULT_UPDATE_COUNT = 2;
-
-const waitForAnimationFrame = () => {
-  return new Promise((resolve) => {
-    requestAnimationFrame(resolve);
-  });
-};
 
 const isVisible = (element) => {
   if (!element.checkVisibility({ opacityProperty: true, visibilityProperty: true })) {
@@ -58,7 +53,7 @@ const burstUpdateCanvas = async (source, dest, count, queue = []) => {
   if (shouldRunUpdates) {
     while (queue.length > 0) {
       const updateFn = queue.shift();
-      await waitForAnimationFrame();
+      await untilNextFrame();
       await updateFn();
     }
   }

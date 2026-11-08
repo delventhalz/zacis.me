@@ -51,3 +51,10 @@ export const getDomNode = (elemOrRef) => {
   }
   return null;
 };
+
+/**
+ * Simple Promise wrapper around requestAnimationFrame
+ */
+export const untilNextFrame = () => {
+  return new Promise(requestAnimationFrame);
+};

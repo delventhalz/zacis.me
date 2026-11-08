@@ -9,7 +9,7 @@ import {
   transform,
   transformFrom
 } from './animations.js';
-import { mixClasses, urlsToSet } from './dom.js';
+import { mixClasses, urlsToSet, untilNextFrame } from './dom.js';
 import { Mirror } from './funhouse.js';
 
 /**
@@ -42,11 +42,10 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
     onShowing(false);
 
     // Actually hide/dismiss after any wrapping component updates have rendered
-    requestAnimationFrame(() => {
-      setImageShowing(false);
-      setOverlayShowing(false);
-      onDismiss();
-    });
+    await untilNextFrame();
+    setImageShowing(false);
+    setOverlayShowing(false);
+    onDismiss();
   };
 
   useEffect(() => {
@@ -57,17 +56,15 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
       setImageShowing(true);
 
       // Once the visible image has rendered, show rest of overlay and animate
-      requestAnimationFrame(() => {
-        setOverlayShowing(true);
-        fadeIn(backgroundRef);
-        transformFrom(overlayRef, start);
-        transformFrom(imageRef, start);
+      await untilNextFrame();
+      setOverlayShowing(true);
+      fadeIn(backgroundRef);
+      transformFrom(overlayRef, start);
+      transformFrom(imageRef, start);
 
-        // Finally, notify the wrapping component that everything is showing
-        requestAnimationFrame(() => {
-          onShowing(true);
-        });
-      });
+      // Finally, notify the wrapping component that everything is showing
+      await untilNextFrame();
+      onShowing(true);
     });
   }, []);
 
