@@ -178,7 +178,7 @@ a.quiet:visited:disabled,
   top: 0;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 479px) {
   .corner-link {
     margin-top: -0.6rem;
     padding: 0;
