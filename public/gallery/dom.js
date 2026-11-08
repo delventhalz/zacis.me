@@ -1,3 +1,5 @@
+const DEFAULT_IMAGE_TIMEOUT = 400;
+
 /**
  * Accepts any number of strings or props objects and joins them into one string
  */
@@ -57,4 +59,45 @@ export const getDomNode = (elemOrRef) => {
  */
 export const untilNextFrame = () => {
   return new Promise(requestAnimationFrame);
+};
+
+/**
+ * Returns a Promise which resolves when an image has finished loading.
+ *
+ * Accepts a "timeout" option to resolve the Promise early if the image
+ * is taking too long to load. Defaults to 400 ms. Explicitly set to null
+ * or -1 to have no timeout.
+ */
+export const untilImageLoads = (imgElemOrRef, options = {}) => {
+  const { timeout = DEFAULT_IMAGE_TIMEOUT } = options;
+  const img = getDomNode(imgElemOrRef);
+
+  return new Promise((resolve) => {
+    // If the complete property is explicitly set to false, we know the "load"
+    // event has yet to fire and we can listen for it. If not, the image is
+    // either already loaded or in an unknown state, so resolve immediately.
+    if (img?.complete !== false) {
+      resolve(img);
+    } else {
+      let timeoutId;
+
+      const onDone = (event) => {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+
+        img.removeEventListener('load', onDone);
+        img.removeEventListener('error', onDone);
+
+        resolve(event?.target ?? img);
+      };
+
+      if (typeof timeout === 'number' && timeout >= 0) {
+        timeoutId = setTimeout(onDone, timeout);
+      }
+
+      img.addEventListener('load', onDone);
+      img.addEventListener('error', onDone);
+    }
+  });
 };

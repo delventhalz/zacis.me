@@ -9,7 +9,12 @@ import {
   transform,
   transformFrom
 } from './animations.js';
-import { mixClasses, urlsToSet, untilNextFrame } from './dom.js';
+import {
+  mixClasses,
+  urlsToSet,
+  untilNextFrame,
+  untilImageLoads
+} from './dom.js';
 import { Mirror } from './funhouse.js';
 
 /**
@@ -57,6 +62,7 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
 
       // Once the visible image has rendered, show rest of overlay and animate
       await untilNextFrame();
+      await untilImageLoads(imageRef);
       setOverlayShowing(true);
       fadeIn(backgroundRef);
       transformFrom(overlayRef, start);
