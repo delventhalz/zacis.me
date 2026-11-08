@@ -216,7 +216,7 @@ export const transformReset = (elemOrRef, options = {}) => {
   }
 
   const animateOptions = makeStaticTransformOptions(options);
-  return animate(element, [resetFrame], animateOptions);
+  return animate(elemOrRef, [resetFrame], animateOptions);
 };
 
 export const move = (elemOrRef, { x, y }, options) => {
