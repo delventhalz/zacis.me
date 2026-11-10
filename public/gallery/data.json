@@ -20,16 +20,16 @@
     "tools": ["React", "Node", "AWS", "TypeScript"],
     "image": "",
     "images": [
-      "images/treasury-1x.png",
-      "images/treasury-2x.png",
-      "images/treasury-3x.png",
-      "images/treasury-4x.png"
+      "images/treasury-1x.webp",
+      "images/treasury-2x.webp",
+      "images/treasury-3x.webp",
+      "images/treasury-4x.webp"
     ],
     "largeImages": [
-      "images/treasury-lg-1x.png",
-      "images/treasury-lg-2x.png",
-      "images/treasury-lg-3x.png",
-      "images/treasury-lg-4x.png"
+      "images/treasury-lg-1x.webp",
+      "images/treasury-lg-2x.webp",
+      "images/treasury-lg-3x.webp",
+      "images/treasury-lg-4x.webp"
     ],
     "url": ""
   },
@@ -90,16 +90,16 @@
     "tools": ["Svelte", "Node", "AWS", "JavaScript"],
     "image": "",
     "images": [
-      "images/iquatic-1x.png",
-      "images/iquatic-2x.png",
-      "images/iquatic-3x.png",
-      "images/iquatic-4x.png"
+      "images/iquatic-1x.webp",
+      "images/iquatic-2x.webp",
+      "images/iquatic-3x.webp",
+      "images/iquatic-4x.webp"
     ],
     "largeImages": [
-      "images/iquatic-lg-1x.png",
-      "images/iquatic-lg-2x.png",
-      "images/iquatic-lg-3x.png",
-      "images/iquatic-lg-4x.png"
+      "images/iquatic-lg-1x.webp",
+      "images/iquatic-lg-2x.webp",
+      "images/iquatic-lg-3x.webp",
+      "images/iquatic-lg-4x.webp"
     ],
     "url": "https://www.cargill.com/animal-nutrition/species/aquaculture/products/iquatic"
   },
@@ -115,16 +115,16 @@
     "tools": ["JavaScript", "TypeScript"],
     "image": "",
     "images": [
-      "images/hash-1x.png",
-      "images/hash-2x.png",
-      "images/hash-3x.png",
-      "images/hash-4x.png"
+      "images/hash-1x.webp",
+      "images/hash-2x.webp",
+      "images/hash-3x.webp",
+      "images/hash-4x.webp"
     ],
     "largeImages": [
-      "images/hash-lg-1x.png",
-      "images/hash-lg-2x.png",
-      "images/hash-lg-3x.png",
-      "images/hash-lg-4x.png"
+      "images/hash-lg-1x.webp",
+      "images/hash-lg-2x.webp",
+      "images/hash-lg-3x.webp",
+      "images/hash-lg-4x.webp"
     ],
     "url": "https://www.npmjs.com/package/browser-hash"
   },
@@ -214,16 +214,16 @@
     "tools": ["JavaScript"],
     "image": "",
     "images": [
-      "images/moji-1x.png",
-      "images/moji-2x.png",
-      "images/moji-3x.png",
-      "images/moji-4x.png"
+      "images/moji-1x.webp",
+      "images/moji-2x.webp",
+      "images/moji-3x.webp",
+      "images/moji-4x.webp"
     ],
     "largeImages": [
-      "images/moji-lg-1x.png",
-      "images/moji-lg-2x.png",
-      "images/moji-lg-3x.png",
-      "images/moji-lg-4x.png"
+      "images/moji-lg-1x.webp",
+      "images/moji-lg-2x.webp",
+      "images/moji-lg-3x.webp",
+      "images/moji-lg-4x.webp"
     ],
     "url": "https://github.com/hyperledger/education-cryptomoji"
   },
@@ -350,10 +350,10 @@
     "tools": ["HTML", "overconfidence"],
     "image": "",
     "images": [
-      "images/animono-1x.png",
-      "images/animono-2x.png"
+      "images/animono-1x.webp",
+      "images/animono-2x.webp"
     ],
-    "largeImages": ["images/animono-lg-1x.png"],
+    "largeImages": ["images/animono-lg-1x.webp"],
     "url": "https://web.archive.org/web/20041215215229/animono.org"
   }
 ]
