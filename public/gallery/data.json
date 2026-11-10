@@ -143,12 +143,9 @@
     ],
     "tags": ["Mobile"],
     "tools": ["React Native", "GCP", "JavaScript"],
-    "image": "",
-    "images": [
-      "images/canwe-1x.png",
-      "images/canwe-2x.png"
-    ],
-    "largeImages": ["images/canwe-lg-1x.png"],
+    "image": "images/canwe.svg",
+    "images": [],
+    "largeImages": [],
     "url": "https://canwe-reveal-our-potential.en.softonic.com/android"
   },
   {
@@ -245,16 +242,9 @@
     ],
     "tags": ["Web"],
     "tools": ["Angular", "Node", "AWS", "TypeScript"],
-    "image": "",
-    "images": [
-      "images/thrivent-1x.png",
-      "images/thrivent-2x.png",
-      "images/thrivent-3x.png"
-    ],
-    "largeImages": [
-      "images/thrivent-lg-1x.png",
-      "images/thrivent-lg-2x.png"
-    ],
+    "image": "images/thrivent.svg",
+    "images": [],
+    "largeImages": [],
     "url": ""
   },
   {
