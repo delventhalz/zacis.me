@@ -74,6 +74,7 @@ export function Mirror({
 }) {
   const updateQueue = useMemo(() => [], []);
   const canvasRef = useRef(null);
+  const needsUpdateRef = useRef(false);
   const [_, triggerRerender] = useState(null);
 
   const sourceElem = typeof source === 'string' ? document.querySelector(source) : source;
@@ -105,7 +106,10 @@ export function Mirror({
 
     const update = async () => {
       if (isVisible(canvasRef.current) && await onUpdate() !== false) {
+        needsUpdateRef.current = false;
         burstUpdateCanvas(sourceElem, canvasRef.current, updateCount, updateQueue);
+      } else {
+        needsUpdateRef.current = true;
       }
     };
 
@@ -115,16 +119,22 @@ export function Mirror({
       childList: true,
       subtree: true
     });
-
-    window.addEventListener('resize', update);
-    window.addEventListener('scroll', update);
     update();
+
+    // If a mutation occurred while off screen, kick off an update
+    const updateAsNeeded = () => {
+      if (needsUpdateRef.current) {
+        update();
+      }
+    };
+
+    window.addEventListener('scroll', updateAsNeeded);
+    window.addEventListener('resize', updateAsNeeded);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener('resize', update);
-      window.removeEventListener('scroll', update);
-
+      window.removeEventListener('scroll', updateAsNeeded);
+      window.removeEventListener('resize', updateAsNeeded);
     };
   }, [sourceElem, updateCount, stopUpdate, onUpdate]);
 
