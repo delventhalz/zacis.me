@@ -10,9 +10,6 @@ const getRectX = (partialRect, defaultBounds) => {
   if (typeof partialRect.left === 'number') {
     return partialRect.left;
   }
-  if (typeof partialRect.right === 'number') {
-    return partialRect.right - (partialRect.width ?? defaultBounds.width);
-  }
   return defaultBounds.x;
 };
 
@@ -22,9 +19,6 @@ const getRectY = (partialRect, defaultBounds) => {
   }
   if (typeof partialRect.top === 'number') {
     return partialRect.top;
-  }
-  if (typeof partialRect.bottom === 'number') {
-    return partialRect.bottom - (partialRect.height ?? defaultBounds.height);
   }
   return defaultBounds.y;
 };
