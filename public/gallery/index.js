@@ -1,6 +1,6 @@
 import { h, render } from 'preact';
 import { sortByRelevance } from './controls.js';
-import { cacheImageSet } from './dom.js';
+import { renderTempImage } from './dom.js';
 import { initDraggable } from './draggable.js';
 import { Mirror } from './funhouse.js';
 import { Projects } from './projects.js';
@@ -48,12 +48,13 @@ initDraggable(gallerySection, {
   }
 });
 
-// Wait a couple of frames then prefetch and cache large images. This prevents
-// a flash of white when browser sends an image request on opening overlay.
+// Wait a couple of frames then temporarily render all large images.
+// This prevents a flash of white on opening the overlay
+// by caching the image render ahead of time.
 setTimeout(() => {
   for (const { largeImages } of data) {
     if (largeImages.length > 0) {
-      cacheImageSet(largeImages);
+      renderTempImage(largeImages);
     }
   }
 }, 32);

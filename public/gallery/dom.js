@@ -19,23 +19,6 @@ export const urlsToSet = (imageUrls) => {
 };
 
 /**
- * Sends a low priority fetch request for a resource so it will be cached
- */
-export const cacheResource = async (resourceUrl) => {
-  await fetch(resourceUrl, { priority: 'low', cache: 'reload' });
-};
-
-/**
- * Caches the correct pixel density image from an array of image urls.
- * Array must be sorted starting with 1x, then 2x, and so on with no gaps.
- */
-export const cacheImageSet = async (imageUrls) => {
-  const usedIndex = Math.ceil(window.devicePixelRatio - 1);
-  const imageUrl = imageUrls[usedIndex] ?? imageUrls.at(-1);
-  await cacheResource(imageUrl);
-};
-
-/**
  * Pull a valid DOM node out of a preact ref or element
  */
 export const getDomNode = (elemOrRef) => {
@@ -107,4 +90,29 @@ export const untilImageLoads = (imgElemOrRef, options = {}) => {
       timeoutId = setTimeout(onTimeout, timeout);
     }
   });
+};
+
+/**
+ * Brute force way to get an image render cached. Renders the image offscreen,
+ * waits for it to load, then removes it.
+ */
+export const renderTempImage = async (imgSrcOrSet) => {
+  const img = document.createElement('img');
+
+  if (typeof imgSrcOrSet === 'string') {
+    img.src = imgSrcOrSet;
+  } else {
+    img.srcset = urlsToSet(imgSrcOrSet);
+  }
+
+  img.style.position = 'absolute';
+  img.style.top = `${window.innerHeight + 100}px`;
+  img.style.left = '0px';
+
+  document.body.appendChild(img);
+  await untilNextFrame();
+  await untilImageLoads(img);
+  await untilNextFrame();
+
+  img.remove();
 };
