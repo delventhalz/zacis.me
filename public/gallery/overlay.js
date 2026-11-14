@@ -60,9 +60,11 @@ export function Overlay({ data, start, onDismiss, onShowing }) {
       await transform(imageRef, start, { duration: 0 });
       setImageShowing(true);
 
-      // Once the visible image has rendered, show rest of overlay and animate
+      // Wait a frame for the shown image to start loading then wait for load
       await untilNextFrame();
       await untilImageLoads(imageRef);
+
+      // Once the visible image has rendered, show rest of overlay and animate
       setOverlayShowing(true);
       fadeIn(backgroundRef);
       transformFrom(overlayRef, start);

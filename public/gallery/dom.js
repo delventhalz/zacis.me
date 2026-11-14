@@ -72,32 +72,39 @@ export const untilImageLoads = (imgElemOrRef, options = {}) => {
   const { timeout = DEFAULT_IMAGE_TIMEOUT } = options;
   const img = getDomNode(imgElemOrRef);
 
+  // If complete is not set to false, the image has either already loaded or is
+  // in an unknown state. Either way, cannot wait for it. Resolve immediately.
+  if (img?.complete !== false) {
+    return Promise.resolve(img);
+  }
+
   return new Promise((resolve) => {
-    // If the complete property is explicitly set to false, we know the "load"
-    // event has yet to fire and we can listen for it. If not, the image is
-    // either already loaded or in an unknown state, so resolve immediately.
-    if (img?.complete !== false) {
-      resolve(img);
-    } else {
-      let timeoutId;
+    let timeoutId;
 
-      const onDone = (event) => {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
-
-        img.removeEventListener('load', onDone);
-        img.removeEventListener('error', onDone);
-
-        resolve(event?.target ?? img);
-      };
-
-      if (typeof timeout === 'number' && timeout >= 0) {
-        timeoutId = setTimeout(onDone, timeout);
+    const onEvent = async (event) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
       }
 
-      img.addEventListener('load', onDone);
-      img.addEventListener('error', onDone);
+      img.removeEventListener('load', onEvent);
+      img.removeEventListener('error', onEvent);
+
+      // Wait an additional frame to ensure the loaded image is rendered
+      await untilNextFrame();
+      resolve(event.target);
+    };
+
+    img.addEventListener('load', onEvent);
+    img.addEventListener('error', onEvent);
+
+    if (typeof timeout === 'number' && timeout >= 0) {
+      const onTimeout = () => {
+        img.removeEventListener('load', onEvent);
+        img.removeEventListener('error', onEvent);
+        resolve(img);
+      };
+
+      timeoutId = setTimeout(onTimeout, timeout);
     }
   });
 };
