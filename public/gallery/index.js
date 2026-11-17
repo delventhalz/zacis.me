@@ -13,10 +13,10 @@ const nameStyle = 'font: italic 400 1rem "Corbel", "Lato", sans-serif;'
 const header = 'Hello\n\n';
 const body = `\
 It looks like you are curious how I built this site. I mostly just used \
-vanilla HTML, CSS, and JavaScript with a bit of Preact, but everything is \
-served statically without a build step, so feel free to poke around in here \
-if you want the details. You might also head over to \
-https://github.com/delventhalz/zacis.me if you are going to really dig in.\
+vanilla HTML, CSS, and JavaScript with a bit of Preact. Everything is served \
+statically without a build step, so feel free to poke around if you want \
+details. You might also head over to https://github.com/delventhalz/zacis.me \
+if you really want to dig in. \
 `;
 const name = '\n\n\n– Zac'
 
